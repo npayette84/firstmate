@@ -1,0 +1,18 @@
+# Codex sandbox writable-root grant - live evidence
+# Binary: codex-cli 0.150.1   Date: 2026-08-27
+# Roots fm-spawn composed for a codex scout (--add-dir), read back from the launch:
+#   /Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M1266XPTZ39WX4YRFNKPYQEC/.codex-evid.70096/fmhome/state
+#   /Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M1266XPTZ39WX4YRFNKPYQEC/.codex-evid.70096/fmhome/data
+#   /Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M1266XPTZ39WX4YRFNKPYQEC/.codex-evid.70096/project/.git
+
+## Without the grant (bare -s workspace-write) - the 2026-08-26 failure:
+  status append (state/):  denied
+  scout report (data/):    denied
+  config/ write:           denied
+  git stage (worktree):    denied
+
+## With the grant (--add-dir roots -> writable_roots) - contract paths open, config/ still denied:
+  status append (state/):  ALLOWED
+  scout report (data/):    ALLOWED
+  config/ write:           denied
+  git stage (worktree):    ALLOWED
