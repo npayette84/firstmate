@@ -1,0 +1,25 @@
+$ # Three finished tasks harvested into the fleet usage ledger
+$ fm-usage-harvest.sh authfix
+$ fm-usage-harvest.sh parser
+$ fm-usage-harvest.sh docs
+$ # Idempotent: re-harvesting authfix appends nothing
+$ fm-usage-harvest.sh authfix
+
+$ cat data/usage-ledger.jsonl
+{"task":"authfix","harness":"claude","model":"claude-opus-4-8","effort":null,"spawned_at":"2026-08-29T20:09:30Z","completed_at":"2026-08-29T20:09:30Z","wall_secs":0,"turns":2,"input_tokens":2000,"cached_input_tokens":105000,"output_tokens":5500,"reasoning_tokens":1300,"source":"claude-projects"}
+{"task":"parser","harness":"codex","model":"gpt-5-codex","effort":"high","spawned_at":"2026-08-29T20:09:30Z","completed_at":"2026-08-29T20:09:30Z","wall_secs":0,"turns":1,"input_tokens":8000,"cached_input_tokens":32000,"output_tokens":2400,"reasoning_tokens":800,"source":"codex-sessions"}
+{"task":"docs","harness":"cursor","model":"cursor-grok-4.5","effort":null,"spawned_at":"2026-08-29T20:09:30Z","completed_at":"2026-08-29T20:09:30Z","wall_secs":0,"turns":1,"input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+
+$ fm-usage-report.sh
+usage ledger: /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-usage-demo.LfVKSY/home/data/usage-ledger.jsonl (3 rows)
+
+per-model totals (source-available rows):
+model                     tasks        input       cached       output    reasoning  wall_secs
+claude-opus-4-8               1         2000       105000         5500         1300          0
+gpt-5-codex                   1         8000        32000         2400          800          0
+
+per-task rows:
+task                     harness  model                effort          input       cached       output    reasoning  wall_secs source          
+authfix                  claude   claude-opus-4-8      -                2000       105000         5500         1300          0 claude-projects 
+parser                   codex    gpt-5-codex          high             8000        32000         2400          800          0 codex-sessions  
+docs                     cursor   cursor-grok-4.5      -                   -            -            -            -          0 unavailable     
