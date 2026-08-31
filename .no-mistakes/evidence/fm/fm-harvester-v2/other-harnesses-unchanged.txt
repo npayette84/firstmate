@@ -1,0 +1,6 @@
+{"harness":"opencode","input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+{"harness":"grok","input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+{"harness":"kimi","input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+{"harness":"cursor","input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+{"harness":"muse","input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+{"harness":"pi","input_tokens":764567,"cached_input_tokens":11715456,"output_tokens":109463,"reasoning_tokens":71737,"source":"pi-sessions"}

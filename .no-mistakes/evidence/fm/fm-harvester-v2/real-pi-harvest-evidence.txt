@@ -1,0 +1,49 @@
+==================================================================
+ Fixture: one finished harness=pi task
+   worktree      : /Users/npayette/.treehouse/firstmate-e5afef/3/firstmate
+   spawn_gen     : s1788150000.41234.a1b2c3   (2026-08-31T04:20:00Z)
+   last status   : 1788186000                   (2026-08-31T14:20:00Z)
+   true wall     : 36000s over 3 'working:' turns
+   Pi log tree   : /Users/npayette/.pi/agent/sessions   (real, unmodified, read-only)
+   meta mtime was rewritten to the END of the task (PR registration)
+==================================================================
+
+### BEFORE (harvester at 12f6613, teardown had already removed the status log)
+{"task":"before-a","harness":"pi","model":"zai/glm-4.6","effort":null,"spawned_at":"2026-08-31T14:20:00Z","completed_at":"2026-08-31T14:20:00Z","wall_secs":0,"turns":0,"input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+
+### BEFORE (harvester at 12f6613, status log kept)
+{"task":"before-b","harness":"pi","model":"zai/glm-4.6","effort":null,"spawned_at":"2026-08-31T14:20:00Z","completed_at":"2026-08-31T14:20:00Z","wall_secs":0,"turns":3,"input_tokens":null,"cached_input_tokens":null,"output_tokens":null,"reasoning_tokens":null,"source":"unavailable"}
+
+### AFTER (this change, status log kept - the teardown order it now runs in)
+{"task":"after-a","harness":"pi","model":"zai/glm-5.3-flash","effort":null,"spawned_at":"2026-08-31T04:20:00Z","completed_at":"2026-08-31T14:20:00Z","wall_secs":36000,"turns":3,"input_tokens":764567,"cached_input_tokens":11715456,"output_tokens":109463,"reasoning_tokens":71737,"source":"pi-sessions"}
+
+### AFTER (this change, status log removed - wall + tokens still survive on spawn_gen)
+{"task":"after-b","harness":"pi","model":"zai/glm-5.3-flash","effort":null,"spawned_at":"2026-08-31T04:20:00Z","completed_at":"2026-08-31T14:20:00Z","wall_secs":36000,"turns":0,"input_tokens":764567,"cached_input_tokens":11715456,"output_tokens":109463,"reasoning_tokens":71737,"source":"pi-sessions"}
+
+==================================================================
+ Independent recomputation, straight jq over the same real Pi logs
+ in [1788150000,1788186000] whose session record's cwd is the task worktree
+==================================================================
+/Users/npayette/.treehouse/firstmate-e5afef/3/firstmate	input=677858 cached=11216256 output=85861 reasoning=59337 records=108
+/Users/npayette/.treehouse/firstmate-e5afef/3/firstmate	input=86709 cached=499200 output=23602 reasoning=12400 records=10
+
+==================================================================
+ Arithmetic check: harvested row == sum of the independent jq rows
+==================================================================
+input_tokens           harvested=    764567  independent=    764567  MATCH
+cached_input_tokens    harvested=  11715456  independent=  11715456  MATCH
+output_tokens          harvested=    109463  independent=    109463  MATCH
+reasoning_tokens       harvested=     71737  independent=     71737  MATCH
+
+==================================================================
+ End-user surface: bin/fm-usage-report.sh over the harvested ledger
+==================================================================
+usage ledger: /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-usage-evidence.5DEROd/home-after-a/data/usage-ledger.jsonl (1 rows)
+
+per-model totals (source-available rows):
+model                     tasks        input       cached       output    reasoning  wall_secs
+zai/glm-5.3-flash             1       764567     11715456       109463        71737      36000
+
+per-task rows:
+task                     harness  model                effort          input       cached       output    reasoning  wall_secs source          
+after-a                  pi       zai/glm-5.3-flash    -              764567     11715456       109463        71737      36000 pi-sessions     
