@@ -1,0 +1,171 @@
+Firstmate hardened crewmate launch defaults - end-to-end CLI transcript
+branch fm/harden-crew-launch-sandbox, target commit 8e6b1f9
+Captured 2026-08-31T22:32:37Z on Darwin 27.0.0 (arm64), GNU bash 3.2.57
+
+Every block below is real output from bin/fm-spawn.sh, bin/fm-control.sh,
+bin/fm-remote-secondmate-control.sh and bin/fm-bootstrap.sh driven against an
+isolated firstmate home and a fake tmux endpoint that records the literal
+command firstmate types into a crewmate pane. Absolute paths are scrubbed to
+<repo> and <tmp>.
+
+
+########## 1. Claude crewmate runs under claude's own approval classifier ##########
+
+$ fm-spawn.sh ev-claude-1 <project> --mode no-mistakes --yolo off      # crew-harness=claude
+spawned ev-claude-1 harness=claude kind=ship mode=no-mistakes yolo=off window=firstmate:fm-ev-claude-1 worktree=<tmp>/claude/wt
+
+  [command typed into the crewmate pane]
+  env -u CURSOR_AGENT -u CURSOR_INVOKED_AS CLAUDE_CODE_ENABLE_PROMPT_SUGGESTION=false CLAUDE_CODE_DISABLE_FAST_MODE=1 claude --permission-mode auto "$('<repo>/bin/fm-operational-input.sh' encode launch-brief < '<tmp>/claude/home/data/ev-claude-1/brief.md')"
+
+  BEFORE this change the same launch was: claude --dangerously-skip-permissions ...
+
+
+########## 2. Codex crewmate: workspace sandbox, no prompts, explicit network egress ##########
+
+$ fm-spawn.sh ev-codex-1 <project> --mode no-mistakes --yolo off       # crew-harness=codex
+spawned ev-codex-1 harness=codex kind=ship mode=no-mistakes yolo=off window=firstmate:fm-ev-codex-1 worktree=<tmp>/codex/wt
+
+  [command typed into the crewmate pane]
+  env -u CURSOR_AGENT -u CURSOR_INVOKED_AS codex -s workspace-write -a never -c sandbox_workspace_write.network_access=true -c "notify=[\"bash\",\"-c\",\"touch '/private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-evidence-demo.WVQnz7/codex/home/state/ev-codex-1.turn-ended'\"]" "$('<repo>/bin/fm-operational-input.sh' encode launch-brief < '<tmp>/codex/home/data/ev-codex-1/brief.md')"
+
+  BEFORE: codex --dangerously-bypass-approvals-and-sandbox ...
+  NOW:    -s workspace-write -a never, plus the network grant a worker needs to push, use gh, and install deps.
+
+
+########## 3. Cursor is barred from every ordinary unattended kind ##########
+
+$ fm-spawn.sh ev-cursor-ship <project> --mode no-mistakes --yolo off   # crew-harness=cursor
+error: cursor is a verified adapter but is refused for an unattended ship launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept.
+  exit=1
+  [crewmate pane: nothing was ever launched]
+
+$ fm-spawn.sh ev-cursor-scout <project> --scout
+error: cursor is a verified adapter but is refused for an unattended scout launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept.
+  exit=1
+  [crewmate pane: nothing was ever launched]
+
+
+########## 3b. The bar holds when cursor was INHERITED from runtime auto-detection ##########
+
+$ CURSOR_INVOKED_AS=cursor-agent fm-spawn.sh ev-cursor-detect <project> --mode no-mistakes --yolo off   # no crew-harness configured
+error: cursor is a verified adapter but is refused for an unattended ship launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept.
+  exit=1  -- an exact instruction to configure, never a silent substitution onto another adapter
+
+
+########## 3c. A cursor SECONDMATE is refused too, with the knob that governs ITS resolution ##########
+
+$ fm-spawn.sh sm-ev <secondmate-home> --secondmate    # config/secondmate-harness=cursor
+error: cursor is a verified adapter but is refused for an unattended secondmate launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/secondmate-harness to a verified adapter such as codex or claude, which always governs a secondmate, or set config/crew-harness while config/secondmate-harness is unset or "default", since a secondmate resolves the former first and falls back to the latter; crew-dispatch profiles are not consulted for a secondmate; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept.
+  exit=1  -- a whole firstmate instance would stall invisibly; note the remedy names config/secondmate-harness
+           and does NOT offer a crew-dispatch profile, which a secondmate never consults.
+
+
+########## 4. The only opt-in: a per-invocation --cursor-exemption ##########
+
+$ fm-spawn.sh ev-cursor-env <project> --mode no-mistakes --yolo off --cursor-exemption envelope:routing-benchmark
+spawned ev-cursor-env harness=cursor kind=ship mode=no-mistakes yolo=off cursor_exemption=envelope:routing-benchmark window=firstmate:fm-ev-cursor-env worktree=<tmp>/cursorexempt/wt
+
+  [command typed into the crewmate pane]
+  env -u CLAUDECODE -u PI_CODING_AGENT -u GROK_AGENT -u FM_PI_HARNESS -u CURSOR_INVOKED_AS '<tmp>/cursorexempt/fake/fakebin/cursor-agent' --trust --auto-review --sandbox enabled --workspace '<tmp>/cursorexempt/wt' "$('<repo>/bin/fm-operational-input.sh' encode launch-brief < '<tmp>/cursorexempt/home/data/ev-cursor-env/brief.md')"
+
+  [audit trail recorded in state/ev-cursor-env.meta]
+  harness=cursor
+  kind=ship
+  mode=no-mistakes
+  yolo=off
+  cursor_exemption=envelope:routing-benchmark
+
+  BEFORE: cursor --trust --yolo ("Run Everything"). NOW: real filesystem confinement, --force/--yolo deliberately absent.
+
+$ fm-spawn.sh <id> ... --cursor-exemption 'envelope:routing benchmark'   # unbounded name
+error: --cursor-exemption must be 'attended' (a person is in the pane) or 'envelope:<name>' where <name> starts with a letter or digit and continues with letters, digits, '.', '_', or '-' (the named outer isolation envelope that governs this worker); 'envelope:routing benchmark' names neither, and a grant that is unnamed, free-form, or carrying a line break could neither be audited later nor written into the task record without displacing another recorded field
+
+
+########## 5. A grant is never ambient and never leaks to the next spawn ##########
+
+$ fm-spawn.sh ev-leak-a <project> ... --cursor-exemption attended
+spawned ev-leak-a harness=cursor kind=ship mode=no-mistakes yolo=off cursor_exemption=attended window=firstmate:fm-ev-leak-a worktree=<tmp>/cursorleak/wt
+
+$ FM_CURSOR_EXEMPTION=attended CURSOR_EXEMPTION=attended fm-spawn.sh ev-leak-b <project> ...   # no flag on THIS invocation
+error: cursor is a verified adapter but is refused for an unattended ship launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept.
+  exit=1  -- neither the previous spawn nor an environment variable opens the bar
+
+
+########## 6. A cursor grant on a non-cursor harness is refused, not recorded ##########
+
+$ fm-spawn.sh ev-codex-grant <project> ... --cursor-exemption attended   # crew-harness=codex
+error: --cursor-exemption applies only to a cursor launch, but this spawn resolved harness=codex; drop the flag rather than recording a cursor grant that would outlive it
+  exit=1   task record written: none - no stale grant can later authorize a relaunch onto cursor
+
+
+########## 7. Remote secondmate wire forwards an envelope grant only ##########
+
+$ fm-remote-secondmate-control.sh launch sm cursor - - herdr exemption:attended
+error: a remote secondmate launch cannot carry an 'attended' cursor exemption: it asserts a person at the sending pane and says nothing about a worker on this host; send exemption:envelope:<name> instead
+
+$ fm-remote-secondmate-control.sh launch sm cursor - - herdr 'exemption:envelope:bad name'
+error: unrecognized remote cursor exemption 'envelope:bad name'; a remote secondmate launch forwards only exemption:envelope:<name>, where <name> starts with a letter or digit and continues with letters, digits, '.', '_', or '-'
+
+$ fm-remote-secondmate-control.sh launch sm cursor - - herdr exemption:envelope:routing-benchmark
+error: remote home is not a seeded secondmate home
+  -- the envelope grant passed the wire gate and the launch went on to ordinary home validation
+
+$ fm-remote-secondmate-control.sh launch sm cursor - - herdr 00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01   # OLD parent, bare W3C carrier
+error: remote home is not a seeded secondmate home
+  -- a bare well-formed carrier from a not-yet-upgraded parent is still accepted as the traceparent it always was
+
+$ fm-remote-secondmate-control.sh launch sm cursor - - herdr future-token   # unknown trailing argument
+error: unrecognized remote launch argument 'future-token'; expected traceparent:<value> or exemption:<grant>
+  -- self-describing wire arguments that fail closed in both directions
+
+
+########## 8. Relaunch: an attended grant is never inherited, and the refusal lands BEFORE the agent is stopped ##########
+  state/rl-att.meta records cursor_exemption=attended; a claude-shaped agent is live in the pane.
+
+$ fm-control.sh rl-att relaunch --note 'stalled overnight'
+error: cursor is a verified adapter but is refused for an unattended ship launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept. Relaunching rl-att onto it would stop the running agent for a launch that must be refused.
+
+  running agent in the pane afterwards: claude (never stopped)
+  bytes typed into the pane by this relaunch: none
+  durable record left untouched: cursor_exemption=attended
+
+
+########## 9. Relaunch: a named isolation envelope IS inherited, so stuck-worker recovery still works ##########
+
+$ fm-control.sh rl-env relaunch --note 'stalled overnight'
+relaunched rl-env harness=cursor from=cursor model=default effort=default backend=tmux endpoint=fmses:fm-rl-env worktree=<tmp>/ctl-envelope/wt
+
+  [replacement command typed into the pane]
+  unset TRACEPARENT; env -u CLAUDECODE -u PI_CODING_AGENT -u GROK_AGENT -u FM_PI_HARNESS -u CURSOR_INVOKED_AS '<tmp>/ctl-envelope/fakebin/cursor-agent' --trust --auto-review --sandbox enabled --workspace '<tmp>/ctl-envelope/wt' "$('<repo>/bin/fm-operational-input.sh' encode launch-brief < '<tmp>/ctl-envelope/home/data/rl-env/brief.md')"
+  recorded grant after relaunch: cursor_exemption=envelope:routing-benchmark
+
+
+########## 10. Relaunch: a fresh --cursor-exemption on the verb is accepted ##########
+
+$ fm-control.sh rl-fresh relaunch --note 'captain is watching' --cursor-exemption attended
+relaunched rl-fresh harness=cursor from=cursor model=default effort=default backend=tmux endpoint=fmses:fm-rl-fresh worktree=<tmp>/ctl-fresh/wt
+
+  [replacement command typed into the pane]
+  unset TRACEPARENT; env -u CLAUDECODE -u PI_CODING_AGENT -u GROK_AGENT -u FM_PI_HARNESS -u CURSOR_INVOKED_AS '<tmp>/ctl-fresh/fakebin/cursor-agent' --trust --auto-review --sandbox enabled --workspace '<tmp>/ctl-fresh/wt' "$('<repo>/bin/fm-operational-input.sh' encode launch-brief < '<tmp>/ctl-fresh/home/data/rl-fresh/brief.md')"
+  recorded grant after relaunch: cursor_exemption=attended
+
+
+########## 11. Relaunch onto another harness drops the cursor grant instead of carrying it ##########
+
+$ fm-control.sh rl-switch relaunch --harness codex --note 'moving off cursor'
+relaunched rl-switch harness=codex from=cursor model=default effort=default backend=tmux endpoint=fmses:fm-rl-switch worktree=<tmp>/ctl-switch/wt
+  recorded harness: harness=codex   recorded grant: (none - dropped with the harness switch)
+
+
+########## 12. Bootstrap diagnoses an ineligible cursor crew-dispatch rule at session start ##########
+
+$ fm-bootstrap.sh   # config/crew-dispatch.json routes a rule to cursor
+  CREW_DISPATCH: config/crew-dispatch.json - cursor is ineligible for ordinary dispatch here: these rules 
+  resolve the harness for crewmate and scout spawns, both of which are unattended, and cursor is refused for 
+  every ordinary unattended kind. A rule naming cursor is satisfied only when the spawn itself also passes 
+  --cursor-exemption attended or --cursor-exemption envelope:<name>; without one it validates clean here and is 
+  refused at spawn time. Name a harness verified for unattended work, such as codex or claude, unless every 
+  spawn routed by this rule will carry a grant.
+
+  Reported as its own advisory, not on the "invalid config/crew-dispatch.json" channel: the rule still works
+  for a spawn that carries a grant. Before this change the same file validated clean and only failed at spawn time.

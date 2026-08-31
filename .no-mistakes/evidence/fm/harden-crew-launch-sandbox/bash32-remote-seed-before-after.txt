@@ -1,0 +1,68 @@
+Pre-existing bash 3.2 empty-array crash in the remote seed - before/after
+branch fm/harden-crew-launch-sandbox, target commit 5d8bcab
+Captured 2026-08-31T22:50:31Z on Darwin 27.0.0 (arm64), GNU bash, version 3.2.57(1)-release (arm64-apple-darwin26)
+
+bin/fm-remote-home-seed.sh expanded "${PROJECT_NAMES[@]}" on an empty array
+under `set -u`. Stock macOS bash 3.2 rejects that as an unbound variable, so
+every --no-projects seed died at that line before doing any work. The defect is
+independent of this branch's launch hardening; it is fixed here only because the
+branch's new remote secondmate coverage cannot run on macOS without it.
+
+Both runs below drive the real bin/fm-remote-home-seed.sh with an identical
+stub ssh that answers the readiness probe and refuses the dispatch that follows,
+so the only difference between them is the one-line array expansion. Paths are
+scrubbed to <repo> and <tmp>.
+
+
+########## BEFORE (bin/fm-remote-home-seed.sh at 8e6b1f9, the fix's parent) ##########
+
+$ bash --version -> GNU bash, version 3.2.57(1)-release (arm64-apple-darwin26)
+$ fm-remote-home-seed.sh probe remote-mac /srv/fm-root /srv/fm-home --no-projects
+<repo>/bin/fm-remote-home-seed.sh: line 190: PROJECT_NAMES[@]: unbound variable
+  exit=0
+
+  The seed never reached the remote host, and worse, it reported exit 0: in
+  bash 3.2 the EXIT trap's own final status replaces the failing status, so the
+  crash surfaced to the operator as a silent success that provisioned nothing.
+  Measured separately with the status captured directly:
+
+    $ FM_HOME=<tmp>/home ... fm-remote-home-seed.sh probe remote-mac /srv/fm-root /srv/fm-home --no-projects
+    <repo>/bin/fm-remote-home-seed.sh: line 190: PROJECT_NAMES[@]: unbound variable
+    BEFORE_EXIT=0
+
+
+########## AFTER (bin/fm-remote-home-seed.sh at 5d8bcab) ##########
+
+$ bash --version -> GNU bash, version 3.2.57(1)-release (arm64-apple-darwin26)
+$ fm-remote-home-seed.sh probe remote-mac /srv/fm-root /srv/fm-home --no-projects
+stub-ssh: reached the remote dispatch step
+error: remote runtime preflight failed; nothing was provisioned. Close the gaps listed above, or update the remote code root if it predates the current fm-remote-doctor.sh
+  exit=1
+
+  The project loop is now skipped for a project-less seed, the run continues to
+  the first real remote step, and the failure it hits there is reported honestly
+  with exit 1 instead of being masked.
+
+
+########## What the fix unblocked: the remote coverage now runs on stock macOS bash ##########
+
+Both remote secondmate suites reach a --no-projects seed on their first step, so
+before the fix neither could execute at all on this machine. Both now run green
+under the same stock bash 3.2, including the wire behavior round 1 could only
+check by hand:
+
+$ bin/fm-test-run.sh tests/fm-remote-secondmate-trace-context.test.sh tests/fm-remote-secondmate-lifecycle-e2e.test.sh
+
+  ok - remote route: an unattended cursor secondmate is refused before the remote host is reached
+  ok - remote route: a cursor exemption is refused on a non-cursor harness rather than recorded
+  ok - remote route: an envelope grant and a carrier both cross the wire and reach the remote spawn
+  ok - recovery: an unflagged respawn inherits the recorded envelope grant and brings the secondmate back
+  ok - recovery: a recorded attended grant is never inherited, so it cannot resurrect a cursor secondmate
+  ok - wire: an older parent's bare positional carrier is still accepted as the traceparent
+  ok - wire: a bare argument that is not a carrier is still refused
+  ok - wire: the receiver forwards only an envelope grant, refusing attended and malformed grants
+  ...
+  ok - remote seeding proceeds once the repair closes every gap        <- the pre-existing
+                                                                          test that died at
+                                                                          the same call
+  FM_TEST_SUMMARY total=2 failed=0 skipped_gate=0 duration_ms=459328
