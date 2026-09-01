@@ -1,0 +1,151 @@
+
+=== 1. An operator records a PR-ready task the way they always have ===
+$ fm-pr-check.sh task-ship https://github.com/kunchenguid/firstmate/pull/4271
+  | armed: state/task-ship.check.sh
+  (stdout is 1 line - the single-line success contract is intact;
+   monitoring was armed before it, with its registration output suppressed)
+  lifecycle source registered: prf-gh-fcfc144e89d8
+$ ls $WORK/home/state/procevent 
+prf-gh-fcfc144e89d8.source
+
+=== 2. The watcher starts the monitor; a freshly registered PR replays no history ===
+$ fm-procevent.sh reconcile 
+reconciled: published=0 started=1 stopped=0 uncertain=0
+  captured results after the first poll: 0  (silent baseline, no creation noise)
+    cursor> head=1111111111111111111111111111111111111111
+    cursor> state=open
+    cursor> max_issue_comment=5
+    cursor> baseline=done
+
+=== 3. Real review activity on the open PR ===
+  a reviewer leaves a comment
+    doc> state: open
+    doc> event: comment id=9 author=carol
+  an inline review comment lands on a file
+    doc> state: open
+    doc> event: review-comment id=21 author=dana path=bin/fm-pr-check.sh line=140
+  the author replies inside that thread
+    doc> state: open
+    doc> event: review-comment id=22 author=alice reply-to=21 path=bin/fm-pr-check.sh line=140
+  a review is submitted requesting changes
+    doc> state: open
+    doc> event: review id=77 state=CHANGES_REQUESTED author=dana
+
+=== 4. The whole live GitHub check-run vocabulary round-trips (queued/in_progress/waiting/requested/pending) ===
+  CI reports five checks in five different in-flight states
+    doc> state: open
+    doc> event: check id=91 name=linux change=none->pending status=queued:none
+    doc> event: check id=92 name=macos change=none->pending status=in_progress:none
+    doc> event: check id=93 name=deploy change=none->pending status=waiting:none
+    doc> event: check id=94 name=sign change=none->pending status=requested:none
+    doc> event: check id=95 name=windows change=none->pending status=pending:none
+  the durable cursor advanced to exactly those composite tokens:
+    cursor> checks=95:pending:none,94:requested:none,93:waiting:none,92:in_progress:none,91:queued:none
+  they complete: one regression, four greens
+    doc> state: open
+    doc> event: check id=91 name=linux change=pending->red status=completed:failure
+    doc> event: check id=92 name=macos change=pending->green status=completed:success
+    doc> event: check id=93 name=deploy change=pending->green status=completed:success
+    doc> event: check id=94 name=sign change=pending->green status=completed:success
+    doc> event: check id=95 name=windows change=pending->green status=completed:success
+
+=== 5. A forge word this adapter has never seen must not brick monitoring ===
+  GitHub invents a conclusion word this adapter has never seen: cosmic_ray
+    doc> state: open
+    doc> event: check id=92 name=macos change=green->red status=completed:unknown
+  it normalized to a safe explicit value, applied cleanly, and advanced the cursor:
+    cursor> checks=95:completed:success,94:completed:success,93:completed:success,92:completed:unknown,91:co
+    cursor> mpleted:failure
+
+=== 6. Head replacement, merge, and post-merge activity ===
+  the author force-pushes a new head
+    doc> head: 2222222222222222222222222222222222222222
+    doc> event: head from=111111111111 to=222222222222
+  the PR is merged
+    doc> state: merged
+    doc> event: pr-state from=open state=merged
+  someone comments AFTER the merge - tracking must continue
+    doc> state: merged
+    doc> event: comment id=31 author=erin
+  registration is still present after merge:
+$ ls $WORK/home/state/procevent 
+prf-gh-fcfc144e89d8.runner
+prf-gh-fcfc144e89d8.source
+
+=== 7. Every wake firstmate receives carries fixed, trusted identity text only ===
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 1
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 2
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 3
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 4
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 5
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 6
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 7
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 8
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 9
+  wake> check: procevent pr-follow prf-gh-fcfc144e89d8 10
+  any remote author or forge prose in the wake queue?
+    none - remote text reaches firstmate only as stored result data
+
+=== 8. Replaying an already applied capture is a no-op (durable sequence receipts) ===
+$ fm-procevent-pr-follow.sh handle prf-gh-fcfc144e89d8 9 $WORK/home/state/procevent-inbox/prf-gh-fcfc144e89d8.9.result 
+already-applied: prf-gh-fcfc144e89d8 9
+  cursor unchanged on byte-identical replay
+
+=== 9. Monitoring notifies and records only: every forge call this run made ===
+  gh api graphql -f query=query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){pullRequest(number:$number){reviews(last:
+  gh api repos/kunchenguid/firstmate/commits/1111111111111111111111111111111111111111/check-runs?per_page=100 --jq .check_runs[] | [.id, (((.status // "
+  gh api repos/kunchenguid/firstmate/commits/2222222222222222222222222222222222222222/check-runs?per_page=100 --jq .check_runs[] | [.id, (((.status // "
+  gh api repos/kunchenguid/firstmate/issues/4271/comments?per_page=100&sort=created&direction=desc&page=1 --jq .[] | [.id, (.user.login // "ghost")] | @
+  gh api repos/kunchenguid/firstmate/pulls/4271/comments?per_page=100&sort=created&direction=desc&page=1 --jq .[] | [.id, (.in_reply_to_id // 0), (.user
+  gh pr view https://github.com/kunchenguid/firstmate/pull/4271 --json headRefOid -q .headRefOid
+  gh pr view https://github.com/kunchenguid/firstmate/pull/4271 --json state,headRefOid,author -q [.state, (.headRefOid // ""), (.author.login // "ghost
+  mutating verbs (merge/review/comment/close/reopen/POST/PATCH/PUT/DELETE)?
+    none - GET-only forge access, no PR or repository mutation
+
+=== 10. Tracking ends only by an explicit, auditable retirement ===
+$ fm-procevent-pr-follow.sh terminal <capture>   -> exit 1 (a merged PR never self-retires)
+retired: prf-gh-fcfc144e89d8
+$ fm-procevent-pr-follow.sh retire prf-gh-fcfc144e89d8 --force
+  registrations remaining:
+    (none - retired)
+
+=== 11. Aggregate load stays bounded and no tracked PR is starved ===
+  armed: prf-gh-9ae0d703eb77
+  starts on the watcher's next cycle; or run: bin/fm-procevent.sh reconcile
+  armed: prf-gh-01cca4973be1
+  starts on the watcher's next cycle; or run: bin/fm-procevent.sh reconcile
+  armed: prf-gh-0b507f67bedc
+  starts on the watcher's next cycle; or run: bin/fm-procevent.sh reconcile
+  reconciled: published=0 started=3 stopped=0 uncertain=0
+  ...letting the rotation run for 9 slots (FM_PR_FOLLOW_ROTATION_SLOT=1s)...
+  core forge fetches per tracked PR over that window:
+    pull/1001: 2 poll(s)
+    pull/1002: 1 poll(s)
+    pull/1003: 1 poll(s)
+    total core fetches for the whole home: 4
+  every tracked PR was visited (no starvation) and the aggregate rate is
+  set by the slot, not by the number of PRs - production defaults bound
+  the whole home to 156 forge requests/hour regardless of PR count.
+
+=== 12. Monitoring loss is bounded, actionable, and never silent ===
+  armed: prf-gh-ba6fe589ab3d
+  starts on the watcher's next cycle; or run: bin/fm-procevent.sh reconcile
+  first apply attempt:
+    error: adapter-produced document failed its own validation contract (attempt 1 of 2): prf-gh-ba6fe589ab3d 1
+  second attempt reaches the bound:
+    monitoring-loss: prf-gh-ba6fe589ab3d paused after 2 unapplicable captures; inspect the captured result and state/pr-follow/prf-gh-ba6fe589ab3d.quarantine; rerun arm to resume after the adapter is repaired
+  the paused source surfaces exactly one bounded diagnostic, with no forge bytes:
+    doc> schema: fm-pr-follow-event-v1
+    doc> source: prf-gh-ba6fe589ab3d
+    doc> provider: github
+    doc> url: https://github.com/kunchenguid/firstmate/pull/777
+    doc> number: 777
+    doc> status: error
+    doc> detail: monitoring loss: source prf-gh-ba6fe589ab3d paused after 2 unapplicable captures; inspect the captured result and state/pr-follow/prf-gh-ba6fe589ab3d.quarantine; rerun arm to resume after the adapter is repaired
+    doc> events: 0
+  a tampered/foreign document is a different class and is refused loudly every time:
+    error: captured document is tampered or foreign: refusing to apply: prf-gh-ba6fe589ab3d 9
+    error: captured document is tampered or foreign: refusing to apply: prf-gh-ba6fe589ab3d 9
+  re-arming after the adapter is repaired clears the pause:
+    already armed: prf-gh-ba6fe589ab3d
+    quarantine record cleared - tracking resumes

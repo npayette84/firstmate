@@ -1,0 +1,35 @@
+FM_TEST_BEGIN 2026-09-01T04:36:17Z tests/fm-procevent-pr-follow.test.sh family=unclassified expected_gate_skip=none
+ok - arm validates identity, registers, and re-arms idempotently
+ok - the first registration baseline is silent and durable
+ok - an open PR comment is announced once through the durable queue
+ok - inline review comments and replies are announced with thread identity
+ok - review submissions and state changes are announced
+ok - head replacement announces the move and re-baselines its checks
+ok - check additions, pending transitions, regressions, and recoveries are announced
+ok - queued, in_progress, waiting, requested, and pending checks apply, advance, and stay bounded
+ok - unknown check conclusions round-trip as a safe explicit red
+ok - unknown review states round-trip through the whole production path
+ok - unknown lifecycle words round-trip through the whole production path
+ok - merge is announced, tracking continues after merge
+ok - close and reopen are announced
+ok - duplicate API rows never duplicate an announcement
+ok - restart recomputes safely and replay is receipt-deduplicated
+ok - bounded failures record diagnostics and recovery resumes from the cursor
+ok - hostile remote data stays data and doctored documents are refused
+ok - adapter-produced invalidity is bounded and tampering stays loudly refused
+ok - task cleanup does not erase lifecycle follow-through
+ok - explicit retirement is the one auditable off switch
+ok - existing-PR backfill surfaces unanswered threads exactly once
+ok - the guarded migration sweep arms every recorded PR exactly once
+ok - GitLab comments, pipelines, approvals, threads, and merge are tracked
+ok - created, preparing, running, and unknown GitLab pipeline states round-trip
+ok - the event bound truncates review noise and never the lifecycle line
+ok - a bounded check map never re-announces what the bound evicted
+ok - reviews that predate the baseline keep their state tracked
+ok - a bounded approval set never repeats what it cannot record
+ok - rotation keeps every source polled at a bounded aggregate rate
+all fm-procevent-pr-follow tests passed
+FM_TEST_END 2026-09-01T04:40:15Z tests/fm-procevent-pr-follow.test.sh exit=0 duration_ms=237508 gate_skip=false
+FM_TEST_SUMMARY total=1 failed=0 skipped_gate=0 duration_ms=237585
+FM_TEST_SUMMARY_FAMILY family=unclassified count=1 duration_ms=237508 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-procevent-pr-follow.test.sh duration_ms=237508
