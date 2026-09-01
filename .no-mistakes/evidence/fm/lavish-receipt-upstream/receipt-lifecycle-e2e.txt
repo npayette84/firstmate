@@ -1,0 +1,98 @@
+
+================================================================
+Setup: two captain calls are on hold, waiting for an answer
+================================================================
+source id: lavish-5b9140d68ebbb309
+
+task:
+  id: deck-alpha
+  title: Alpha call
+  state: queued
+  blocked: no
+
+================================================================
+Round 1: the captain submits three answers and a message
+================================================================
+Receipt state right after capture (fm-procevent-lavish.sh receipt-text):
+
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat).
+-> Received and Saved exist because the capture and the keyed-answer intake
+   already ran. Applying and Complete are absent: the handler has not started.
+
+================================================================
+The handler starts work, then finishes it
+================================================================
+applying: lavish-5b9140d68ebbb309 1
+already-applying: lavish-5b9140d68ebbb309 1
+
+Receipt state while the handler is working:
+
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); firstmate is applying them (since 2026-09-01 07:54 UTC).
+complete: lavish-5b9140d68ebbb309 1
+
+
+Receipt state after the handler finished:
+
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 07:54 UTC.
+
+================================================================
+The next poll carries that acknowledgement back onto the review page
+================================================================
+CAPTAIN SEES ON THE REVIEW PAGE (acknowledgement #1, poll 2):
+
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 07:54 UTC.
+
+================================================================
+The captain submits the byte-identical thing again (a replay)
+================================================================
+CAPTAIN SEES ON THE REVIEW PAGE (acknowledgement #2, poll 3):
+
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 07:54 UTC.
+    Round 2: already received at 2026-09-01 07:54 UTC (identical to round 1); no new action.
+Times the answer was actually applied to deck-alpha (must be 1): 1
+
+================================================================
+Send & End: the final submission still gets its receipt on the ended page
+================================================================
+CAPTAIN SEES ON THE REVIEW PAGE (acknowledgement #3, poll 4):
+
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 07:54 UTC.
+    Round 2: already received at 2026-09-01 07:54 UTC (identical to round 1); no new action.
+    Round 3: received 1 answer at 2026-09-01 07:54 UTC; saved 0 of 1 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat).
+
+================================================================
+The source retires only after that final receipt was delivered
+================================================================
+source registration: RETIRED (state/procevent/lavish-5b9140d68ebbb309.source is gone)
+delivery journaled for round(s): 1 2 3 
+polls issued: 4; acknowledgements presented: 3
+
+================================================================
+Final durable outcome of the captain's answers
+================================================================
+task:
+  id: deck-alpha
+  title: Alpha call
+  state: done
+  blocked: no
+  blocked_by: none
+  held: no
+  hold_reason: alpha choice pending
+
+deck-gamma (answered with a card-declared release):
+    held: no
+
+deck-beta (a decision key naming no task) -> never created, correctly reported as not saved
+
+================================================================
+Every acknowledgement presented during this session, in order
+================================================================
+--- poll 2 ---
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 07:54 UTC.
+--- poll 3 ---
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 07:54 UTC.
+    Round 2: already received at 2026-09-01 07:54 UTC (identical to round 1); no new action.
+--- poll 4 ---
+    Round 1: received 3 answers and a message at 2026-09-01 07:54 UTC; saved 2 of 3 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 07:54 UTC.
+    Round 2: already received at 2026-09-01 07:54 UTC (identical to round 1); no new action.
+    Round 3: received 1 answer at 2026-09-01 07:54 UTC; saved 0 of 1 at 2026-09-01 07:54 UTC (1 not saved - firstmate follows up in chat).

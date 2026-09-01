@@ -1,0 +1,17 @@
+Payloads submitted from the review page
+  answer value : go$(touch /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-receipt-untrusted.eXPeCF/sentinels/answer-subst)`touch /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-receipt-untrusted.eXPeCF/sentinels/answer-backtick`; touch /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-receipt-untrusted.eXPeCF/sentinels/answer-semicolon
+  decision key : deck-alpha; touch /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-receipt-untrusted.eXPeCF/sentinels/key-semicolon
+  free message : hi $(touch /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-receipt-untrusted.eXPeCF/sentinels/msg-subst) && touch /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-receipt-untrusted.eXPeCF/sentinels/msg-and
+
+1. Did anything execute?
+   no sentinel was created - nothing was interpreted as a command
+
+2. What does the captain see on the review page?
+   Round 1: received 2 answers and a message at 2026-09-01 07:57 UTC; saved 1 of 2 at 2026-09-01 07:57 UTC; complete at 2026-09-01 07:57 UTC.
+3. Did any remote byte leak into that visible text?
+   none - counts and UTC timestamps only
+
+4. Did the payload key gain any authority?
+   deck-alpha state after the submission: done
+   a task named by the payload key -> never created
+   saved verdict journaled: closed=1 skipped=0
