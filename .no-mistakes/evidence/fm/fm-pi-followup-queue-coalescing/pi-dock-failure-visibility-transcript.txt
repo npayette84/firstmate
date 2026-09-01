@@ -1,0 +1,31 @@
+Supervision-failure visibility while an ordinary work-waiting row is already docked
+
+--- AFTER: this change (5a4babd) ---
+scenario: one ordinary work-waiting row already docked, then a second close
+          whose continuity restoration exhausts its retries
+Pi follow-up dock rows presented to the captain: 2
+
+  [row 1]
+    | FIRSTMATE_OP: v1 watcher: FIRSTMATE WATCHER WAKE: signal: secondmate alpha finished, needs review
+    | 
+    | Run bin/fm-wake-drain.sh first and handle the queued wake. Watcher continuity is extension-owned.
+  [row 2]
+    | FIRSTMATE_OP: v1 watcher: FIRSTMATE WATCHER WAKE: signal: secondmate bravo finished, needs review
+    | 
+    | watcher: FAILED - Pi extension could not verify a ready successor watcher
+    | watcher: FAILED - Pi extension could not restore watcher continuity after 1 retries
+    | 
+    | Run bin/fm-wake-drain.sh first and handle the queued wake. Watcher continuity is extension-owned.
+
+--- COUNTEREXAMPLE: call-site-only urgency (rejected candidate B shape) ---
+scenario: one ordinary work-waiting row already docked, then a second close
+          whose continuity restoration exhausts its retries
+Pi follow-up dock rows presented to the captain: 1
+
+  [row 1]
+    | FIRSTMATE_OP: v1 watcher: FIRSTMATE WATCHER WAKE: signal: secondmate alpha finished, needs review
+    | 
+    | Run bin/fm-wake-drain.sh first and handle the queued wake. Watcher continuity is extension-owned.
+
+  *** no supervision-failure row reached the captain: the failure was coalesced away ***
+
