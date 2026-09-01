@@ -1,0 +1,12 @@
+=== portable suite on head bb3ef80: bash tests/fm-codex-sandbox-grant.test.sh (exit 0, no codex needed) ===
+ok - codex ship: grants only its own status + turn-ended files, its own steering inbox, and the out-of-tree git common dir, never the shared state directory
+ok - the no-mistakes pipeline notice fires for no-mistakes alone, and every mode gets the same ship grant
+ok - both pre-created state files are marked as already reported, and real later activity on each still reports
+ok - the grant refuses a symlinked state record or inbox: nothing is created through it and no root outside the task's own paths is ever emitted
+ok - codex scout: the report, status, and completion-gate paths are all granted, and the shared data/ root is not
+ok - codex secondmate: only the parent status file and its own steering inbox are granted, not the parent state directory or the crewmate set
+ok - claude, opencode, and grok launches are unchanged
+ok - ship grant is sufficient (status, turn-ended, commit) and isolates siblings: the shared state directory stays unwritable
+ok - ship grant covers the steering-inbox acknowledgement, and that inbox root is load-bearing
+ok - granted set is sufficient: status append, report, captain-hold completion gate, and commit all succeed
+ok - each granted root is load-bearing: removing it breaks the report, the completion-gate lock, or staging

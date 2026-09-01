@@ -1,0 +1,75 @@
+Manual end-to-end reproduction against codex-cli 0.150.1: a codex SCOUT in a linked task worktree
+delivering its report to $FM_HOME/data/<id>/report.md and appending its status line.
+BEFORE = the launch codex got before this change (-s workspace-write alone).
+AFTER  = the same turn with the exact --add-dir roots bin/fm-spawn.sh composes on this head.
+Script: repro-scout-report-denial.sh (in this evidence directory).
+
+== writable roots fm-spawn composed for this scout ==
+  <lab>/fmhome/state
+  <lab>/fmhome/data/codex-repro-scout
+  <lab>/project/.git
+
+== BEFORE: codex exec -s workspace-write (no grant) ==
+Reading additional input from stdin...
+OpenAI Codex v0.150.1
+--------
+workdir: <lab>/wt
+model: gpt-5.6-terra
+provider: custom
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR] (network access enabled)
+reasoning effort: low
+reasoning summaries: detailed
+session id: 01a05d71-1188-7b63-b3f3-625e2ed72904
+--------
+user
+You are a firstmate scout finishing your brief. Run exactly these two shell commands, each separately, then stop: (1) printf 'scout report: the repo builds\n' > <lab>/fmhome/data/codex-repro-scout/report.md (2) echo 'done: report delivered' >> <lab>/fmhome/state/codex-repro-scout.status . Report for each whether it succeeded or was denied. Do nothing else and do not retry a denied command.
+**Clarifying command execution protocol**
+codex
+Running the two specified commands separately.
+codex
+1. Denied: operation not permitted.  
+2. Denied: operation not permitted.
+tokens used
+11,791
+1. Denied: operation not permitted.  
+2. Denied: operation not permitted.
+-- delivered artifacts after BEFORE turn --
+  report.md ABSENT (scout could not deliver its report)
+  status EMPTY (supervision sees nothing)
+
+== AFTER: same turn, with the --add-dir roots fm-spawn composed ==
+Reading additional input from stdin...
+OpenAI Codex v0.150.1
+--------
+workdir: <lab>/wt
+model: gpt-5.6-terra
+provider: custom
+approval: never
+sandbox: workspace-write [workdir, /tmp, $TMPDIR, <lab>/fmhome/state, <lab>/fmhome/data/codex-repro-scout, <lab>/project/.git] (network access enabled)
+reasoning effort: low
+reasoning summaries: detailed
+session id: 01a05d71-4f47-7642-93ee-7be2c1fe25ac
+--------
+user
+You are a firstmate scout finishing your brief. Run exactly these two shell commands, each separately, then stop: (1) printf 'scout report: the repo builds\n' > <lab>/fmhome/data/codex-repro-scout/report.md (2) echo 'done: report delivered' >> <lab>/fmhome/state/codex-repro-scout.status . Report for each whether it succeeded or was denied. Do nothing else and do not retry a denied command.
+codex
+I’ll run the two specified commands separately and report each result.
+exec
+/bin/zsh -lc "printf 'scout report: the repo builds\\n' > <lab>/fmhome/data/codex-repro-scout/report.md" in <lab>/wt
+ succeeded in 0ms:
+exec
+/bin/zsh -lc "echo 'done: report delivered' >> <lab>/fmhome/state/codex-repro-scout.status" in <lab>/wt
+ succeeded in 0ms:
+codex
+1. Succeeded.  
+2. Succeeded.
+tokens used
+12,003
+1. Succeeded.  
+2. Succeeded.
+-- delivered artifacts after AFTER turn --
+  report.md EXISTS: scout report: the repo builds
+  status line: done: report delivered
+-- the home itself stays denied --
+  config/ still denied

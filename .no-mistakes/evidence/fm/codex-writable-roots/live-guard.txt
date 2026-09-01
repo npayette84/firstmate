@@ -1,0 +1,6 @@
+=== live guard on head bb3ef80, run with NO manual env bypass ===
+$ FM_CODEX_LIVE_E2E=1 FM_CODEX_KEEP_LAB=1 bash tests/fm-codex-sandbox-grant-live-e2e.test.sh   (exit 0)
+ok - codex-cli 0.150.1 enforces exactly the granted writable roots, and the launch flags reach that policy
+ok - codex-cli 0.150.1 admits the captain-hold completion gate under the granted roots and denies it without them
+ok - codex-cli 0.150.1 accepts and enforces the FILE form of --add-dir: the ship keeps its own two state files while a sibling task record stays denied
+lab preserved: <lab>
