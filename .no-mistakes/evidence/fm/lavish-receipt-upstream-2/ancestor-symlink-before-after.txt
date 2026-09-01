@@ -1,0 +1,24 @@
+Ancestor-symlink boundary: reproduced before the fix, closed after it
+=====================================================================
+
+Review thread: "Preserve validation of non-system ancestor symlinks".
+The macOS compatibility fix had made the canonical-vs-lexical comparison
+tautological, so any symlinked ancestor could redirect a private procevent
+subtree. 1ec0a5f walks the ancestor components again, allowing only the
+operating system's own /tmp, /var and /private aliases.
+
+--- BEFORE: head tree with fm_procevent_private_directory_valid restored to the
+    pre-fix shape (canonical comparison only), everything else unchanged --------
+  $ bash tests/fm-procevent.test.sh
+  not ok - the runner claimed a source whose state root was reached through a symlinked ancestor
+  exit=1
+
+--- AFTER: head under test ----------------------------------------------------
+  $ bash tests/fm-procevent.test.sh
+  ok - private procevent directories refuse a non-system symlinked ancestor
+  ...
+  all procevent tests passed
+  exit=0
+
+The same case also proves the macOS side stays usable: the runner still claims a
+home whose only symlinked ancestors are the system temp aliases.
