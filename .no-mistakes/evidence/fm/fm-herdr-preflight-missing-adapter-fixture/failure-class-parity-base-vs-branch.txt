@@ -1,0 +1,11 @@
+bash: 3.2.57(1)-release
+base    ok          caller-rc=0   guarded-result=sourced
+branch  ok          caller-rc=0   guarded-result=sourced
+base    missing     caller-rc=1   guarded-result=<caller shell died before the guard>
+branch  missing     caller-rc=0   guarded-result=refused
+base    nonzero     caller-rc=0   guarded-result=refused
+branch  nonzero     caller-rc=0   guarded-result=refused
+base    syntax      caller-rc=2   guarded-result=<caller shell died before the guard>
+branch  syntax      caller-rc=2   guarded-result=<caller shell died before the guard>
+base    unreadable  caller-rc=1   guarded-result=<caller shell died before the guard>
+branch  unreadable  caller-rc=1   guarded-result=<caller shell died before the guard>

@@ -1,0 +1,34 @@
+==================================================================
+CASE: before-fix   (bin/backends/herdr.sh deleted from the install)
+      bin/fm-backend.sh taken from 763f5979a7eb988397292faac372c15d2416ed43 (pre-fix)
+$ bin/fm-teardown.sh task-x1 --force
+--- stdout ---
+--- stderr ---
+/private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-teardown-tests.DozZtg/manual-before-fix/test-root/bin/fm-backend.sh: line 609: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-teardown-tests.DozZtg/manual-before-fix/test-root/bin/backends/herdr.sh: No such file or directory
+--- exit code: 0
+--- observable state after the command ---
+  exit status          : 0 (operator is told teardown succeeded)
+  refusal explained    : NO (silent)
+  endpoint metadata    : preserved
+  task status record   : preserved
+  isolated copy (wt)   : preserved on fm/task-x1
+  treehouse return run : no
+  herdr pane close     : no
+
+==================================================================
+CASE: after-fix   (bin/backends/herdr.sh deleted from the install)
+      bin/fm-backend.sh from the branch under test (fixed)
+$ bin/fm-teardown.sh task-x1 --force
+--- stdout ---
+--- stderr ---
+error: herdr teardown prerequisites are unavailable for task-x1; nothing was changed - restore the adapter and rerun teardown
+--- exit code: 1
+--- observable state after the command ---
+  exit status          : NON-ZERO (operator sees a failure)
+  refusal explained    : yes ('nothing was changed' printed)
+  endpoint metadata    : preserved
+  task status record   : preserved
+  isolated copy (wt)   : preserved on fm/task-x1
+  treehouse return run : no
+  herdr pane close     : no
+
