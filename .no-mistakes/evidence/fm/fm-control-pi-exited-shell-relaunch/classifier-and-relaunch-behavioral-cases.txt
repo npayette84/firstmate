@@ -1,0 +1,10 @@
+ok - fm_backend_herdr_create_task: a same-labeled tab with a live (even idle) registered agent still refuses exactly as before
+ok - herdr agent state: a reported registration contradicted by a lone bare idle shell reads agent-free, while the identical registration over a live process stays alive
+ok - herdr agent state: an ambiguous process inventory leaves a registered agent alive rather than licensing recovery
+ok - herdr agent state: a shell running a child of its own never proves an agent-free pane
+ok - herdr agent state: an unreadable process inventory leaves a registered agent alive
+ok - herdr agent state: a process inventory answering about a different pane never downgrades this pane's registration
+ok - herdr agent state: an unregistered pane is agent-free without reading the process inventory at all
+ok - fm_backend_herdr_create_task: a same-labeled tab whose registration outlived its agent is a husk on the same terms as a restored shell
+ok - fm-control relaunch: an endpoint whose agent already exited is replaced without an interrupt, without the exit command, and without touching the branch or its uncommitted work
+ok - fm-control relaunch: a replacement that never comes up still preserves the branch, the uncommitted work, and the progress note

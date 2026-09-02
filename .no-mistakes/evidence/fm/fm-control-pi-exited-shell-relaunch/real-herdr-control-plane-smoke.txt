@@ -1,0 +1,9 @@
+ok - real herdr: exit on a pane with no registered agent is idempotent success
+ok - real herdr: interrupt refuses when herdr's own agent registry reports no agent
+ok - real herdr: a reported registration the pane's own process inventory contradicts reads agent-free
+ok - real herdr: an exited worker's pane is positively eligible for its replacement instead of being typed into
+ok - real herdr: interrupt still refuses on a pane whose registration outlived its agent
+ok - real herdr: the same registration over a running foreground process stays alive
+ok - real herdr: interrupt delivers the harness's key and proves the agent survived it
+ok - real herdr: an agent that does not stop fails closed instead of being reported as stopped
+ok - real herdr: no control verb removed the endpoint, the task's local copy, or its branch

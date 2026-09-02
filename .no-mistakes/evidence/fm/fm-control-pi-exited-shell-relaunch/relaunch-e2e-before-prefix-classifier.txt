@@ -1,0 +1,25 @@
+
+=== the reported disagreement (herdr herdr 0.8.2) ===
+$ herdr agent get w1:p2   ->  agent_status: idle
+$ herdr pane process-info    ->  foreground: [{"name":"zsh","argv0":"zsh"}]
+firstmate's own classifier    ->  fm_backend_agent_state herdr = alive
+
+=== operator runs the supported control verb ===
+$ bin/fm-control.sh demo relaunch --note 'prior Pi worker exited to a shell after the PR went green'
+error: exit-delivered demo interrupt=not-needed exit-command=delivered agent-state=alive exit=unconfirmed; the agent did not stop within 3s
+error: relaunch of demo failed while stopping the old agent, which is still running; its original instructions were restored
+exit status: 1
+
+=== what reached the pane ===
+pane received /quit: YES  <- the harness exit command was typed at a zsh prompt
+pane foreground now: [{"name":"zsh","argv0":"zsh"}]
+endpoint still exists: yes
+
+=== preserved work ===
+branch:            task-demo
+HEAD unchanged:    yes
+uncommitted file:  work the previous worker had not committed
+committed file:    committed on the preserved branch
+task record harness=pi
+journal exit_result: 
+progress note in the replacement's instructions: no

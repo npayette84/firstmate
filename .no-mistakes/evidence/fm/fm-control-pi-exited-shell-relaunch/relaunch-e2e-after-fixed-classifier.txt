@@ -1,0 +1,32 @@
+
+=== the reported disagreement (herdr herdr 0.8.2) ===
+$ herdr agent get w1:p2   ->  agent_status: idle
+$ herdr pane process-info    ->  foreground: [{"name":"zsh","argv0":"zsh"}]
+firstmate's own classifier    ->  fm_backend_agent_state herdr = dead
+
+=== operator runs the supported control verb ===
+$ bin/fm-control.sh demo relaunch --note 'prior Pi worker exited to a shell after the PR went green'
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+warning: /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-relaunch-demo.3t9LUO/home/data/demo/brief.md records no delivery contract line (scaffolded before ship briefs recorded one); launching on the explicit --mode no-mistakes - confirm its definition of done matches
+relaunched demo harness=pi from=pi model=default effort=default backend=herdr endpoint=fm-lab-relaunch-demo-after-81013:w1:p2 worktree=/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-relaunch-demo.3t9LUO/wt
+exit status: 0
+
+=== what reached the pane ===
+pane received /quit: no
+pane foreground now: [{"name":"sleep","argv0":"sleep"}]
+endpoint still exists: yes
+
+=== preserved work ===
+branch:            task-demo
+HEAD unchanged:    yes
+uncommitted file:  work the previous worker had not committed
+committed file:    committed on the preserved branch
+task record harness=pi
+journal exit_result: exit_result=already-stopped
+progress note in the replacement's instructions: yes
