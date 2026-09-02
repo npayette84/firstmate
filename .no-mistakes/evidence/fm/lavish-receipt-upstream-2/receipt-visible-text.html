@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Lavish receipt lifecycle - captain-visible receipt</title>
+<style>
+ body{margin:0;background:#f3f4f6;font-family:system-ui,-apple-system,sans-serif;color:#111827}
+ .wrap{max-width:1180px;margin:0 auto;padding:24px}
+ h1{font-size:1.25rem;margin:0 0 4px}
+ p.note{margin:0 0 18px;color:#374151;font-size:.85rem;line-height:1.5}
+ code{background:#e5e7eb;padding:1px 5px;border-radius:4px;font-size:.8rem}
+ .panel{background:#111827;border-radius:12px;padding:18px 20px}
+ .panel h2{color:#9ca3af;font-size:.72rem;letter-spacing:.09em;text-transform:uppercase;margin:0 0 14px;font-weight:600}
+ .msg{display:flex;gap:12px;padding:9px 0;border-top:1px solid #1f2937}
+ .msg:first-of-type{border-top:0}
+ .who{color:#60a5fa;font-size:.78rem;font-weight:600;min-width:74px;padding-top:1px}
+ .body{color:#f3f4f6;font-size:.9rem;line-height:1.55}
+ .tag{display:inline-block;background:#dbeafe;color:#1e3a8a;border-radius:999px;padding:2px 10px;font-size:.72rem;font-weight:600}
+</style></head><body><div class="wrap">
+<h1>What the captain sees in the review page <span class="tag">head 48651c2</span></h1>
+<p class="note">Verbatim bytes printed by <code>bin/fm-procevent-lavish.sh receipt-text</code> after six real submission
+rounds, rendered in the Lavish conversation panel's visual context. These are the exact bytes the adapter delivers
+into the page through the published poll's <code>--agent-reply</code> surface. Round&nbsp;2 is the comment-only
+submission that previously displayed no receipt at all; round&nbsp;6 declared three prompt rows and delivered one, so
+its parse was refused and it is deliberately absent.</p>
+<div class="panel"><h2>Conversation</h2>
+    <div class="msg"><div class="who">firstmate</div><div class="body">Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; complete at 2026-09-02 07:12 UTC.</div></div>
+    <div class="msg"><div class="who">firstmate</div><div class="body">Round 2: received your written comment at 2026-09-02 07:12 UTC.</div></div>
+    <div class="msg"><div class="who">firstmate</div><div class="body">Round 3: already received at 2026-09-02 07:12 UTC (identical to round 1); no new action.</div></div>
+    <div class="msg"><div class="who">firstmate</div><div class="body">Round 4: received 1 answer at 2026-09-02 07:12 UTC; its saving report was incomplete at 2026-09-02 07:12 UTC - firstmate follows up in chat.</div></div>
+    <div class="msg"><div class="who">firstmate</div><div class="body">Round 5: received 2 answers at 2026-09-02 07:12 UTC; saved 0 of 2 at 2026-09-02 07:12 UTC (2 not saved - firstmate follows up in chat).</div></div>
+</div></div></body></html>

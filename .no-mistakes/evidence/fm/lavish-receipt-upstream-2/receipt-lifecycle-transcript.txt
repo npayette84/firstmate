@@ -1,126 +1,80 @@
-Lavish answer-receipt lifecycle, end to end at the head under test
-==================================================================
-Head: 9461678 (branch fm/lavish-receipt-upstream-2)
-Produced by: receipt-lifecycle-demo.sh (in this evidence directory), which runs
-the real adapter bin/fm-procevent-lavish.sh, the real runner bin/fm-procevent.sh
-and the real keyed-answer intake bin/fm-captain-hold.sh against a stand-in that
-speaks only the published `lavish-axi poll <file> [--agent-reply "..."]` wire
-shape. A manual reconcile loop stands in for the watcher cadence. No live Lavish
-server is started, so no captain review session is disturbed.
+# Lavish answer-receipt lifecycle - end-to-end captain view
+artifact : /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-receipt-demo.PjfR4T/design-review.html
+source   : lavish-ad85f2e565a95e7e
 
-Section 7 is the literal string handed to the Lavish session for display, i.e.
-exactly the bytes the conversation panel renders. "Round N: received your
-written comment at ..." is the new acknowledgement for a submission that carries
-no answers - the case that previously displayed no receipt at all.
-=========================================================================
- 1. The captain answers two cards and adds a written message
-=========================================================================
+## Round 1 - the captain answers one question and adds a message
 
-  +-- what the captain sees in the Lavish conversation --------------------
-  | Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat).
-  +-----------------------------------------------------------------------
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC.
+---------------------------------------------------
 
-  durable facts behind that text (state/procevent/<source>.receipts):
-    fm-lavish-receipt.v1
-    received	1	1788293334	2	1	64386bc9c39cba19	-
-    saved	1	1788293334	1	1	ok
+## The handler starts routing that round, then finishes it
 
-=========================================================================
- 2. Firstmate starts routing the answers, then finishes
-=========================================================================
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; firstmate is applying them (since 2026-09-02 07:12 UTC).
+---------------------------------------------------
 
-  +-- what the captain sees in the Lavish conversation --------------------
-  | Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); firstmate is applying them (since 2026-09-01 20:08 UTC).
-  +-----------------------------------------------------------------------
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; complete at 2026-09-02 07:12 UTC.
+---------------------------------------------------
 
-  +-- what the captain sees in the Lavish conversation --------------------
-  | Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-  +-----------------------------------------------------------------------
+## Round 2 - a comment-only submission (no answers at all)
+   Before this change this round displayed no receipt whatsoever.
 
-  what the accepted answer actually did:
-    task:
-      id: deck-alpha
-      title: Alpha call
-      state: done
-      blocked: no
-      blocked_by: none
-      held: no
-      hold_reason: alpha choice pending
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; complete at 2026-09-02 07:12 UTC.
+Round 2: received your written comment at 2026-09-02 07:12 UTC.
+---------------------------------------------------
 
-=========================================================================
- 3. A poll response truncated in transit is refused, never acknowledged
-=========================================================================
-  received rounds before this response: 1 / after: 1
-  review still armed: yes - a refused parse never ends the review
+## Round 3 - the captain resubmits round 1 unchanged; nothing new happened
 
-  +-- what the captain sees in the Lavish conversation --------------------
-  | Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-  +-----------------------------------------------------------------------
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; complete at 2026-09-02 07:12 UTC.
+Round 2: received your written comment at 2026-09-02 07:12 UTC.
+Round 3: already received at 2026-09-02 07:12 UTC (identical to round 1); no new action.
+---------------------------------------------------
 
-=========================================================================
- 4. The captain submits a written comment only, with no answers
-=========================================================================
+## Round 4 - the answer extractor failed; no verified save is claimed
 
-  +-- what the captain sees in the Lavish conversation --------------------
-  | Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-  | Round 2: received your written comment at 2026-09-01 20:08 UTC.
-  +-----------------------------------------------------------------------
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; complete at 2026-09-02 07:12 UTC.
+Round 2: received your written comment at 2026-09-02 07:12 UTC.
+Round 3: already received at 2026-09-02 07:12 UTC (identical to round 1); no new action.
+Round 4: received 1 answer at 2026-09-02 07:12 UTC; its saving report was incomplete at 2026-09-02 07:12 UTC - firstmate follows up in chat.
+---------------------------------------------------
 
-=========================================================================
- 5. The captain re-sends the identical earlier submission
-=========================================================================
+## Round 5 - two answers, neither of which named a held task (partial save)
 
-  +-- what the captain sees in the Lavish conversation --------------------
-  | Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-  | Round 2: received your written comment at 2026-09-01 20:08 UTC.
-  | Round 3: already received at 2026-09-01 20:09 UTC (identical to round 1); no new action.
-  +-----------------------------------------------------------------------
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; complete at 2026-09-02 07:12 UTC.
+Round 2: received your written comment at 2026-09-02 07:12 UTC.
+Round 3: already received at 2026-09-02 07:12 UTC (identical to round 1); no new action.
+Round 4: received 1 answer at 2026-09-02 07:12 UTC; its saving report was incomplete at 2026-09-02 07:12 UTC - firstmate follows up in chat.
+Round 5: received 2 answers at 2026-09-02 07:12 UTC; saved 0 of 2 at 2026-09-02 07:12 UTC (2 not saved - firstmate follows up in chat).
+---------------------------------------------------
 
-=========================================================================
- 6. The captain ends the review; it retires after its receipt is shown
-=========================================================================
-  the ended review retired, and its receipts record outlives it:
-    fm-lavish-receipt.v1
-    received	1	1788293334	2	1	64386bc9c39cba19	-
-    saved	1	1788293334	1	1	ok
-    applying	1	1788293335
-    complete	1	1788293335
-    armed	1788293336	1	fd040dd3840ff468
-    delivered	1788293336	1
-    armed	1788293338	1	fd040dd3840ff468
-    received	3	1788293338	0	1	084e43bca1e57d66	-
-    saved	3	1788293338	0	0	ok
-    armed	1788293340	2	f13d803abaf6d776
-    delivered	1788293340	2
-    received	4	1788293340	2	1	64386bc9c39cba19	1
-    saved	4	1788293340	0	2	ok
-    armed	1788293342	3	c8e991a889c9f0b6
-    delivered	1788293342	3
+## Round 6 - a prompt block declaring 3 rows but delivering 1 (truncated in transit)
+   A refused parse is no verdict: nothing is journaled, nothing is acknowledged.
 
-=========================================================================
- 7. Exactly what was delivered to the Lavish session, per poll
-=========================================================================
+----- what the captain sees in the review page -----
+Round 1: received 1 answer and a message at 2026-09-02 07:12 UTC; saved 1 of 1 at 2026-09-02 07:12 UTC; complete at 2026-09-02 07:12 UTC.
+Round 2: received your written comment at 2026-09-02 07:12 UTC.
+Round 3: already received at 2026-09-02 07:12 UTC (identical to round 1); no new action.
+Round 4: received 1 answer at 2026-09-02 07:12 UTC; its saving report was incomplete at 2026-09-02 07:12 UTC - firstmate follows up in chat.
+Round 5: received 2 answers at 2026-09-02 07:12 UTC; saved 0 of 2 at 2026-09-02 07:12 UTC (2 not saved - firstmate follows up in chat).
+---------------------------------------------------
 
-  poll 1 handed to the Lavish session:
-    (armed with no receipt to present yet)
-
-  poll 2 handed to the Lavish session:
-    --agent-reply Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-
-  poll 3 handed to the Lavish session:
-    --agent-reply Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-
-  poll 4 handed to the Lavish session:
-    --agent-reply Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-    Round 2: received your written comment at 2026-09-01 20:08 UTC.
-
-  poll 5 handed to the Lavish session:
-    --agent-reply Round 1: received 2 answers and a message at 2026-09-01 20:08 UTC; saved 1 of 2 at 2026-09-01 20:08 UTC (1 not saved - firstmate follows up in chat); complete at 2026-09-01 20:08 UTC.
-    Round 2: received your written comment at 2026-09-01 20:08 UTC.
-    Round 3: already received at 2026-09-01 20:09 UTC (identical to round 1); no new action.
-
-=========================================================================
- 8. Answers took effect exactly once
-=========================================================================
-  times the accepted answer was recorded on deck-alpha: 1
-  the unknown key deck-beta closed a task: 0
+## The receipts record itself (durable journal behind every line above)
+mode: -rw-------@
+fm-lavish-receipt.v1
+received | 1 | 1788333162 | 1 | 1 | 1eec87129a01414b | -
+saved | 1 | 1788333162 | 1 | 0 | ok
+applying | 1 | 1788333163
+complete | 1 | 1788333163
+received | 2 | 1788333164 | 0 | 1 | 2db9393bf4bc48b3 | -
+received | 3 | 1788333165 | 1 | 1 | 1eec87129a01414b | 1
+saved | 3 | 1788333165 | 0 | 0 | ok
+received | 4 | 1788333166 | 1 | 0 | 416a9dc1a648b807 | -
+saved | 4 | 1788333166 | 0 | 0 | incomplete
+received | 5 | 1788333166 | 2 | 0 | 3b7f89d6ba53b032 | -
+saved | 5 | 1788333167 | 0 | 2 | ok

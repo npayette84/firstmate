@@ -1,0 +1,28 @@
+# CI failure #1: the receipt suite with the real lavish-axi removed from PATH
+# (arm and managed-poll find the suite's own stub instead of failing "lavish-axi is not installed")
+$ PATH=<no lavish-axi> CI=true bash tests/fm-procevent-lavish-receipt.test.sh
+
+ok - capture, intake, and explicit handler calls own Received, Saved, Applying, and Complete in order
+ok - an exact replay is journaled as already received and never re-applied
+ok - a failed agent-reply delivery retries without retiring and never fakes completion
+ok - a replacement session presents every recorded receipt state on the next armed poll
+ok - a review that ends with nothing received still retires on one terminal capture
+ok - a missing session retires with its receipt durably queued and undelivered
+ok - duplicate and concurrent notifications converge on one journaled fact each
+ok - a symlinked receipts record is refused rather than read or written through
+ok - a quietly retried delivery presents the round's receipt exactly once
+ok - arm resets a planted record or refuses to register the source
+ok - reconcile recovers the receipt seam a runner died before reaching
+ok - recovery journals the verdict a dead generation recorded, and only for that generation
+ok - a refused final-submission parse keeps the review armed after earlier rounds
+ok - the seam's outcome contract drives the incomplete, bare, and refused receipts
+ok - the receipts record is created private regardless of the caller's umask
+ok - a replay is a new action only when its own outcome proves one
+ok - arm refuses while unhandled captured generations remain on the artifact
+ok - a crashed leader's staged verdict is recovered before its group is reaped
+ok - a gone-claim reclaim keeps the staged verdict its seam still owes
+ok - a retired source still recovers and announces the verdict its runner staged
+ok - a first round whose record was never created is still recovered after retirement
+ok - explicit retirement preserves a verdict its receipt seam still owes
+all Lavish receipt tests passed
+EXIT=0

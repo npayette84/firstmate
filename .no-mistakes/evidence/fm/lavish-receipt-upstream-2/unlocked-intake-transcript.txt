@@ -1,0 +1,14 @@
+registered source feed-src with an adapter whose keyed-answer intake blocks forever
+
+the runner is now blocked INSIDE the keyed-answer intake (generation note staged):
+  state/procevent/.feed-src..claim.r6TQmc-8258.rcpt.output.gen
+
+while it is blocked there, ask the runner to reconcile the same source:
+  reconcile exit=0 after 2s  <- not wedged by the intake
+
+and retire the same source while the intake is still blocked:
+  retire    exit=0 after 2s  <- not wedged by the intake
+
+claim after retire : reaped
+staged verdict     : preserved - its receipt seam is still owed
+generation note    : preserved - recovery still needs it
