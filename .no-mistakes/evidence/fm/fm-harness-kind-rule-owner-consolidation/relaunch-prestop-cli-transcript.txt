@@ -1,0 +1,30 @@
+Firstmate control-plane pre-stop kind/grant check - end-user CLI transcript
+repo: /Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M1GD6X8E151GWZ7D8E685Y49
+commit: 4685f73
+The tmux stub models the agent lifecycle: the live pane process becomes
+"zsh" the moment the running agent is stopped, so "live pane process:
+claude" after a refusal proves the refusal landed BEFORE the stop.
+
+=== [1] relaunch a claude secondmate onto muse (crewmate/scout-only adapter) ===
+  [before] live pane process: claude | recorded harness: claude
+$ bin/fm-control.sh sm-e1 relaunch --harness muse
+  error: muse is a verified crewmate/scout adapter only and cannot run a secondmate; it has no primary supervision protocol. Select a harness verified for secondmates. Relaunching sm-e1 onto it would stop the running agent for a launch that must be refused.
+  [exit status: 1]
+  [after]  live pane process: claude | recorded harness: claude
+
+=== [2] relaunch a ship task onto cursor with no grant ===
+  [before] live pane process: claude | recorded harness: claude
+$ bin/fm-control.sh t-e2 relaunch --harness cursor --model cursor-grok-4.5-high
+  error: cursor is a verified adapter but is refused for an unattended ship launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept. Relaunching t-e2 onto it would stop the running agent for a launch that must be refused.
+  [exit status: 1]
+  [after]  live pane process: claude | recorded harness: claude
+
+=== [3] relaunch the same ship task onto cursor WITH --cursor-exemption attended ===
+  [before] live pane process: claude | recorded harness: claude
+$ bin/fm-control.sh t-e3 relaunch --harness cursor --model cursor-grok-4.5-high --cursor-exemption attended --note captain took the pane; continue the audit task
+  warning: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-relaunch-prestop-evidence.N7tCuf/cursorgrant/home/data/t-e3/brief.md records no delivery contract line (scaffolded before ship briefs recorded one); launching on the explicit --mode no-mistakes - confirm its definition of done matches
+  relaunched t-e3 harness=cursor from=claude model=cursor-grok-4.5-high effort=default backend=tmux endpoint=fmses:fm-t-e3 worktree=/private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-relaunch-prestop-evidence.N7tCuf/cursorgrant/wt
+  [exit status: 0]
+  [after]  live pane process: cursor-agent | recorded harness: cursor
+
+=== transcript complete ===

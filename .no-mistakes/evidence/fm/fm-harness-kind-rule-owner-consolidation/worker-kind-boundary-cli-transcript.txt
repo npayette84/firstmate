@@ -1,0 +1,69 @@
+Firstmate worker-kind restriction contract - end-user CLI transcript
+repo: /Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M1GD6X8E151GWZ7D8E685Y49
+commit: 4685f73
+Every spawn below runs against a fake tmux pane and stub harness binaries,
+so the transcript shows exactly the refusal/acceptance an operator would see.
+
+--------------------------------------------------------------------
+A. Muse task-kind boundary (owned by references/harness/muse.md)
+--------------------------------------------------------------------
+
+=== [1] muse scout - allowed kind ===
+$ bin/fm-spawn.sh muse-scout-e1 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/muse-scout/project --scout --harness muse
+  spawned muse-scout-e1 harness=muse kind=scout window=firstmate:fm-muse-scout-e1 worktree=/private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/muse-scout/wt
+  [exit status: 0]
+  [harness process launched: yes]
+  [recorded task meta] harness=muse kind=scout 
+
+=== [2] muse secondmate - forbidden kind ===
+$ bin/fm-spawn.sh muse-secondmate-e2 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/muse-sm/home --harness muse --secondmate
+  error: muse is a verified crewmate/scout adapter only and cannot run a secondmate; it has no primary supervision protocol. Select a harness verified for secondmates.
+  [exit status: 1]
+  [harness process launched: no]
+
+--------------------------------------------------------------------
+B. Cursor unattended bar and per-invocation grant
+   (owned by references/harness/cursor.md; AGENTS.md keeps bar + pointers)
+--------------------------------------------------------------------
+
+=== [3] cursor scout with no grant - the documented REFUSED example ===
+$ bin/fm-spawn.sh cursor-scout-e3 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/cursor-bar/project --scout --harness cursor --model cursor-grok-4.5-high
+  error: cursor is a verified adapter but is refused for an unattended scout launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept.
+  [exit status: 1]
+  [harness process launched: no]
+
+(next step exports ambient variables that must NOT act as a grant)
+
+=== [4] cursor scout with CURSOR_EXEMPTION/FM_CURSOR_EXEMPTION exported - grant is never ambient ===
+$ bin/fm-spawn.sh cursor-scout-e4 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/cursor-ambient/project --scout --harness cursor --model cursor-grok-4.5-high
+  error: cursor is a verified adapter but is refused for an unattended scout launch: its --auto-review classifier prompts for calls it does not deem safe, the pane has no approver, and the parked pane keeps reading as busy. The bar applies however cursor was selected, INCLUDING when firstmate inherited it by detecting its own runtime, because silently substituting another tool would change which adapter runs the captain's work without saying so. If this home is running inside cursor and resolved it that way, set config/crew-harness to a verified adapter such as codex or claude, or add a crew-dispatch profile eligible for this kind; firstmate will not choose one for you. If a person is in the pane or a proven outer isolation envelope governs this worker, pass it on the invocation itself with --cursor-exemption attended or --cursor-exemption envelope:<name>, which both bin/fm-spawn.sh and bin/fm-control.sh's relaunch verb accept.
+  [exit status: 1]
+  [harness process launched: no]
+
+=== [5] cursor scout with --cursor-exemption attended - granted ===
+$ bin/fm-spawn.sh cursor-scout-e5 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/cursor-attended/project --scout --harness cursor --model cursor-grok-4.5-high --cursor-exemption attended
+  spawned cursor-scout-e5 harness=cursor kind=scout cursor_exemption=attended window=firstmate:fm-cursor-scout-e5 worktree=/private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/cursor-attended/wt
+  [exit status: 0]
+  [harness process launched: yes]
+  [recorded task meta] harness=cursor kind=scout cursor_exemption=attended 
+
+=== [6] cursor scout with --cursor-exemption envelope:routing-benchmark - granted ===
+$ bin/fm-spawn.sh cursor-scout-e6 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/cursor-envelope/project --scout --harness cursor --model cursor-grok-4.5-high --cursor-exemption envelope:routing-benchmark
+  spawned cursor-scout-e6 harness=cursor kind=scout cursor_exemption=envelope:routing-benchmark window=firstmate:fm-cursor-scout-e6 worktree=/private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/cursor-envelope/wt
+  [exit status: 0]
+  [harness process launched: yes]
+  [recorded task meta] harness=cursor kind=scout cursor_exemption=envelope:routing-benchmark 
+
+=== [7] cursor scout with an unnamed envelope grant - refused as unauditable ===
+$ bin/fm-spawn.sh cursor-scout-e7 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/cursor-unnamed/project --scout --harness cursor --model cursor-grok-4.5-high --cursor-exemption envelope:
+  error: --cursor-exemption must be 'attended' (a person is in the pane) or 'envelope:<name>' where <name> starts with a letter or digit and continues with letters, digits, '.', '_', or '-' (the named outer isolation envelope that governs this worker); 'envelope:' names neither, and a grant that is unnamed, free-form, or carrying a line break could neither be audited later nor written into the task record without displacing another recorded field
+  [exit status: 1]
+  [harness process launched: no]
+
+=== [8] explicit grant on a non-cursor harness - refused, not recorded ===
+$ bin/fm-spawn.sh claude-scout-e8 /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-kind-boundary-evidence.WQIYAN/grant-wrong-harness/project --scout --harness claude --cursor-exemption attended
+  error: --cursor-exemption applies only to a cursor launch, but this spawn resolved harness=claude; drop the flag rather than recording a cursor grant that would outlive it
+  [exit status: 1]
+  [harness process launched: no]
+
+=== transcript complete ===
