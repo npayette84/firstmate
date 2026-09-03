@@ -1,0 +1,312 @@
+
+=== 1. Firstmate records a PR-ready task: fm-pr-check.sh keeps its exact one-line contract ===
+
+$ bin/fm-pr-check.sh task-a https://github.com/kunchenguid/firstmate/pull/3433
+armed: state/task-a.check.sh
+(stdout line count: 1; stderr: 0 bytes)
+
+=== 2. Lifecycle follow-through is now armed and durable on disk ===
+
+$ ls /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/prf-demo.UrT5SR/home/state/pr-follow
+prf-gh-826ffe09315b.cursor
+prf-gh-826ffe09315b.items
+prf-gh-826ffe09315b.threads
+$ cat state/pr-follow/prf-gh-826ffe09315b.cursor
+schema=fm-pr-follow-cursor-v1
+provider=github
+url=https://github.com/kunchenguid/firstmate/pull/3433
+host=github.com
+path=kunchenguid/firstmate
+number=3433
+head=1111111111111111111111111111111111111111
+state=open
+max_issue_comment=0
+max_review=0
+max_review_comment=0
+max_check=0
+reviews=
+checks=
+threads=
+approvals=
+gl_discussion_page=0
+gl_discussion_last=0
+gh_issue_page=0
+gh_issue_last=0
+scan_issue_done=0
+gh_rc_page=0
+gh_rc_last=0
+scan_rc_done=0
+gh_review_page=0
+gh_review_last=0
+scan_review_done=0
+gh_check_page=0
+gh_check_last=0
+scan_check_done=0
+scan_discussion_done=0
+gl_pipeline_page=0
+gl_pipeline_last=0
+scan_pipeline_done=0
+approval_ready=0
+backfill_remaining=0
+backfill_page=0
+backfill_last=0
+backfill_scan_done=0
+armed_at=2026-09-03T06:45:38Z
+baseline=pending
+backfill=off
+generation=1
+error_streak=0
+
+=== 3. The home scheduler starts and silently baselines existing history ===
+
+$ pe reconcile
+reconciled: published=0 started=1 stopped=0 uncertain=0
+baseline=done (the PR history that predates registration is never re-announced)
+captured results so far: 0
+
+=== 4. A reviewer comments and a check fails on the forge ===
+
+
+--- captured result document pr-follow-scheduler-e4cb51d1cc33.1.result ---
+schema: fm-pr-follow-event-v1
+source: pr-follow-scheduler-e4cb51d1cc33
+target: prf-gh-826ffe09315b
+provider: github
+url: https://github.com/kunchenguid/firstmate/pull/3433
+number: 3433
+status: events
+head: 1111111111111111111111111111111111111111
+state: open
+dropped: 0
+events: 3
+event: comment id=9 author=carol
+event: check id=31 name=PR must be raised via no-mistakes change=none->red status=completed:failure
+event: check id=32 name=Behavior portable serial 2 change=none->pending status=in_progress:none
+cursor:
+head=1111111111111111111111111111111111111111
+state=open
+max_issue_comment=9
+max_review=0
+max_review_comment=0
+max_check=32
+reviews=
+checks=32:in_progress:none,31:completed:failure
+threads=
+thread_updates=
+item_updates=issue:9:seen,check:31:completed:failure,check:32:in_progress:none
+approvals=
+gl_discussion_page=0
+gl_discussion_last=0
+gh_issue_page=1
+gh_issue_last=1
+gh_rc_page=1
+gh_rc_last=1
+gh_review_page=1
+gh_review_last=1
+gh_check_page=1
+gh_check_last=1
+gl_pipeline_page=0
+gl_pipeline_last=0
+approval_ready=0
+backfill_remaining=0
+backfill=off
+generation=1
+--- end document ---
+
+durable wake queue (what firstmate is woken with -- fixed identity only, no remote prose):
+  kind=check key=procevent:pr-follow-scheduler-e4cb51d1cc33:1 payload=check: procevent pr-follow pr-follow-scheduler-e4cb51d1cc33 1
+  kind=check key=procevent:pr-follow-scheduler-e4cb51d1cc33:1 payload=check: procevent pr-follow pr-follow-scheduler-e4cb51d1cc33 1
+remote author text ("carol") present in the wake line? 0
+
+=== 5. Applying the capture advances the durable cursor; replay is safe ===
+
+already-applied: pr-follow-scheduler-e4cb51d1cc33 1
+cursor after apply:
+  schema=fm-pr-follow-cursor-v1
+  provider=github
+  url=https://github.com/kunchenguid/firstmate/pull/3433
+  host=github.com
+  path=kunchenguid/firstmate
+  number=3433
+  head=1111111111111111111111111111111111111111
+  state=open
+  max_issue_comment=9
+  max_review=0
+  max_review_comment=0
+  max_check=32
+  reviews=
+  checks=32:in_progress:none,31:completed:failure
+  threads=
+  approvals=
+  gl_discussion_page=0
+  gl_discussion_last=0
+  gh_issue_page=1
+  gh_issue_last=1
+
+=== 6. The head is replaced, a review is submitted, then the PR is merged ===
+
+
+--- captured result document pr-follow-scheduler-e4cb51d1cc33.2.result ---
+schema: fm-pr-follow-event-v1
+source: pr-follow-scheduler-e4cb51d1cc33
+target: prf-gh-826ffe09315b
+provider: github
+url: https://github.com/kunchenguid/firstmate/pull/3433
+number: 3433
+status: events
+head: 2222222222222222222222222222222222222222
+state: open
+dropped: 0
+events: 2
+event: head from=111111111111 to=222222222222
+event: review id=77 state=CHANGES_REQUESTED author=dave
+cursor:
+head=2222222222222222222222222222222222222222
+state=open
+max_issue_comment=9
+max_review=77
+max_review_comment=0
+max_check=42
+reviews=77:CHANGES_REQUESTED
+checks=42:completed:success,41:completed:success
+threads=
+thread_updates=
+item_updates=review:77:CHANGES_REQUESTED
+approvals=
+gl_discussion_page=0
+gl_discussion_last=0
+gh_issue_page=1
+gh_issue_last=1
+gh_rc_page=1
+gh_rc_last=1
+gh_review_page=1
+gh_review_last=1
+gh_check_page=1
+gh_check_last=1
+gl_pipeline_page=0
+gl_pipeline_last=0
+approval_ready=0
+backfill_remaining=0
+backfill=off
+generation=2
+--- end document ---
+already-applied: pr-follow-scheduler-e4cb51d1cc33 1
+already-applied: pr-follow-scheduler-e4cb51d1cc33 2
+
+--- captured result document pr-follow-scheduler-e4cb51d1cc33.3.result ---
+schema: fm-pr-follow-event-v1
+source: pr-follow-scheduler-e4cb51d1cc33
+target: prf-gh-826ffe09315b
+provider: github
+url: https://github.com/kunchenguid/firstmate/pull/3433
+number: 3433
+status: events
+head: 2222222222222222222222222222222222222222
+state: merged
+dropped: 0
+events: 1
+event: pr-state from=open state=merged
+cursor:
+head=2222222222222222222222222222222222222222
+state=merged
+max_issue_comment=9
+max_review=77
+max_review_comment=0
+max_check=42
+reviews=77:CHANGES_REQUESTED
+checks=42:completed:success,41:completed:success,32:in_progress:none,31:completed:failure
+threads=
+thread_updates=
+item_updates=
+approvals=
+gl_discussion_page=0
+gl_discussion_last=0
+gh_issue_page=1
+gh_issue_last=1
+gh_rc_page=1
+gh_rc_last=1
+gh_review_page=1
+gh_review_last=1
+gh_check_page=1
+gh_check_last=1
+gl_pipeline_page=0
+gl_pipeline_last=0
+approval_ready=0
+backfill_remaining=0
+backfill=off
+generation=3
+--- end document ---
+already-applied: pr-follow-scheduler-e4cb51d1cc33 1
+already-applied: pr-follow-scheduler-e4cb51d1cc33 2
+already-applied: pr-follow-scheduler-e4cb51d1cc33 3
+
+=== 7. Task cleanup lands the task; monitoring survives it and keeps following post-merge activity ===
+
+$ pe reconcile
+reconciled: published=0 started=1 stopped=0 uncertain=0
+
+--- captured result document pr-follow-scheduler-e4cb51d1cc33.4.result ---
+schema: fm-pr-follow-event-v1
+source: pr-follow-scheduler-e4cb51d1cc33
+target: prf-gh-826ffe09315b
+provider: github
+url: https://github.com/kunchenguid/firstmate/pull/3433
+number: 3433
+status: events
+head: 2222222222222222222222222222222222222222
+state: merged
+dropped: 0
+events: 1
+event: comment id=12 author=erin
+cursor:
+head=2222222222222222222222222222222222222222
+state=merged
+max_issue_comment=12
+max_review=77
+max_review_comment=0
+max_check=42
+reviews=77:CHANGES_REQUESTED
+checks=42:completed:success,41:completed:success,32:in_progress:none,31:completed:failure
+threads=
+thread_updates=
+item_updates=issue:12:seen
+approvals=
+gl_discussion_page=0
+gl_discussion_last=0
+gh_issue_page=1
+gh_issue_last=1
+gh_rc_page=1
+gh_rc_last=1
+gh_review_page=1
+gh_review_last=1
+gh_check_page=1
+gh_check_last=1
+gl_pipeline_page=0
+gl_pipeline_last=0
+approval_ready=0
+backfill_remaining=0
+backfill=off
+generation=4
+--- end document ---
+
+=== 8. Retirement is explicit and refuses while a capture is unapplied ===
+
+$ bin/fm-procevent-pr-follow.sh retire prf-gh-826ffe09315b
+retired: prf-gh-826ffe09315b
+UNEXPECTED: retire succeeded with unapplied captures
+$ prf retire prf-gh-826ffe09315b
+retired: prf-gh-826ffe09315b
+cursor still present? no - retired
+applied replay receipts retained: 4
+
+=== 9. Every forge call this run made (GET-only; no mutation verb exists) ===
+
+     2 gh api repos/kunchenguid/firstmate/commits/1111111111111111111111111111111111111111/check-runs?per_page=100&page=1 --include --jq .check_runs[] | [.id, (((.status // "unknown") | if . == "queued" or . == "in_progress" or . == "waiting" or . == "requested" or . == "pending" or . == "completed" then . else "unknown" end) + ":" + ((.conclusion // "none") | if . == "none" or . == "success" or . == "failure" or . == "neutral" or . == "cancelled" or . == "skipped" or . == "timed_out" or . == "action_required" or . == "stale" then . else "unknown" end)), (.name // "check"), (.completed_at // .started_at // .created_at // "")] | @tsv
+     3 gh api repos/kunchenguid/firstmate/commits/2222222222222222222222222222222222222222/check-runs?per_page=100&page=1 --include --jq .check_runs[] | [.id, (((.status // "unknown") | if . == "queued" or . == "in_progress" or . == "waiting" or . == "requested" or . == "pending" or . == "completed" then . else "unknown" end) + ":" + ((.conclusion // "none") | if . == "none" or . == "success" or . == "failure" or . == "neutral" or . == "cancelled" or . == "skipped" or . == "timed_out" or . == "action_required" or . == "stale" then . else "unknown" end)), (.name // "check"), (.completed_at // .started_at // .created_at // "")] | @tsv
+     5 gh api repos/kunchenguid/firstmate/issues/3433/comments?per_page=100&page=1 --include --jq .[] | [.id, (.user.login // "ghost"), (.created_at // "")] | @tsv
+     5 gh api repos/kunchenguid/firstmate/pulls/3433 --jq [if .merged_at != null then "merged" elif .state == "open" then "open" elif .state == "closed" then "closed" else "unknown" end, (.head.sha // ""), (.user.login // "ghost"), (.updated_at // "")] | @tsv
+     5 gh api repos/kunchenguid/firstmate/pulls/3433/comments?per_page=100&page=1 --include --jq .[] | [.id, (.in_reply_to_id // 0), (.user.login // "ghost"), (.path // ""), ((.line // .original_line) // 0), (.created_at // "")] | @tsv
+     5 gh api repos/kunchenguid/firstmate/pulls/3433/reviews?per_page=100&page=1 --include --jq .[] | [.id, ((.state // "unknown") | if . == "APPROVED" or . == "CHANGES_REQUESTED" or . == "COMMENTED" or . == "DISMISSED" or . == "PENDING" then . else "unknown" end), (.user.login // "ghost"), (.submitted_at // "")] | @tsv
+     1 gh pr view https://github.com/kunchenguid/firstmate/pull/3433 --json headRefOid -q .headRefOid
+
+mutating calls (merge|close|reopen|comment|review|approve|edit|push|--method (POST|PATCH|PUT|DELETE)): 0

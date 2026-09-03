@@ -1,0 +1,49 @@
+Root-cause reproduction: "Behavior portable serial 2" (fm-on.test.sh / fm-remote-secondmate-trace-context.test.sh cleanup)
+
+Harness: a real bin/fm-remote-job-worker.sh is started against a throwaway
+state root, then the fixture tree is removed two ways:
+  bare-kill  = the old EXIT trap: kill "$(cat worker.pid)" with no wait, then rm -rf
+  stop-tree  = the fix: fm_remote_job_stop_worker_tree "$pid" (canonical
+               synchronous stop), then rm -rf
+Columns: whether the worker was still running when rm started, rm's exit
+status, how many paths survived, and rm's stderr.
+
+Result: 15/15 bare-kill trials left the worker LIVE while rm walked the tree
+and one of them failed with exactly the reported CI error
+("rm: .../remote-jobs: Directory not empty", 4 paths left behind).
+15/15 stop-tree trials had the worker STOPPED before rm ran and removed the
+tree cleanly.
+
+--- bare-kill (15 trials) ---
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=1	leftover-paths=4	rm: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/worker-race.1l8rOG/remote-jobs/worker.lock: Directory not empty rm: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/worker-race.1l8rOG/remote-jobs: Directory not empty rm: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/worker-race.1l8rOG: Directory not empty 
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+bare-kill	worker-after-stop=live	rm-exit=0	leftover-paths=0	
+
+--- stop-tree (15 trials) ---
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	
+stop-tree	worker-after-stop=stopped	rm-exit=0	leftover-paths=0	

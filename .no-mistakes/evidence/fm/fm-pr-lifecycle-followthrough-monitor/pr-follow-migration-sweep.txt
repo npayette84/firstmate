@@ -1,0 +1,37 @@
+=== recorded tasks in this home (pre-migration) ===
+
+  state/pr-one.meta:pr=https://github.com/octo/app/pull/7
+  state/pr-three.meta:pr=https://gitlab.example.com/grp/app/-/merge_requests/9
+  state/pr-two.meta:pr=https://github.com/octo/app/pull/8
+
+=== first sweep: bin/fm-procevent-pr-follow.sh backfill ===
+
+backfill: armed prf-gh-25a3017157f8 https://github.com/octo/app/pull/7
+backfill: armed prf-gl-deffaa9ae852 https://gitlab.example.com/grp/app/-/merge_requests/9
+backfill: armed prf-gh-84802e50da09 https://github.com/octo/app/pull/8
+backfill summary: scanned=4 armed=3 already=0 skipped=0 capped=0
+
+=== second sweep (idempotent) ===
+
+backfill summary: scanned=4 armed=0 already=3 skipped=0 capped=0
+(no output above means nothing was re-armed)
+
+=== durable registrations now on disk ===
+
+  legacy.done
+  prf-gh-25a3017157f8.cursor
+  prf-gh-25a3017157f8.items
+  prf-gh-25a3017157f8.threads
+  prf-gh-84802e50da09.cursor
+  prf-gh-84802e50da09.items
+  prf-gh-84802e50da09.threads
+  prf-gl-deffaa9ae852.cursor
+  prf-gl-deffaa9ae852.items
+  prf-gl-deffaa9ae852.threads
+  prf-gh-25a3017157f8.cursor -> github https://github.com/octo/app/pull/7 backfill=on baseline=pending
+  prf-gh-84802e50da09.cursor -> github https://github.com/octo/app/pull/8 backfill=on baseline=pending
+  prf-gl-deffaa9ae852.cursor -> gitlab https://gitlab.example.com/grp/app/-/merge_requests/9 backfill=on baseline=pending
+
+=== forge calls made by the migration sweep ===
+
+  (none: the sweep is local only and never talks to a forge)
