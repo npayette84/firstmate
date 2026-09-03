@@ -1,0 +1,39 @@
+ok - claude harvest: per-request dedupe, cache folding, encoding, window, idempotency
+ok - claude harvest: a birthless host never falls back to the mutable meta mtime
+ok - codex harvest: cwd/window matching, delta sums, cache normalization, model capture
+ok - pi harvest: cwd/window matching, per-request sums, replay dedupe
+ok - pi-signed harvest: cwd/window matching, per-request sums, replay dedupe
+ok - usage harvest: every parser normalizes onto one token convention
+ok - codex harvest: cache_write is folded into cached, never subtracted from input
+ok - usage harvest: a non-matching sibling log is rejected before the full parse
+ok - usage harvest: spawn_gen is the durable start, immune to later meta writes
+ok - usage harvest: a malformed spawn_gen falls back to file timestamps
+ok - usage harvest: a start later than the end is pinned, not inverted
+ok - usage harvest: a relaunch never narrows the row below the turn count's span
+ok - usage harvest: the birthless relaunch narrowing matches the stated contract
+ok - usage harvest: a harness switch narrows the tokens only, as documented
+ok - usage harvest: the model is the final incarnation's, whatever the scan order
+ok - usage harvest: the log scan covers the harness's closing write
+ok - usage harvest: a corrupt log line costs that line, not the file
+ok - usage harvest: a valid non-object log line is skipped, not fatal
+ok - usage harvest: an absent log model never shifts the token fields
+ok - usage harvest: a source is named only after a log yields assistant usage
+ok - cursor harvest: unavailable source renders null token fields
+ok - remote secondmate harvest: local logs are never misattributed
+ok - usage harvest: a reused task id records each incarnation once
+ok - usage harvest: an absent generation matches only another absent one
+ok - usage harvest: concurrent harvests append exactly one row
+ok - usage harvest: a held ledger lock bounds the acquire, no hang or dup
+ok - usage report: per-model totals, per-task rows, missing-ledger tolerance
+ok - usage report: per-model rows group on the model and sum each column
+ok - usage report: an absent harness renders as a placeholder without shifting columns
+ok - usage report: an unparseable ledger fails loudly instead of reporting empty sections
+ok - teardown integration: the harvest runs while the status log still exists
+ok - teardown integration: a secondmate's children are harvested before they retire
+ok - teardown integration: a nested home's same-named task cannot overwrite its parent's row
+ok - teardown integration: neither harvest phase can block the worktree return
+ok - teardown integration: an aborted teardown writes no row and the rerun re-measures
+ok - teardown integration: one failed scan yields exactly one diagnostic
+ok - teardown integration: a failing staging cleanup cannot flip the exit status
+ok - usage harvest: a failing ref-directory cleanup cannot flip the exit status
+ok - teardown integration: harvest failure is non-fatal and leaves no work file

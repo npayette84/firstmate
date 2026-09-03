@@ -1,0 +1,44 @@
+Real-log verification: pi task, meta mtime rewritten to the END of the task
+(the PR-registration case), scanned against the unmodified ~/.pi/agent/sessions.
+Session log: /Users/npayette/.pi/agent/sessions/--Users-npayette-.treehouse-firstmate-e5afef-3-firstmate--/2026-09-02T11-56-58-466Z_01a061fa-c0e2-7c40-a355-35e849dfb748.jsonl
+
+--- ledger row written by bin/fm-usage-harvest.sh ---
+{
+  "task": "fm-e2e-pi",
+  "spawn_gen": "s1788393492.4242.ab12",
+  "harness": "pi",
+  "model": "openai-codex/gpt-5.6-sol",
+  "effort": "high",
+  "spawned_at": "2026-09-02T23:58:12Z",
+  "completed_at": "2026-09-03T00:58:12Z",
+  "wall_secs": 3600,
+  "turns": 2,
+  "input_tokens": 1690561,
+  "cached_input_tokens": 48949120,
+  "output_tokens": 101720,
+  "reasoning_tokens": 45772,
+  "source": "pi-sessions"
+}
+
+--- independent jq recomputation over the same log ---
+{
+  "input_tokens": 1690561,
+  "cached_input_tokens": 48949120,
+  "output_tokens": 101720,
+  "reasoning_tokens": 45772,
+  "requests": 174
+}
+
+All four token fields match exactly.
+
+--- Pi disjointness invariant on these real records ---
+{
+  "records": 174,
+  "where_input_plus_output_plus_cacheRead_equals_totalTokens": 174
+}
+
+--- spawn_gen is the start; the meta mtime is not ---
+same task, same meta mtime (== task end), spawn_gen line removed:
+  {"wall_secs":0,   "spawned_at":"2026-09-03T00:58:12Z","completed_at":"2026-09-03T00:58:12Z"}
+with spawn_gen present:
+  {"wall_secs":3600,"spawned_at":"2026-09-02T23:58:12Z","completed_at":"2026-09-03T00:58:12Z"}

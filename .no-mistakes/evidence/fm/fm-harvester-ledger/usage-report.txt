@@ -1,0 +1,19 @@
+fm-usage-report.sh rendered from a ledger harvested out of the REAL,
+unmodified ~/.pi/agent/sessions, ~/.claude/projects and ~/.codex/sessions trees.
+fm-1044 (cursor) and fm-1045 (recorded remote_host) are the unavailable cases.
+
+usage ledger: /tmp/fm-fleet-lhVlGf/data/usage-ledger.jsonl (5 rows)
+
+per-model totals (source-available rows):
+model                     tasks        input       cached       output    reasoning  wall_secs
+claude-fable-5                1         8712      2972183        67340        19755       7200
+gpt-5.6-terra                 1        15649        48384          420           87       5400
+openai-codex/gpt-5.6-sol      1      1690561     48949120       101720        45772       3600
+
+per-task rows:
+task                     spawned_at           harness  model                effort          input       cached       output    reasoning  wall_secs source          
+fm-1041                  2026-09-02T23:58:12Z pi       openai-codex/gpt-5.6-sol high          1690561     48949120       101720        45772       3600 pi-sessions     
+fm-1042                  2026-08-31T11:43:36Z claude   claude-fable-5       -                8712      2972183        67340        19755       7200 claude-projects 
+fm-1043                  2026-09-02T10:45:59Z codex    gpt-5.6-terra        medium          15649        48384          420           87       5400 codex-sessions  
+fm-1044                  2026-09-02T12:00:59Z cursor   cursor-fast          -                   -            -            -            -        900 unavailable     
+fm-1045                  2026-09-02T11:45:59Z claude   claude-opus-5        -                   -            -            -            -       1800 unavailable     
