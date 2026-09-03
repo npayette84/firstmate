@@ -1,19 +1,13 @@
-fm-usage-report.sh rendered from a ledger harvested out of the REAL,
-unmodified ~/.pi/agent/sessions, ~/.claude/projects and ~/.codex/sessions trees.
-fm-1044 (cursor) and fm-1045 (recorded remote_host) are the unavailable cases.
-
-usage ledger: /tmp/fm-fleet-lhVlGf/data/usage-ledger.jsonl (5 rows)
+usage ledger: /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T//fm-usage-e2e.LVOWSu/home/data/usage-ledger.jsonl (4 rows)
 
 per-model totals (source-available rows):
 model                     tasks        input       cached       output    reasoning  wall_secs
-claude-fable-5                1         8712      2972183        67340        19755       7200
-gpt-5.6-terra                 1        15649        48384          420           87       5400
-openai-codex/gpt-5.6-sol      1      1690561     48949120       101720        45772       3600
+claude-opus-5                 1         2240    216242085       578158       279700     205163
+openai-codex/gpt-5.6-sol      1       116211      1368832        15567         6976      52221
 
 per-task rows:
 task                     spawned_at           harness  model                effort          input       cached       output    reasoning  wall_secs source          
-fm-1041                  2026-09-02T23:58:12Z pi       openai-codex/gpt-5.6-sol high          1690561     48949120       101720        45772       3600 pi-sessions     
-fm-1042                  2026-08-31T11:43:36Z claude   claude-fable-5       -                8712      2972183        67340        19755       7200 claude-projects 
-fm-1043                  2026-09-02T10:45:59Z codex    gpt-5.6-terra        medium          15649        48384          420           87       5400 codex-sessions  
-fm-1044                  2026-09-02T12:00:59Z cursor   cursor-fast          -                   -            -            -            -        900 unavailable     
-fm-1045                  2026-09-02T11:45:59Z claude   claude-opus-5        -                   -            -            -            -       1800 unavailable     
+audit-cursor-run         2026-09-01T22:00:00Z cursor   -                    -                   -            -            -            -       3600 unavailable     
+fix-ledger-window        2026-08-31T23:13:20Z claude   claude-opus-5        high             2240    216242085       578158       279700     205163 claude-projects 
+remote-crew-task         2026-09-01T22:00:00Z pi       zai/glm-5.3-flash    -                   -            -            -            -       3600 unavailable     
+ship-website-perf        2026-09-02T10:25:56Z pi       openai-codex/gpt-5.6-sol -              116211      1368832        15567         6976      52221 pi-sessions     
