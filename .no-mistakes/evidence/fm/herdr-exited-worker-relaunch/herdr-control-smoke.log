@@ -1,0 +1,14 @@
+FM_TEST_BEGIN 2026-09-03T02:09:37Z tests/fm-control-herdr-smoke.test.sh family=real-herdr-gated expected_gate_skip=herdr
+ok - real herdr: exit on a pane with no registered agent is idempotent success
+ok - real herdr: interrupt refuses when herdr's own agent registry reports no agent
+ok - real herdr: a reported registration the pane's own process inventory contradicts reads agent-free
+ok - real herdr: an exited worker's pane is positively eligible for its replacement instead of being typed into
+ok - real herdr: interrupt still refuses on a pane whose registration outlived its agent
+ok - real herdr: the same registration over a running foreground process stays alive
+ok - real herdr: interrupt delivers the harness's key and proves the agent survived it
+ok - real herdr: an agent that does not stop fails closed instead of being reported as stopped
+ok - real herdr: no control verb removed the endpoint, the task's local copy, or its branch
+FM_TEST_END 2026-09-03T02:09:46Z tests/fm-control-herdr-smoke.test.sh exit=0 duration_ms=8903 gate_skip=false
+FM_TEST_SUMMARY total=1 failed=0 skipped_gate=0 duration_ms=8975
+FM_TEST_SUMMARY_FAMILY family=real-herdr-gated count=1 duration_ms=8903 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-control-herdr-smoke.test.sh duration_ms=8903

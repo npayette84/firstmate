@@ -1,0 +1,22 @@
+FM_TEST_BEGIN 2026-09-03T02:09:56Z tests/fm-herdr-agent-free-proof-live-e2e.test.sh family=live-harness-optin expected_gate_skip=optin-env
+# herdr: herdr 0.8.2
+# claude 2.1.259 (Claude Code): foreground=[2.1.259/claude] state=alive
+ok - herdr agent-free proof: claude 2.1.259 (Claude Code) running in a Herdr pane never proves a bare idle shell
+# codex codex-cli 0.152.1: foreground=[codex/codex] state=alive
+ok - herdr agent-free proof: codex codex-cli 0.152.1 running in a Herdr pane never proves a bare idle shell
+# opencode 1.17.11: foreground=[opencode/opencode] state=alive
+ok - herdr agent-free proof: opencode 1.17.11 running in a Herdr pane never proves a bare idle shell
+# pi 0.84.4: foreground=[node/pi] state=alive
+ok - herdr agent-free proof: pi 0.84.4 running in a Herdr pane never proves a bare idle shell
+# skip: pi-signed is not installed on this machine, so its Herdr classification is unverified here
+# skip: grok is not installed on this machine, so its Herdr classification is unverified here
+# skip: kimi is not installed on this machine, so its Herdr classification is unverified here
+# cursor 2026.08.31-4057e58: foreground=[node/cursor-agent] state=alive
+ok - herdr agent-free proof: cursor 2026.08.31-4057e58 running in a Herdr pane never proves a bare idle shell
+# skip: muse is not installed on this machine, so its Herdr classification is unverified here
+# unverified on this machine (not installed): pi-signed grok kimi muse
+# checked 5 installed harness(es) on herdr herdr 0.8.2 in workspace w1
+FM_TEST_END 2026-09-03T02:10:17Z tests/fm-herdr-agent-free-proof-live-e2e.test.sh exit=0 duration_ms=21150 gate_skip=false
+FM_TEST_SUMMARY total=1 failed=0 skipped_gate=0 duration_ms=21224
+FM_TEST_SUMMARY_FAMILY family=live-harness-optin count=1 duration_ms=21150 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-herdr-agent-free-proof-live-e2e.test.sh duration_ms=21150
