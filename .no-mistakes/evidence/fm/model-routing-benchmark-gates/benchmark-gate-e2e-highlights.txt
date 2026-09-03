@@ -1,0 +1,140 @@
+======================================================================
+ 1. An operator tries to launch a benchmark entrant with no clearance
+======================================================================
+
+$ bin/fm-spawn.sh --mode local-only --yolo off bench-b1-k7 <repo>
+/Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M1KBT2HMBBSSE2NG2ZN4XYGF/bin/fm-spawn.sh: line 323: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/spawnhome/bin/fm-guard.sh: No such file or directory
+error: benchmark entrant bench-b1-k7 has no benchmark directory; launch refused
+[exit 1]
+
+======================================================================
+ 2. The captain-stop exit code (3), distinct from an ordinary refusal
+======================================================================
+
+$ bin/fm-bench-gate.sh --bench <bench> provenance-check   # both historical packets unclearable
+BENCH_CHECK provenance.A1 ok 2 original participants positively identified, 1 roles positively absent, no entrant-family exposure
+BENCH_CHECK provenance.C1 fail participant records are incomplete: C1-author missing model_id/family/session_id
+BENCH_CHECK provenance.track.C stop every historical packet in this track failed its contamination check; a replacement packet is a captain call, never a substitution
+BENCH_RESULT provenance-check captain-stop checks=3 failed=2
+[exit 3]
+
+$ bin/fm-bench-gate.sh --bench <bench> manifest-check   # measured high case above the approved class
+BENCH_CHECK manifest.cost_model ok 6 job classes carry ordered low/base/high unit costs
+BENCH_CHECK manifest.cost_classes ok all 6 referenced job classes are priced
+BENCH_CHECK manifest.approved_cost_class ok approved cost class 400.0 is finite and positive
+BENCH_CHECK manifest.plan_binding ok the manifest is bound to the current plan
+BENCH_CHECK manifest.tracks ok tracks matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.totals ok totals matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.cost_usd ok cost_usd matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.allowance_required_runs ok allowance_required_runs matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.cost_class stop the measured high case 924.0 exceeds the approved class 400.0; this is a captain call, never a silent budget expansion
+BENCH_CHECK allowance.present fail allowance.json is absent; the metered field may not start unproven
+BENCH_RESULT manifest-check captain-stop checks=10 failed=2
+[exit 3]
+
+======================================================================
+ 3. A complete benchmark clears every gate through preflight
+======================================================================
+
+$ bin/fm-bench-gate.sh --bench <bench> manifest-build
+BENCH_CHECK manifest.cost_model ok 6 job classes carry ordered low/base/high unit costs
+BENCH_CHECK manifest.cost_classes ok all 6 referenced job classes are priced
+BENCH_CHECK manifest.approved_cost_class ok approved cost class 1100.0 is finite and positive
+BENCH_CHECK manifest.built ok manifest.json written for 66 model jobs
+BENCH_RESULT manifest-build ok checks=4 failed=0
+[exit 0]
+
+$ bin/fm-bench-gate.sh --bench <bench> freeze
+BENCH_CHECK freeze.written ok 121 inputs frozen before any label was assigned
+BENCH_RESULT freeze ok checks=1 failed=0
+[exit 0]
+    ... 181 recomputed checks (plan, freeze, provenance, Docker-backed isolation probes,
+        confined content-addressed evaluator execution, manifest/cost/allowance arithmetic) ...
+BENCH_CHECK isolation.exec_wrapper ok trusted confinement wrapper and supported arguments verified
+BENCH_CHECK isolation.launch_wrapper ok launch-capable runtime container uses credential-free provider-proxy egress
+BENCH_CHECK isolation.provider_boundaries ok 2 entrants have distinct internal provider networks and proxy boundaries
+BENCH_CHECK isolation.bench-b1-k7.provision ok private clone, object store, temp, home, and session space recorded
+BENCH_CHECK isolation.bench-b1-k7.private_containment ok every declared private path resolves within this entrant's root so the proven wrapper owns its layout
+BENCH_CHECK isolation.bench-b1-k7.private_tree_exclusion ok in-root private storage is ignored and absent from the candidate index
+BENCH_CHECK isolation.bench-b1-k7.private_storage ok every declared private store holds material a sibling probe can be tested against
+BENCH_CHECK isolation.bench-b1-k7.alternates ok no alternate object store is configured
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_worktree_enumeration ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_object_enumeration ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_unreachable_objects ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2/objects, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2/tmp, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2/home, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/e2/session, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.protected_path_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-evidence.2BAkvf/iso/sealed, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.process_inspection ok denied against fm-bench-marker-b58effd6ed084a53a463d2ca1e4a1bf8, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.environment_leakage ok denied against FM_BENCH_, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.coverage ok all 7 probe classes exercised
+BENCH_CHECK evaluator.capture.terra-5-6-high-b4 ok Terra 5.6 High on B4 bound to tree a04dc6aede23
+BENCH_CHECK evaluator.capture.terra-5-6-high-b5 ok Terra 5.6 High on B5 bound to tree 08c90feedc83
+BENCH_CHECK evaluator.capture.terra-5-6-high-b6 ok Terra 5.6 High on B6 bound to tree b902e3e10e41
+BENCH_CHECK evaluator.capture_binding ok 30 distinct candidate trees carry 30 independent results
+BENCH_CHECK evaluator.capture_scope ok capture records exactly cover all 30 planned candidate heads
+BENCH_CHECK evaluator.execution ok content-addressed evaluator generated all 39 golden, mutation, and capture records under network-disabled confinement
+BENCH_CHECK evaluator.reproducibility ok byte-identical determinism/run-1.json input reproduced byte-identical output through two opaque paths
+BENCH_CHECK evaluator.input_dependence ok a gate-owned form-preserving edit of /fixture/golden_head in determinism/run-1.json moved the evaluator's output
+BENCH_CHECK manifest.cost_model ok 6 job classes carry ordered low/base/high unit costs
+BENCH_CHECK manifest.cost_classes ok all 6 referenced job classes are priced
+BENCH_CHECK manifest.approved_cost_class ok approved cost class 1100.0 is finite and positive
+BENCH_CHECK manifest.plan_binding ok the manifest is bound to the current plan
+BENCH_CHECK manifest.tracks ok tracks matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.totals ok totals matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.cost_usd ok cost_usd matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.allowance_required_runs ok allowance_required_runs matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.cost_class ok high case 924.0 is inside the approved class 1100.0
+BENCH_CHECK allowance.cursor ok 20 runs measured against 12 required plus 3 reserve, two concurrent sessions and the complete 5-entrant field proven
+BENCH_NOTE preflight entrants may launch
+BENCH_RESULT preflight ok checks=181 failed=0
+[exit 0]
+
+$ cat <bench>/preflight.receipt
+{
+  "evidence_sha256": "e5f3144e8f0e3c33af0faa5c9cf2d533da0e3c573e5ec200a7ec051b4ef44f6c",
+  "isolation_sha256": "8549baa9909666d39a33931ab98cf34c4a03f96a87a2d93f0db5b40c782834c0",
+  "plan_sha256": "109d88c6f42593014224e2d62fde349edabdfc1e9c5865272b3a62e4f5d63ecc",
+  "schema": "fm-bench-preflight-receipt.v1",
+  "stages": [
+    "plan",
+    "freeze",
+    "provenance",
+    "isolation",
+    "evaluator",
+    "manifest"
+  ],
+  "verdict": "pass"
+}
+
+======================================================================
+ 4. The cleared entrant is now allowed through the launch boundary
+======================================================================
+
+$ fm_refuse_ungated_benchmark_entrant bench-b1-k7   # the fm-spawn hook, with the clearance in place
+launch-boundary rc=0
+
+$ fm_refuse_ungated_benchmark_entrant ordinary-crew-task   # a non-benchmark id is untouched
+launch-boundary rc=0
+
+======================================================================
+ 5. Evidence changed after the clearance withdraws it again
+======================================================================
+
+$ ln -s <bench>/shared/fixture.bin <bench>/packets/A1/fixture.bin
+$ bin/fm-bench-gate.sh --bench <bench> preflight
+    ... same 182 checks re-run after the tamper ...
+BENCH_CHECK launch.evidence fail launch evidence is unreadable, symlinked, or a special file, so no clearance can bind it: packets/A1/fixture.bin
+BENCH_NOTE preflight the prior clearance is revoked
+BENCH_NOTE preflight no entrant may launch
+BENCH_RESULT preflight refused checks=182 failed=1
+[exit 1]
+
+$ ls <bench>/preflight.receipt
+ls: no such file: <bench>/preflight.receipt
+
+$ fm_refuse_ungated_benchmark_entrant bench-b1-k7
+error: benchmark entrant bench-b1-k7 has no passing preflight; launch refused
+launch-boundary rc=1
