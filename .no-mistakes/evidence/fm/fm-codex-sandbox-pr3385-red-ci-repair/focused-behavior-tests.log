@@ -1,0 +1,167 @@
+FM_TEST_BEGIN 2026-09-04T11:12:57Z tests/fm-codex-sandbox-grant.test.sh family=unclassified expected_gate_skip=none
+ok - codex ship: grants only its own status + turn-ended files, its own steering inbox, and the out-of-tree git common dir, never the shared state directory
+ok - the no-mistakes pipeline notice fires for no-mistakes alone, and every mode gets the same ship grant
+ok - both pre-created state files are marked as already reported, and real later activity on each still reports
+ok - precreation refuses unsafe status and turn-ended markers without following either link
+ok - precreation refuses unwritable existing record files, inboxes, and handled directories
+ok - the grant refuses a symlinked state record or inbox: nothing is created through it and no root outside the task's own paths is ever emitted
+ok - the grant refuses a hard-linked state record: the shared inode is not written and no root is emitted
+ok - the git-metadata grant is pinned to the recorded project: a redirected .git file refuses the spawn and grants no alien repository
+ok - pre-creation refuses loudly: a wrong-typed or uncreatable record fails the spawn instead of stranding the worker
+ok - a granted root containing an ampersand is substituted literally, on every bash version
+ok - codex scout: the report, status, and completion-gate paths are all granted, and the shared data/ root is not
+ok - codex secondmate: only the parent status file and its own steering inbox are granted, not the parent state directory or the crewmate set
+ok - claude, opencode, and grok launches are unchanged
+ok - ship grant is sufficient (status, turn-ended, commit) and isolates siblings: the shared state directory stays unwritable
+ok - ship grant covers the steering-inbox acknowledgement, and that inbox root is load-bearing
+ok - granted set is sufficient: status append, report, captain-hold completion gate, and commit all succeed
+ok - each granted root is load-bearing: removing it breaks the report, the completion-gate lock, or staging
+FM_TEST_END 2026-09-04T11:15:09Z tests/fm-codex-sandbox-grant.test.sh exit=0 duration_ms=132764 gate_skip=false
+FM_TEST_BEGIN 2026-09-04T11:15:09Z tests/fm-remote-secondmate-trace-context.test.sh family=secondmate expected_gate_skip=none
+ok - disabled: a remote-routed second mate records and receives no carrier and stays enabled-off end to end
+ok - enabled: a remote-routed second mate receives one carrier in its pane, identical to the parent's recorded identity, before launch
+ok - relaunch: a remote-routed second mate keeps one stable identity across restarts
+ok - boundary: each remote-routed second mate roots its own trace and never adopts the spawning environment's carrier
+ok - allowlist: the remote receiver accepts exactly the declared inherited-material set, including the enablement flag
+ok - delivery: a parent-supplied carrier is accepted only for a secondmate launch and only as a strict W3C value
+ok - remote route: an unattended cursor secondmate is refused before the remote host is reached
+ok - remote route: a cursor exemption is refused on a non-cursor harness rather than recorded
+ok - remote route: an envelope grant and a carrier both cross the wire and reach the remote spawn
+ok - recovery: an unflagged respawn inherits the recorded envelope grant and brings the secondmate back
+ok - recovery: a recorded attended grant is never inherited, so it cannot resurrect a cursor secondmate
+ok - remote route: the parent records the endpoint's actual grant, never an undelivered request
+ok - remote route: a reused non-cursor endpoint cannot republish a stale cursor grant
+ok - wire: an older parent's bare positional carrier is still accepted as the traceparent
+ok - wire: a bare argument that is not a carrier is still refused
+ok - wire: the receiver forwards only an envelope grant, refusing attended and malformed grants
+ALL TESTS PASSED
+FM_TEST_END 2026-09-04T11:18:53Z tests/fm-remote-secondmate-trace-context.test.sh exit=0 duration_ms=223124 gate_skip=false
+FM_TEST_BEGIN 2026-09-04T11:18:53Z tests/fm-remote-transport-lanes.test.sh family=secondmate expected_gate_skip=none
+ok - atomic sequence claims remain unique and reap only after expiry
+ok - lanes run homes concurrently while each home stays FIFO
+ok - same-home jobs staged in the same second execute in staging-sequence order
+ok - same-home sequence order follows completed staging publication
+ok - a caller killed mid-wait cancels its queued job before execution
+ok - a caller killed mid-wait stops its running job's process group
+ok - a signal-less caller disconnect cancels the abandoned job through the parent probe
+ok - bounded reads after a cancellation meet their own budget with no convoy
+ok - an open caller stdin no longer wedges a non-payload remote command
+ok - a live explicit-stdin stage survives the staging-litter age bound
+ok - --stdin still delivers a payload caller's bytes
+ok - abandoned stage litter is reaped by age while live staging survives
+ALL TESTS PASSED
+FM_TEST_END 2026-09-04T11:20:09Z tests/fm-remote-transport-lanes.test.sh exit=0 duration_ms=76614 gate_skip=false
+FM_TEST_BEGIN 2026-09-04T11:20:09Z tests/fm-control-relaunch.test.sh family=backend-dispatch expected_gate_skip=none
+ok - fm-control relaunch: a same-harness relaunch replaces the agent in the same endpoint and worktree
+ok - fm-control relaunch: durable task metadata survives replacement launch publication
+ok - fm-control relaunch: delivery and concurrent task metadata publication serialize
+ok - fm-control relaunch: disabling tracing clears metadata and pane context
+ok - fm-control relaunch: the progress note lands in the instructions the replacement reads
+ok - fm-control relaunch: a ship task refuses without the progress note its replacement needs
+ok - fm-control relaunch: switching harness is one ordinary relaunch, and the old wiring goes with the old agent
+ok - fm-control relaunch: a harness switch resets model and effort unless they are named too
+ok - fm-control relaunch: a prefixed recorded harness can switch adapters transactionally
+ok - fm-control relaunch: a prefixed command requires an explicit replacement harness
+ok - fm-control relaunch: a same-harness relaunch keeps the profile axes it was running with
+ok - fm-control relaunch: explicit model and effort win over the recorded ones
+ok - fm-control relaunch: refuses to relaunch onto an adapter with no verified mechanics
+ok - fm-control relaunch: the retired incarnation's global turn-end token is revoked
+ok - fm-control relaunch: wiring cleanup failure refuses replacement arming
+ok - fm-control-lib: one owner resolves each harness's turn-end registry entry, and refuses a malformed token
+ok - fm-control relaunch: a secondmate relaunch re-resolves its durable configured harness pin
+ok - fm-control relaunch: invalid configured effort is ignored before stop
+ok - fm-control relaunch: an adapter unverified for this task kind refuses before the agent is stopped
+ok - fm-control relaunch: explicit secondmate harness resets unnamed profile axes
+ok - fm-control relaunch: a ship task keeps its recorded harness instead of re-reading crew config
+ok - fm-spawn --relaunch: with no explicit harness it reuses the task's recorded one, never the crew default
+ok - fm-spawn --relaunch: an attended cursor grant is never inherited and the relaunch is refused
+ok - fm-control relaunch: an attended cursor grant is refused before the agent is stopped
+ok - fm-control relaunch: a cursor grant is dropped when the relaunch resolves to another harness
+ok - fm-control relaunch: a refusal never stops the running agent, on either known door
+ok - fm-control relaunch: a fresh attended grant passed on the verb permits the relaunch
+ok - fm-control relaunch: a malformed grant is refused before the agent is stopped
+ok - fm-spawn --relaunch: a named isolation-envelope grant is inherited so automatic recovery still works
+ok - fm-control relaunch: a non-cursor stale envelope cannot authorize cursor
+ok - fm-spawn --relaunch: wiring armed under a prefixed harness name is still retired
+ok - fm-spawn --relaunch: switching away from muse retires its session binding
+ok - fm-spawn --relaunch: switching away from cursor retires its session binding
+ok - fm-control relaunch: an unaccountable local copy refuses before the agent is touched
+ok - fm-control relaunch: a worker with nothing to work from is never launched
+ok - fm-control relaunch: a refusal before the agent is stopped leaves the durable record untouched
+ok - fm-control relaunch: checkpoint inspection failures refuse before stopping
+ok - fm-control relaunch: a launch failure after the stop keeps the prior record and reports the real state
+ok - fm-control relaunch: unpublished rollback keeps concurrent durable metadata
+ok - fm-control relaunch: post-publication failure keeps the new durable record
+ok - fm-control relaunch: partial stop reconciles actual agent state
+ok - fm-control relaunch: failed journal replacement preserves durable phase
+ok - fm-spawn relaunch: prepublication abort removes replacement state
+ok - fm-control relaunch: the checkpoint records the exact unlanded work it preserved
+ok - fm-control relaunch: a secondmate's child work is accounted for and its charter is left alone
+ok - fm-control relaunch: a secondmate home that is not this secondmate's is refused
+ok - fm-control relaunch: unreadable and untraversable child state fails checkpoint
+ok - fm-control relaunch: two control actions on one task serialize instead of interleaving
+ok - fm-spawn relaunch: direct entry participates in lifecycle serialization
+ok - fm-promote: promotion participates in lifecycle serialization
+ok - fm-spawn --relaunch: refuses to launch a second agent into a live endpoint
+ok - fm-spawn --relaunch: symlinked records refuse before inspection
+ok - fm-spawn --relaunch: keeps its early meta lock continuous
+ok - fm-spawn --relaunch: pending closes refuse before replacement begins
+ok - fm-spawn --relaunch: every identity axis comes from the record, and a contradicting flag refuses
+ok - fm-spawn --relaunch: an unrecorded task is refused
+ok - fm-spawn --relaunch: refuses to start a replacement outside the copy holding the work
+ok - relaunch re-reads the backlog item instead of blindly re-running the transition
+ok - relaunch heals an item that drifted out of In flight while the task stayed live
+FM_TEST_END 2026-09-04T11:22:52Z tests/fm-control-relaunch.test.sh exit=0 duration_ms=162702 gate_skip=false
+FM_TEST_BEGIN 2026-09-04T11:22:52Z tests/fm-spawn-dispatch-profile.test.sh family=backend-dispatch expected_gate_skip=none
+ok - no --model/--effort records defaults and types the claude launch instructions
+ok - non-cursor launches clear inherited Cursor identity markers
+ok - relative home overrides ignore CDPATH and become absolute before spawn launch construction
+ok - FM_HOME defaults resolve relative paths and preserve absolute spellings
+ok - absolute override spellings are preserved in spawn launch paths
+ok - unresolvable relative spawn overrides fail with named diagnostics
+ok - active crew-dispatch profile requires an explicit harness for ship spawns
+ok - active crew-dispatch profile requires an explicit harness for scout spawns
+ok - active crew-dispatch profile allows an explicit resolved harness
+ok - active crew-dispatch profile allows the legacy positional harness form
+ok - active crew-dispatch profile allows the raw launch-command escape hatch
+ok - a raw agent alias is resolved through the verified cursor owner and held to the cursor bar
+ok - claude receives --model and --effort profile flags
+ok - codex receives --model and model_reasoning_effort profile flags
+ok - codex omits unsupported max effort instead of passing a bad config value
+ok - grok receives --model and --reasoning-effort profile flags
+ok - grok omits unsupported max reasoning effort
+ok - grok omits unsupported xhigh reasoning effort
+ok - cursor receives its model-qualified reasoning class and exact task workspace
+ok - cursor is refused for ship and scout spawns and names codex and claude instead
+ok - a cursor exemption is refused on a non-cursor harness rather than recorded as a stale grant
+ok - an inherited cursor selection is barred and the refusal names config/crew-harness or a dispatch profile
+ok - only the recognized cursor exemption tokens open the bar
+ok - a cursor grant that could inject a second record line is refused before any record exists
+ok - a recognized cursor exemption permits the spawn, keeps the sandbox posture, and is recorded single-valued
+ok - a cursor exemption does not leak from one spawn to the next in the same shell
+ok - a fresh spawn never inherits a cursor grant from a stale record of the same id
+ok - an ambient environment grant never opens the cursor bar
+ok - cursor refuses model ids absent from its resolved binary's live catalog
+ok - cursor preserves the requested model when its live catalog is unreachable
+ok - opencode receives --model and omits the unsupported effort axis
+ok - pi receives --model and --thinking max profile flags
+ok - Pi launch probing omits --tui-mode on older Pi and preserves it on supporting Pi
+ok - pi-signed shares Pi launch semantics while preserving its configured and recorded identity
+ok - pi-signed refuses safely and actionably when the selected executable is unavailable
+ok - pi-signed is a distinct persistent secondmate runtime with shared Pi supervision semantics
+ok - batch dispatch forwards shared --harness, --model, and --effort to every pair
+ok - claude forwards firstmate's CLAUDE_CONFIG_DIR so the crewmate uses the same credential store
+ok - claude omits the config-dir prefix when firstmate runs with the single-store default
+ok - non-claude harnesses do not receive the claude CLAUDE_CONFIG_DIR prefix
+ok - active crew-dispatch profile does not block secondmate launches
+# all fm-spawn-dispatch-profile tests passed
+FM_TEST_END 2026-09-04T11:26:03Z tests/fm-spawn-dispatch-profile.test.sh exit=0 duration_ms=191067 gate_skip=false
+FM_TEST_SUMMARY total=5 failed=0 skipped_gate=0 duration_ms=786515
+FM_TEST_SUMMARY_FAMILY family=backend-dispatch count=2 duration_ms=353769 failed=0
+FM_TEST_SUMMARY_FAMILY family=secondmate count=2 duration_ms=299738 failed=0
+FM_TEST_SUMMARY_FAMILY family=unclassified count=1 duration_ms=132764 failed=0
+FM_TEST_SLOWEST rank=1 script=tests/fm-remote-secondmate-trace-context.test.sh duration_ms=223124
+FM_TEST_SLOWEST rank=2 script=tests/fm-spawn-dispatch-profile.test.sh duration_ms=191067
+FM_TEST_SLOWEST rank=3 script=tests/fm-control-relaunch.test.sh duration_ms=162702
+FM_TEST_SLOWEST rank=4 script=tests/fm-codex-sandbox-grant.test.sh duration_ms=132764
+FM_TEST_SLOWEST rank=5 script=tests/fm-remote-transport-lanes.test.sh duration_ms=76614
