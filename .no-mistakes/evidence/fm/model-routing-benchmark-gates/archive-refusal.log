@@ -1,0 +1,67 @@
+$ fm-bench-gate.sh --bench <archive-failure-fixture> archive-verify
+BENCH_CHECK launch.evidence ok all 245 launch artifacts still match the evidence the preflight cleared
+BENCH_CHECK results.plan_binding ok plan matches its frozen and passing preflight bindings
+BENCH_CHECK archive.root ok archive root is a real directory contained by the benchmark
+BENCH_CHECK archive.storage ok every sample root is a real directory inside the archive
+BENCH_CHECK archive.a-a1-fable-5-high fail archived measurements differ from genuine evaluator output
+BENCH_CHECK archive.a-a1-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a1-opus-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a2-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a2-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a3-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a3-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a3-opus-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a4-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a4-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a5-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a5-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a5-opus-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a6-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.a-a6-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b1-composer-2-5 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b1-glm-5-3-flash ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b1-grok-4-6 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b1-opus-4-8-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b1-terra-5-6-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b2-composer-2-5 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b2-glm-5-3-flash ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b2-grok-4-6 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b2-opus-4-8-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b2-terra-5-6-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b3-composer-2-5 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b3-glm-5-3-flash ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b3-grok-4-6 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b3-opus-4-8-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b3-terra-5-6-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b4-composer-2-5 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b4-glm-5-3-flash ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b4-grok-4-6 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b4-opus-4-8-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b4-terra-5-6-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b5-composer-2-5 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b5-glm-5-3-flash ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b5-grok-4-6 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b5-opus-4-8-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b5-terra-5-6-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b6-composer-2-5 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b6-glm-5-3-flash ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b6-grok-4-6 ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b6-opus-4-8-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.b-b6-terra-5-6-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c1-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c1-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c1-opus-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c2-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c2-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c3-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c3-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c3-opus-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c4-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c4-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c5-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c5-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c5-opus-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c6-fable-5-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.c-c6-gpt-5-6-sol-high ok 14 files verified across 8 evidence groups
+BENCH_CHECK archive.identity_coverage ok archive retains 60 attempts with one finite void chain and terminal scored attempt for each of 60 planned outputs
+BENCH_RESULT archive-verify refused checks=65 failed=1

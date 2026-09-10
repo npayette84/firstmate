@@ -1,0 +1,43 @@
+BENCH_CHECK isolation.exec_wrapper ok trusted confinement wrapper and supported arguments verified
+BENCH_CHECK isolation.launch_wrapper ok launch-capable runtime container uses credential-free provider-proxy egress
+BENCH_CHECK isolation.provider_boundaries ok 2 entrants have distinct internal provider networks and proxy boundaries
+BENCH_CHECK isolation.bench-b1-k7.provision ok private clone, object store, temp, home, and session space recorded
+BENCH_CHECK isolation.bench-b1-k7.private_containment ok every declared private path resolves within this entrant's root so the proven wrapper owns its layout
+BENCH_CHECK isolation.bench-b1-k7.private_tree_exclusion ok in-root private storage is ignored and absent from the candidate index
+BENCH_CHECK isolation.bench-b1-k7.private_storage ok every declared private store holds material a sibling probe can be tested against
+BENCH_CHECK isolation.bench-b1-k7.alternates ok no alternate object store is configured
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_worktree_enumeration ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_object_enumeration ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_unreachable_objects ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2/objects, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2/tmp, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2/home, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e2/session, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.protected_path_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/sealed, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.process_inspection ok denied against fm-bench-marker-437294c11b8545fdbe1926afafb6bf68, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.environment_leakage ok denied against FM_BENCH_, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-k7.coverage ok all 7 probe classes exercised
+BENCH_CHECK isolation.bench-b1-r2.provision ok private clone, object store, temp, home, and session space recorded
+BENCH_CHECK isolation.bench-b1-r2.private_containment ok every declared private path resolves within this entrant's root so the proven wrapper owns its layout
+BENCH_CHECK isolation.bench-b1-r2.private_tree_exclusion ok in-root private storage is ignored and absent from the candidate index
+BENCH_CHECK isolation.bench-b1-r2.private_storage ok every declared private store holds material a sibling probe can be tested against
+BENCH_CHECK isolation.bench-b1-r2.alternates ok no alternate object store is configured
+BENCH_CHECK isolation.bench-b1-r2.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.sibling_worktree_enumeration ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.sibling_object_enumeration ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.sibling_unreachable_objects ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1/objects, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1/tmp, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1/home, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.sibling_file_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/e1/session, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.protected_path_read ok denied against /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.8eHBGd/iso/sealed, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.process_inspection ok denied against fm-bench-marker-437294c11b8545fdbe1926afafb6bf68, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.environment_leakage ok denied against FM_BENCH_, which is reachable without the confinement
+BENCH_CHECK isolation.bench-b1-r2.coverage ok all 7 probe classes exercised
+BENCH_CHECK isolation.sibling_coverage ok 2 entrants probed against each other
+BENCH_RESULT isolation-verify ok checks=38 failed=0
+ok - enforced isolation (container) denies file, worktree, object, unreachable-object, sealed-material, process, and environment access
+entrant own-clone read: candidate answer from e1
+ok - the same confinement still lets an entrant work in its own private clone
+skip: launch-capable runtime proof needs FM_BENCH_RUNTIME_IMAGE, provider topology, and FM_BENCH_HARNESS_BIN

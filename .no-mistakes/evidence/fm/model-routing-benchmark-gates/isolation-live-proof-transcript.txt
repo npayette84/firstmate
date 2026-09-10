@@ -1,0 +1,9 @@
+Focused test: bash -x tests/fm-bench-isolation-e2e.test.sh
+Exit status: 0
+Observed command and output (extracted from isolation-live-proof.log):
+
+ok - enforced isolation (container) denies file, worktree, object, unreachable-object, sealed-material, process, and environment access
+ok - the same confinement still lets an entrant work in its own private clone
+++ /Users/npayette/.no-mistakes/worktrees/c94be66195b1/01M20KFA76XTFHB6NB00QYAWRH/bin/fm-bench-confine.sh --purpose entrant --mechanism container --image sha256:de05803db8af443f5374c6367c8fe29b1459c4966700209c9f93596f0b08b986 --provider-network fmbench-proof-internal-01m20 --provider-proxy http://fmbench-proof-proxy-01m20:8080 --provider-proxy-container fmbench-proof-proxy-01m20 --allow /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-bench-isolation.e8p3sx/iso/e1 -- /bin/sh -c 'env | grep -Eq "(API_KEY|TOKEN|PASSWORD|SECRET)=" && exit 91; exec "$1" --version' _ /usr/local/bin/muse
++ launch='Muse Code 1.1.1 (1.1.1-R2514.1)'
+ok - the real harness starts with provider-only egress and no credential environment

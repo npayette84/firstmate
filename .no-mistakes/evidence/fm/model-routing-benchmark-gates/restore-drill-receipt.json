@@ -1,0 +1,21 @@
+{
+  "archive_digest": "a4165a4f026ddf3f52aeab76ff2732e9ea84eb1f249e7fae0a8dcf6c6686a492",
+  "evaluator_dependence": {
+    "a-a1-fable-5-high": {
+      "inputs": {
+        ".ignored-by-evaluator": "unproven",
+        "work.css": "proven",
+        "work.html": "proven",
+        "work.png": "proven",
+        "work.ts": "proven"
+      },
+      "overall": "proven"
+    }
+  },
+  "evaluator_samples": [
+    "a-a1-fable-5-high"
+  ],
+  "samples": 60,
+  "schema": "fm-bench-restore-drill.v1",
+  "verdict": "pass"
+}

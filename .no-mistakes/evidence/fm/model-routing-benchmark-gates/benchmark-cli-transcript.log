@@ -1,0 +1,105 @@
+$ fm-bench-gate.sh --bench <fixture> plan-check
+BENCH_CHECK plan.isolation_mode ok enforced per-entrant isolation selected
+BENCH_CHECK plan.disposition ok every candidate is archived then discarded; no direct shipping
+BENCH_CHECK plan.samples_per_entrant ok six samples per entrant
+BENCH_CHECK plan.samples_per_baseline ok three baseline samples
+BENCH_CHECK plan.adaptive_extension ok no adaptive ninth sample
+BENCH_CHECK plan.randomisation_seed ok packet order seed preregistered
+BENCH_CHECK plan.approved_cost_class_usd ok approved cost class 1100.0
+BENCH_CHECK plan.sample_winner_rule ok sample winner, tie, void, and missing handling preregistered
+BENCH_CHECK promotion.type ok paired directional sweep rule
+BENCH_CHECK promotion.composite ok the frozen plan owns a normalized deterministic and panel blend on one finite score scale
+BENCH_CHECK promotion.sweep ok a standing route needs 6/6
+BENCH_CHECK promotion.practical_margin ok predeclared practical margin 1.0
+BENCH_CHECK promotion.blocker_class ok no blocker-class failure may promote
+BENCH_CHECK promotion.baseline_role ok baseline is a non-competing regression veto
+BENCH_CHECK promotion.baseline_veto ok baseline veto bounds preserve the zero mean floor and at most one loss
+BENCH_CHECK promotion.tie_breakers ok tie rule carries no unmeasured cost or time input
+BENCH_CHECK promotion.no_extension ok no optional-stopping extension in the promotion rule
+BENCH_CHECK plan.failure_policy ok each failure class has its own disposition
+BENCH_CHECK timing.intervals ok both centrally clocked intervals recorded
+BENCH_CHECK timing.clock ok shared clock 'utc-wall-clock-plus-monotonic-local-receipt'
+BENCH_CHECK timing.queue_trust_delay ok queue and trust delay recorded separately
+BENCH_CHECK timing.no_commit ok no-commit timeout 10800s voids and reruns
+BENCH_CHECK track.A.packets ok 6 distinct frozen packets, one sample each
+BENCH_CHECK track.A.packet_kind ok every packet declares historical or synthetic provenance
+BENCH_CHECK track.A.baseline_scope ok baseline capability explicitly declared
+BENCH_CHECK track.A.baseline_packets ok baseline runs the preregistered stratified subset ['A1', 'A3', 'A5']
+BENCH_CHECK track.A.entrants ok 2 entrants
+BENCH_CHECK track.A.tuple.fable-5-high ok Fable 5 High pinned to claude/fable (unmetered)
+BENCH_CHECK track.A.tuple.gpt-5-6-sol-high ok GPT 5.6 Sol High pinned to pi/openai-codex/gpt-5.6-sol (unmetered)
+BENCH_CHECK track.A.tuple.opus-5-high ok Opus 5 High pinned to claude/opus (unmetered)
+BENCH_CHECK track.A.panel_common ok one panel scores every candidate in the track
+BENCH_CHECK track.A.panel_size ok 2 common judges
+BENCH_CHECK track.A.panel_distinct ok judges are distinct
+BENCH_CHECK track.A.panel_neutral ok no judge family fields a candidate in this track
+BENCH_CHECK track.A.spec_seat ok specification explicitly not required
+BENCH_CHECK track.A.optional_probe ok no outcome-dependent extra judge
+BENCH_CHECK track.A.capture_scope ok neutral capture explicitly not required
+BENCH_CHECK track.A.wave ok no capture wave declared for this track
+BENCH_CHECK track.B.packets ok 6 distinct frozen packets, one sample each
+BENCH_CHECK track.B.packet_kind ok every packet declares historical or synthetic provenance
+BENCH_CHECK track.B.baseline_scope ok baseline capability explicitly declared
+BENCH_CHECK track.B.baseline_packets ok baseline explicitly not required and no baseline strata declared
+BENCH_CHECK track.B.entrants ok 5 entrants
+BENCH_CHECK track.B.tuple.glm-5-3-flash ok GLM 5.3 Flash pinned to pi/zai/glm-5.3-flash (unmetered)
+BENCH_CHECK track.B.tuple.grok-4-6 ok Grok 4.6 pinned to cursor/cursor-grok-4.6-high (cursor)
+BENCH_CHECK track.B.tuple.composer-2-5 ok Composer 2.5 pinned to cursor/composer-2.5 (cursor)
+BENCH_CHECK track.B.tuple.terra-5-6-high ok Terra 5.6 High pinned to pi/openai-codex/gpt-5.6-terra (unmetered)
+BENCH_CHECK track.B.tuple.opus-4-8-high ok Opus 4.8 High pinned to claude/claude-opus-4-8 (unmetered)
+BENCH_CHECK track.B.panel_common ok one panel scores every candidate in the track
+BENCH_CHECK track.B.panel_size ok 2 common judges
+BENCH_CHECK track.B.panel_distinct ok judges are distinct
+BENCH_CHECK track.B.panel_neutral ok no judge family fields a candidate in this track
+BENCH_CHECK track.B.spec_author_not_judge ok the design author does not judge its own specification
+BENCH_CHECK track.B.spec_author_not_entrant ok the design author fields no entrant here
+BENCH_CHECK track.B.spec_author_family_adjacency ok the design author shares a family with Opus 4.8 High, disclosed in the plan
+BENCH_CHECK track.B.spec_audit_coverage ok 6 specifications independently audited
+BENCH_CHECK track.B.spec_audit_independent ok each specification was accepted by an independent auditor before its hash was frozen
+BENCH_CHECK track.B.spec_seat ok specification-required design seat fully evaluated
+BENCH_CHECK track.B.optional_probe ok no outcome-dependent extra judge
+BENCH_CHECK track.B.capture_scope ok neutral capture explicitly required
+BENCH_CHECK track.B.wave ok the whole field runs as one complete wave
+BENCH_CHECK track.C.packets ok 6 distinct frozen packets, one sample each
+BENCH_CHECK track.C.packet_kind ok every packet declares historical or synthetic provenance
+BENCH_CHECK track.C.baseline_scope ok baseline capability explicitly declared
+BENCH_CHECK track.C.baseline_packets ok baseline runs the preregistered stratified subset ['C1', 'C3', 'C5']
+BENCH_CHECK track.C.entrants ok 2 entrants
+BENCH_CHECK track.C.tuple.gpt-5-6-sol-high ok GPT 5.6 Sol High pinned to pi/openai-codex/gpt-5.6-sol (unmetered)
+BENCH_CHECK track.C.tuple.fable-5-high ok Fable 5 High pinned to claude/fable (unmetered)
+BENCH_CHECK track.C.tuple.opus-5-high ok Opus 5 High pinned to claude/opus (unmetered)
+BENCH_CHECK track.C.panel_common ok one panel scores every candidate in the track
+BENCH_CHECK track.C.panel_size ok 2 common judges
+BENCH_CHECK track.C.panel_distinct ok judges are distinct
+BENCH_CHECK track.C.panel_neutral ok no judge family fields a candidate in this track
+BENCH_CHECK track.C.spec_seat ok specification explicitly not required
+BENCH_CHECK track.C.optional_probe ok no outcome-dependent extra judge
+BENCH_CHECK track.C.capture_scope ok neutral capture explicitly not required
+BENCH_CHECK track.C.wave ok no capture wave declared for this track
+BENCH_CHECK plan.capture_scope ok the positively declared capture field produces exactly 30 UI records
+BENCH_RESULT plan-check ok checks=78 failed=0
+$ fm-bench-gate.sh --bench <fixture> manifest-build
+BENCH_CHECK manifest.cost_model ok 6 job classes carry ordered low/base/high unit costs
+BENCH_CHECK manifest.cost_classes ok all 6 referenced job classes are priced
+BENCH_CHECK manifest.approved_cost_class ok approved cost class 1100.0 is finite and positive
+BENCH_CHECK manifest.built ok manifest.json written for 66 model jobs
+BENCH_RESULT manifest-build ok checks=4 failed=0
+$ fm-bench-gate.sh --bench <fixture> manifest-check
+BENCH_CHECK manifest.cost_model ok 6 job classes carry ordered low/base/high unit costs
+BENCH_CHECK manifest.cost_classes ok all 6 referenced job classes are priced
+BENCH_CHECK manifest.approved_cost_class ok approved cost class 1100.0 is finite and positive
+BENCH_CHECK manifest.plan_binding ok the manifest is bound to the current plan
+BENCH_CHECK manifest.tracks ok tracks matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.totals ok totals matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.cost_usd ok cost_usd matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.allowance_required_runs ok allowance_required_runs matches the arithmetic recomputed from the plan
+BENCH_CHECK manifest.cost_class ok high case 924.0 is inside the approved class 1100.0
+BENCH_CHECK allowance.present fail allowance.json is absent; the metered field may not start unproven
+BENCH_RESULT manifest-check refused checks=10 failed=1
+$ fm-bench-gate.sh --bench <fixture> freeze
+BENCH_CHECK freeze.written ok 42 inputs frozen before any label was assigned
+BENCH_RESULT freeze ok checks=1 failed=0
+
+Modify a frozen input, then verify rejection:
+BENCH_CHECK freeze.intact fail frozen inputs changed after the freeze: packets/A1.md
+BENCH_RESULT freeze-check refused checks=1 failed=1
