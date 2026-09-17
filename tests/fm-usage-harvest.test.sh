@@ -88,7 +88,7 @@ JSON
   cat > "$logdir/session-future.jsonl" <<'JSON'
 {"type":"assistant","message":{"id":"msgX","model":"claude-test","usage":{"input_tokens":999,"cache_read_input_tokens":0,"cache_creation_input_tokens":0,"output_tokens":999}}}
 JSON
-  touch -t "$(date -r $(( $(file_mtime_epoch "$state/$id.status") + 7200 )) +%Y%m%d%H%M.%S)" \
+  fm_touch_epoch "$(( $(file_mtime_epoch "$state/$id.status") + 7200 ))" \
     "$logdir/session-future.jsonl"
   mkdir -p "$FM_USAGE_CLAUDE_DIR/wrong-encoded-dir"
   printf '%s\n' '{"type":"assistant","message":{"id":"msgY","model":"claude-test","usage":{"input_tokens":777,"output_tokens":777}}}' \
@@ -159,7 +159,7 @@ JSON
 {"type":"session_meta","payload":{"cwd":"$wt"}}
 {"type":"event_msg","payload":{"type":"token_count","info":{"last_token_usage":{"input_tokens":999,"output_tokens":999}}}}
 JSON
-  touch -t "$(date -r $(( $(file_mtime_epoch "$home/state/$id.status") + 7200 )) +%Y%m%d%H%M.%S)" \
+  fm_touch_epoch "$(( $(file_mtime_epoch "$home/state/$id.status") + 7200 ))" \
     "$d1/rollout-future.jsonl"
   touch -m -r "$d1/rollout-match.jsonl" "$home/state/$id.status"
 
@@ -246,9 +246,9 @@ JSON
   # and the session log lands mid-window. Without the meta-mtime start fallback
   # the birthless window collapses to [T, T] and drops the earlier log.
   base=$(file_mtime_epoch "$state/$id.status")
-  touch -t "$(date -r "$base" +%Y%m%d%H%M.%S)" "$state/$id.status"
-  touch -t "$(date -r $((base - 100)) +%Y%m%d%H%M.%S)" "$state/$id.meta"
-  touch -t "$(date -r $((base - 50)) +%Y%m%d%H%M.%S)" "$logdir/session.jsonl"
+  fm_touch_epoch "$base" "$state/$id.status"
+  fm_touch_epoch "$((base - 100))" "$state/$id.meta"
+  fm_touch_epoch "$((base - 50))" "$logdir/session.jsonl"
 
   fb="$TMP_ROOT/nobirth-fakebin"
   nobirth_stat_bin "$fb"
@@ -370,6 +370,29 @@ report_case() {
   pass "usage report: per-model totals, per-task rows, missing-ledger tolerance"
 }
 
+# --- a missing task record leaves the filesystem untouched ------------------
+
+# The remote control plane points the harvester's state and data directories
+# inside the secondmate home it is retiring (<home>/state/parent-route and
+# <home>/data/.parent-route), so a harvest that runs once the record is gone
+# must create nothing: recreating either directory brings the just-removed home
+# back as an empty shell and the retirement silently leaves a husk behind.
+missing_record_case() {
+  local home="$TMP_ROOT/removed-home" out rc=0
+  # Deliberately not created: this is the state a secondmate home is left in
+  # after teardown removes it.
+  out=$(FM_STATE_OVERRIDE="$home/state/parent-route" \
+    FM_DATA_OVERRIDE="$home/data/.parent-route" \
+    FM_USAGE_CLAUDE_DIR="$TMP_ROOT/fake-claude/projects" \
+    FM_USAGE_CODEX_DIR="$TMP_ROOT/fake-codex/sessions" \
+    "$HARVEST" usagegone1 2>&1) || rc=$?
+  [ "$rc" -ne 0 ] || fail "harvest of a removed task record reported success"
+  assert_contains "$out" "no task record" "harvest names the missing record"
+  [ ! -e "$home" ] \
+    || fail "harvest of a removed task recreated the retired home at $home"
+  pass "usage harvest: a missing task record creates no state or data directory"
+}
+
 # --- teardown integration: harvest failure never blocks teardown ------------
 
 teardown_case() {
@@ -418,4 +441,5 @@ remote_case
 race_case
 lock_bound_case
 report_case
+missing_record_case
 teardown_case
