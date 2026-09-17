@@ -1,0 +1,29 @@
+Regression discipline check: do the branch's new Muse tests actually fail
+without the fix?
+
+Method: `git archive 98bc92c` into a scratch tree (branch tests, branch
+backend), then overwrite ONLY bin/fm-composer-lib.sh with the base-commit
+fa93097 copy. Nothing else differs, so any failure is attributable to the
+classifier change alone.
+
+  tests/fm-composer-lib.test.sh      with fa93097 classifier -> exit 1
+    not ok - muse bordered idle on herdr: expected empty, got 'unknown'
+
+  tests/fm-backend-herdr.test.sh     with fa93097 classifier -> exit 1
+    not ok - an idle native Muse state plus a cleared BORDERED Muse composer
+             must confirm delivery, got 'unknown'
+
+Same two suites on the branch as shipped (98bc92c):
+
+  tests/fm-composer-lib.test.sh   -> exit 0
+  tests/fm-backend-herdr.test.sh  -> exit 0, 210 ok / 0 not ok, including
+    ok - fm_backend_herdr_send_text_submit: unreadable native Muse state plus
+         shared empty Muse composer confirms one landed Enter
+    ok - fm_backend_herdr_send_text_submit: Muse's real bordered composer
+         confirms one landed Enter (no false negative)
+    ok - fm_backend_herdr_composer_state: typed text in Muse's bordered
+         composer stays pending
+
+The third test is the non-vacuity anchor: the same bordered shape holding
+typed text still reads `pending` after the fix, so the repair is not a
+blanket relaxation that would confirm any Muse pane.

@@ -1,0 +1,10 @@
+$ FM_HERDR_SUBMIT_CONFIRM_LIVE=1 bash tests/fm-herdr-submit-confirm-live-e2e.test.sh
+# host: herdr 0.9.0, Claude Code 2.1.260, Muse Code 1.3.0 (1.3.0-R3233.1)
+not ok - Claude Code (2.1.260 (Claude Code)) on herdr 0.9.0: a landed idle steer must confirm empty, got 'pending'
+
+# The Claude leg above is byte-identical to the base commit (only comments changed),
+# so it is pre-existing on this host, and the guard never reaches its branch-new Muse leg.
+
+# Same guard with the Claude leg omitted, so the branch-new Muse leg runs:
+$ FM_HERDR_SUBMIT_CONFIRM_LIVE=1 bash <muse-leg-only copy of the guard>
+not ok - Muse Code (version-unknown) on herdr 0.9.0 never reached a live muse-bin process with a shared empty composer in the lab pane (last process state 'agent', last argv surface 'present', last exec identity 'muse-bin-1.3.0-R3233.1', last composer state 'unknown')

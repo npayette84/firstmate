@@ -1,0 +1,10 @@
+idle composer shape                                  -> classifier verdict
+---------------------------------------------------------------------
+synthetic bare U+27E9 row (what the new unit test feeds): empty
+real Muse Code 1.3.0 capture (bordered box + U+276F):     unknown
+
+only "empty" lets fm_backend_herdr_send_text_submit confirm a Muse delivery
+bare U+27E9 row            : empty
+bare U+276F row            : empty
+bordered box + U+27E9      : unknown
+bordered box + U+276F      : unknown  <- Muse Code 1.3.0 ships this shape
