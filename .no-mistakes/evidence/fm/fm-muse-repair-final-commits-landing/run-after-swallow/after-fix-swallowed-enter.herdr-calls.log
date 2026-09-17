@@ -1,0 +1,39 @@
+herdr status --json --session default
+herdr pane send-text w1:p2 reply with the token FM-MUSE-9c1f --session default
+herdr agent get w1:p2 --session default
+herdr status --json --session default
+herdr pane send-keys w1:p2 enter --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr status --json --session default
+herdr pane read w1:p2 --source recent --lines 200 --format ansi --session default
+herdr agent get w1:p2 --session default
+herdr status --json --session default
+herdr pane send-keys w1:p2 enter --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr status --json --session default
+herdr pane read w1:p2 --source recent --lines 200 --format ansi --session default
+herdr agent get w1:p2 --session default
+herdr status --json --session default
+herdr pane send-keys w1:p2 enter --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr status --json --session default
+herdr pane read w1:p2 --source recent --lines 200 --format ansi --session default
+herdr agent get w1:p2 --session default
+herdr agent get w1:p2 --session default
+herdr status --json --session default
+herdr pane read w1:p2 --source recent --lines 200 --session default

@@ -1,0 +1,102 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Muse-on-Herdr send confirmation: before / after</title>
+<style>
+ body { background:#14161c; color:#dfe3ea; font:14px/1.5 -apple-system,Segoe UI,sans-serif; margin:0; padding:28px 32px; }
+ h1 { font-size:20px; margin:0 0 4px; }
+ h2 { font-size:15px; margin:26px 0 8px; color:#9fb4d6; font-weight:600; }
+ .sub { color:#8b93a4; margin:0 0 6px; }
+ pre { background:#0b0d12; border:1px solid #262b36; border-radius:8px; padding:12px 14px;
+       font:12.5px/1.45 SFMono-Regular,Menlo,monospace; white-space:pre-wrap; overflow-x:auto; margin:0 0 10px; }
+ .bad { border-color:#7a2c2c; }
+ .good { border-color:#2c7a45; }
+ .tag { display:inline-block; font:11px/1 SFMono-Regular,Menlo,monospace; padding:4px 8px; border-radius:5px; margin-bottom:6px; }
+ .tag.bad { background:#3a1616; color:#ff9d9d; }
+ .tag.good { background:#11331f; color:#8be3ab; }
+ .cols { display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+</style>
+<h1>Muse-on-Herdr steer: the false-negative send confirmation, before and after</h1>
+<p class="sub">Real Muse Code 1.3.0-R3233.1 on real herdr 0.9.0, in an isolated Herdr lab on <code>--provider echo</code>.</p>
+
+<h2>1. The live Muse composer that used to classify <code>unknown</code></h2>
+<p class="sub">Captured with <code>herdr pane read --format ansi</code>: a TITLED opening rule, the truecolor <code>❯</code> row, the solid closing rule, then the footer.</p>
+<pre><span style="color:#676c74">  </span><span style="color:#8a9098">Skills: 70 loaded · 2 warnings (ctrl+o to expand)</span>                                                                    
+<span style="color:#676c74">  </span><span style="color:#8a9098">Found personal rules for Claude Code and Codex — import into Muse Code with /rules import.</span>                           
+<span style="opacity:.6"></span><span style="color:#676c74;opacity:.6">── </span><span style="color:#8a9098">Voice input (⌥ + v to start)</span><span style="opacity:.6"></span><span style="color:#676c74;opacity:.6"> ───────────────────────────────────────────────────────────────────────────────────────</span>
+<span style="color:#5aa0ff">❯ </span>
+<span style="opacity:.6"></span><span style="color:#676c74;opacity:.6">───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────</span>
+<span style="color:#676c74">  </span><span style="color:#5aa0ff">echo</span><span style="color:#8a9098"> · /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-muse-live-ev.orzT8k/muse-workspace · </span><span style="color:#f38ba8">YOLO</span></pre>
+
+<h2>2. The same live pane read through the shared classifier at both revisions</h2>
+<pre>Live Muse-on-Herdr evidence (isolated lab session fm-lab-muse-live-ev-17245-18206)
+  herdr:                 herdr 0.9.0
+  muse:                  muse-bin-1.3.0-R3233.1 (--provider echo --yolo, isolated XDG lab)
+  native agent_status:   unknown
+
+  shared classifier on the SAME live idle Muse composer:
+    base  3eb5b63 (before the repair) -&gt; unknown
+    fixed 5110b99 (this branch) -&gt; empty
+
+  fm_backend_herdr_send_text_submit (the boundary fm-send.sh calls) on a real steer: empty
+  token rendered in the captured pane window: 2 occurrence(s)
+</pre>
+
+<h2>3. The same pane after one real steer through the adapter fm-send calls</h2>
+<pre>  Found personal rules for Claude Code and Codex — import into Muse Code with /rules import.
+❯ Reply with exactly FMMUSEEV17216_21415 and nothing else.
+◆ echo: Reply with exactly FMMUSEEV17216_21415 and nothing else.
+── Voice input (⌥ + v to start) ───────────────────────────────────────────────────────────────────────────────────────
+❯
+───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+  echo · /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-muse-live-ev.orzT8k/muse-workspace · YOLO</pre>
+
+<h2>4. What the captain sees at the CLI (real bin/fm-send.sh, faithful fake Muse pane)</h2>
+<div class="cols">
+ <div>
+  <span class="tag bad">before the repair</span>
+  <pre class="bad">$ fm-send.sh default:w1:p2 &quot;reply with the token FM-MUSE-9c1f&quot;   # before-fix
+  ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ●  WATCHER DOWN - SUPERVISION IS OFF
+  ●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+  ●  Trust the emitted supervision protocol for this harness; do not use shell &amp; for watcher repair.
+  ●  This is a supervision warning only; the requested message WILL still be sent.
+  ●  watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+  ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  error: text not submitted to default:w1:p2 (delivery unconfirmed; verdict=unknown; tried explicit target &#x27;default:w1:p2&#x27; matched /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/no-mistakes-evidence/01M2QKW2RWZPVP7J38DFMNRX74/run-before/work/home/state/muse-lane.meta; backend=herdr)
+  exit status: 1
+  herdr calls: pane send-text x1, pane send-keys enter x1
+  pane composer after the send: cleared (Muse accepted the message)
+</pre>
+ </div>
+ <div>
+  <span class="tag good">after the repair</span>
+  <pre class="good">$ fm-send.sh default:w1:p2 &quot;reply with the token FM-MUSE-9c1f&quot;   # after-fix
+  ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ●  WATCHER DOWN - SUPERVISION IS OFF
+  ●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+  ●  Trust the emitted supervision protocol for this harness; do not use shell &amp; for watcher repair.
+  ●  This is a supervision warning only; the requested message WILL still be sent.
+  ●  watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+  ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  exit status: 0
+  herdr calls: pane send-text x1, pane send-keys enter x1
+  pane composer after the send: cleared (Muse accepted the message)
+</pre>
+ </div>
+</div>
+
+<h2>5. Duplicate-send protection is unchanged</h2>
+<p class="sub">Same fixed build, but the fake Muse pane swallows the Enter and keeps holding the text: the send still refuses to claim delivery.</p>
+<pre class="bad">$ fm-send.sh default:w1:p2 &quot;reply with the token FM-MUSE-9c1f&quot;   # after-fix-swallowed-enter
+  ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  ●  WATCHER DOWN - SUPERVISION IS OFF
+  ●  1 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+  ●  Trust the emitted supervision protocol for this harness; do not use shell &amp; for watcher repair.
+  ●  This is a supervision warning only; the requested message WILL still be sent.
+  ●  watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+  ●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  fm-send: text delivered to default:w1:p2 but submission is unconfirmed (verdict=pending; tried explicit target &#x27;default:w1:p2&#x27; matched /var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/no-mistakes-evidence/01M2QKW2RWZPVP7J38DFMNRX74/run-after-swallow/work/home/state/muse-lane.meta; backend=herdr); do not retype or blindly resend - verify with fm-peek.sh, then re-send &#x27;--key Enter&#x27; only if the composer still holds the text
+  exit status: 3
+  herdr calls: pane send-text x1, pane send-keys enter x3
+  pane composer after the send: still holds &quot;reply with the token FM-MUSE-9c1f&quot;
+</pre>
