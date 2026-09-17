@@ -1,0 +1,119 @@
+<!doctype html><html><head><meta charset="utf-8"><title>PR round comment: before and after</title><style>
+body{font:13px/1.5 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:#f6f8fa;color:#1f2328;margin:0;padding:24px}
+.row{display:flex;gap:18px;align-items:flex-start;max-width:1500px;margin:0 auto}
+.col{flex:1;min-width:0}
+.tag{font-weight:600;font-size:12px;padding:5px 10px;border-radius:6px 6px 0 0;display:inline-block}
+.bad{background:#ffebe9;color:#cf222e;border:1px solid #ff818266}
+.good{background:#dafbe1;color:#1a7f37;border:1px solid #1a7f3766}
+.card{background:#fff;border:1px solid #d1d9e0;border-radius:0 8px 8px 8px}
+.hdr{background:#f6f8fa;border-bottom:1px solid #d1d9e0;padding:6px 12px;font-size:11px;color:#59636e}
+.who{font-weight:600;color:#1f2328}
+.content{padding:10px 14px}
+.content h2{font-size:15px;margin:2px 0 8px}
+code{background:#eff1f3;border-radius:4px;padding:1px 4px;font-size:11px;word-break:break-all}
+details{border:1px solid #d1d9e0;border-radius:6px;padding:7px 10px;margin:6px 0;background:#f6f8fa}
+summary{font-weight:600;font-size:12px}
+h1{font-size:17px;max-width:1500px;margin:0 auto 4px}
+p.lede{color:#59636e;font-size:12px;max-width:1500px;margin:0 auto 16px}
+</style></head><body>
+<h1>What a reviewer on another machine sees in the PR</h1>
+<p class="lede">Same end-to-end run, same renderer, only the script changed. Left: parent commit <code>ba90791</code>. Middle: this change <code>04499db</code>. Right: the reconciliation comment this change inlines the lens reports into.</p>
+<div class="row">
+<div class="col"><div class="tag bad">BEFORE - points at paths that exist only on the host that ran the loop</div><div class="card"><div class="hdr"><span class="who">firstmate</span> commented</div><div class="content"><h2>Adversarial review: round 1 dispatched (tier T2, merge boundary)</h2>
+<p>PR head <code>cb6d5271fd4814f5fc13ff4a74e6cd356e66727f</code> over base <code>e13835cff6f8d90e83e08a7a571d7835a4cad051</code>.</p>
+<p>Required lens slots: frontier deep (round cap 3).</p>
+<ul>
+<li>frontier (class frontier, seat unassigned)</li>
+<li>deep (class deep, seat unassigned)</li>
+<li>advisory:design-ux (class advisory, seat unassigned, advisory: does not count toward the tier)</li>
+</ul>
+<p>UI-impacting: the advisory Design/UX lens is required this round.</p>
+<p>Tier floor derived from the reviewed change: T1 (base forge).</p>
+<p>Evidence staged before dispatch: diff <code>/private/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-1/diff.patch</code>, prose <code>/private/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-1/prose.md</code>, file list <code>/private/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-1/files.txt</code>, tree <code>/tmp/adv-before-out.DsbvCd/run/wt</code>.</p>
+<p>Diff scope: 1 files, 2 additions, 0 deletions.</p>
+<p>Reviewers are read-only; reconciliation by firstmate lands in the next round comment.</p>
+</div></div></div>
+<div class="col"><div class="tag good">AFTER - points at the PR&#39;s own Files tab</div><div class="card"><div class="hdr"><span class="who">firstmate</span> commented</div><div class="content"><h2>Adversarial review: round 1 dispatched (tier T2, merge boundary)</h2>
+<p>PR head <code>c08234e5d8b4763033ecc662db847971be83ffa0</code> over base <code>f151018295c2148de187ab23761185b6f8139eea</code>.</p>
+<p>Required lens slots: frontier deep (round cap 3).</p>
+<ul>
+<li>frontier (class frontier, seat unassigned)</li>
+<li>deep (class deep, seat unassigned)</li>
+<li>advisory:design-ux (class advisory, seat unassigned, advisory: does not count toward the tier)</li>
+</ul>
+<p>UI-impacting: the advisory Design/UX lens is required this round.</p>
+<p>Tier floor derived from the reviewed change: T1 (base forge).</p>
+<p>Evidence under review is this PR itself: its own diff of <code>c08234e5d8b4763033ecc662db847971be83ffa0</code> against <code>f151018295c2148de187ab23761185b6f8139eea</code> (the Files tab of <a href="https://github.com/example/repo/pull/9">https://github.com/example/repo/pull/9</a>), its title and body, and every commit message on that head. Generated files are excluded from the reviewed diff.</p>
+<p>Diff scope: 1 files, 2 additions, 0 deletions.</p>
+<p>Reviewers are read-only; reconciliation by firstmate lands in the next round comment.</p>
+</div></div></div>
+<div class="col"><div class="tag good">AFTER - each lens report inlined: verdict, findings, reconciliation</div><div class="card"><div class="hdr"><span class="who">firstmate</span> commented</div><div class="content"><h2>Adversarial review: round 1 RED (tier T2)</h2>
+<p>Reviewed head <code>c08234e5d8b4763033ecc662db847971be83ffa0</code>; PR head <code>c08234e5d8b4763033ecc662db847971be83ffa0</code>.</p>
+<ul>
+<li><p>frontier: GREEN (REQUIRED, seat fable-5.1)</p>
+</li>
+<li><p>deep: RED (REQUIRED, seat opus-5-high)</p>
+</li>
+<li><p>advisory:design-ux: RED (advisory, seat astra-high)</p>
+</li>
+<li><p>[frontier:f1] MINOR: noted</p>
+</li>
+<li><p>[deep:d1] BLOCKER: unresolved</p>
+</li>
+<li><p>[advisory:design-ux:u1] MAJOR: unresolved</p>
+</li>
+</ul>
+<p>Blocking reasons:
+[deep:d1] BLOCKER is unresolved
+[advisory:design-ux:u1] MAJOR is unresolved</p>
+<h3>Lens reports</h3>
+<details><summary>lens frontier report - GREEN (REQUIRED, seat fable-5.1)</summary>
+
+<p>verdict: GREEN
+boundary_class: merge
+findings:</p>
+<ul>
+<li>id: f1
+severity: MINOR
+claim: banner text is not memoized
+evidence: banner.tsx:1
+problem: re-renders on every parent render
+fix: memoize the node
+blind_spots: none seen</li>
+</ul>
+</details>
+
+<details><summary>lens deep report - RED (REQUIRED, seat opus-5-high)</summary>
+
+<p>verdict: RED
+boundary_class: merge
+findings:</p>
+<ul>
+<li>id: d1
+severity: BLOCKER
+claim: banner text is interpolated unescaped
+evidence: banner.tsx:1
+problem: caller-supplied text reaches the DOM unescaped
+fix: escape or bind text as a child node
+blind_spots: none seen</li>
+</ul>
+</details>
+
+<details><summary>lens advisory:design-ux report - RED (advisory, seat astra-high)</summary>
+
+<p>verdict: RED
+boundary_class: merge
+findings:</p>
+<ul>
+<li>id: u1
+severity: MAJOR
+claim: banner has no dismiss affordance
+evidence: banner.tsx:1
+problem: the banner cannot be dismissed at 320px
+fix: add a dismiss control
+blind_spots: none seen</li>
+</ul>
+</details>
+
+</div></div></div>
+</div></body></html>

@@ -1,0 +1,130 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Inlined lens report on the PR, before and after the fence</title><style>
+ body{font:14px/1.55 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:#f6f8fa;color:#1f2328;margin:0;padding:24px}
+ h1{font-size:19px;margin:0 0 4px}.lede{color:#59636e;font-size:13px;margin:0 0 16px;max-width:1180px}
+ .cols{display:flex;gap:16px;align-items:flex-start}
+ .pane{flex:1;background:#fff;border:1px solid #d1d9e0;border-radius:8px;overflow:hidden}
+ .pane.bad{border-left:4px solid #cf222e}.pane.good{border-left:4px solid #1a7f37}
+ .hdr{background:#f6f8fa;border-bottom:1px solid #d1d9e0;padding:8px 14px;font-size:12px;color:#59636e;display:flex;justify-content:space-between;gap:12px}
+ .bad .hdr b{color:#cf222e}.good .hdr b{color:#1a7f37}
+ .content{padding:10px 16px;font-size:13px}
+ .content h2{font-size:15px;margin:2px 0 8px}
+ code{background:#eff1f3;border-radius:4px;padding:1px 5px;font-size:12px;word-break:break-all}
+ details{border:1px solid #d1d9e0;border-radius:6px;padding:8px 12px;margin:8px 0;background:#f6f8fa}
+ summary{cursor:pointer;font-weight:600;font-size:12.5px}
+ pre{background:#f6f8fa;color:#1f2328;border:1px solid #d1d9e0;padding:10px 12px;border-radius:6px;overflow:auto;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}
+ pre code{background:none;padding:0;font-size:12px}
+ ul{margin:6px 0 10px;padding-left:20px}p{margin:6px 0}
+</style></head><body>
+<h1>The Design/UX lens report, as a PR reader sees it</h1>
+<p class="lede">Same lens report, same loop, same simulated forge: the left pane is the comment <code>bin/fm-adversarial-review.sh</code> posted before this change, the right pane after it. The report quotes <code>&lt;div class="banner"&gt;</code>, a <code>&lt;/details&gt;</code> inside a sentence, and a fenced snippet of the fix - the ordinary shape of a report about markup. Rendered with GitHub-flavored markdown, comment settings (soft breaks off), no hand editing.</p>
+<div class="cols">
+<div class="pane bad"><div class="hdr"><b>before</b><span>report inlined as prose</span></div>
+   <div class="content"><h2>Adversarial review: round 1 RED (tier T2)</h2>
+<p>Reviewed head <code>05881b901191040bf8b440192f47e06b5b88bf2d</code>; PR head <code>05881b901191040bf8b440192f47e06b5b88bf2d</code>.</p>
+<ul>
+<li><p>frontier: GREEN (REQUIRED, seat fable-5.1)</p>
+</li>
+<li><p>deep: GREEN (REQUIRED, seat opus-5-high)</p>
+</li>
+<li><p>advisory:design-ux: RED (advisory, seat astra-high)</p>
+</li>
+<li><p>[advisory:design-ux:u1] MAJOR: unresolved</p>
+</li>
+</ul>
+<p>Blocking reasons:
+[advisory:design-ux:u1] MAJOR is unresolved</p>
+<h3>Lens reports</h3>
+<details><summary>lens frontier report - GREEN (REQUIRED, seat fable-5.1)</summary>
+
+<p>verdict: GREEN
+boundary_class: merge
+findings:
+blind_spots: none seen</p>
+</details>
+
+<details><summary>lens deep report - GREEN (REQUIRED, seat opus-5-high)</summary>
+
+<p>verdict: GREEN
+boundary_class: merge
+findings:
+blind_spots: none seen</p>
+</details>
+
+<details><summary>lens advisory:design-ux report - RED (advisory, seat astra-high)</summary>
+
+<p>verdict: RED
+boundary_class: merge
+findings:</p>
+<ul>
+<li>id: u1
+severity: MAJOR
+claim: banner has no dismiss affordance
+evidence: banner.tsx:1
+problem: <div class="banner">{text}</div> renders edge to edge at 320px with no
+  control, and the </details> the docs example pastes below it is caller text
+fix: give the banner a dismiss control, so that</li>
+</ul>
+<pre><code>&lt;div class=&quot;banner&quot;&gt;&lt;span&gt;{text}&lt;/span&gt;&lt;button aria-label=&quot;Dismiss&quot;&gt;x&lt;/button&gt;&lt;/div&gt;
+</code></pre>
+<pre><code>  is what ships
+</code></pre>
+<p>blind_spots: none seen</p>
+</details>
+
+</div></div>
+<div class="pane good"><div class="hdr"><b>after</b><span>report inlined inside a fence</span></div>
+   <div class="content"><h2>Adversarial review: round 1 RED (tier T2)</h2>
+<p>Reviewed head <code>19e2c235a4a92a6fd4ba7dec69449bd7e6d63cba</code>; PR head <code>19e2c235a4a92a6fd4ba7dec69449bd7e6d63cba</code>.</p>
+<ul>
+<li><p>frontier: GREEN (REQUIRED, seat fable-5.1)</p>
+</li>
+<li><p>deep: GREEN (REQUIRED, seat opus-5-high)</p>
+</li>
+<li><p>advisory:design-ux: RED (advisory, seat astra-high)</p>
+</li>
+<li><p>[advisory:design-ux:u1] MAJOR: unresolved</p>
+</li>
+</ul>
+<p>Blocking reasons:
+[advisory:design-ux:u1] MAJOR is unresolved</p>
+<h3>Lens reports</h3>
+<details><summary>lens frontier report - GREEN (REQUIRED, seat fable-5.1)</summary>
+
+<pre><code class="language-text">verdict: GREEN
+boundary_class: merge
+findings:
+blind_spots: none seen
+</code></pre>
+</details>
+
+<details><summary>lens deep report - GREEN (REQUIRED, seat opus-5-high)</summary>
+
+<pre><code class="language-text">verdict: GREEN
+boundary_class: merge
+findings:
+blind_spots: none seen
+</code></pre>
+</details>
+
+<details><summary>lens advisory:design-ux report - RED (advisory, seat astra-high)</summary>
+
+<pre><code class="language-text">verdict: RED
+boundary_class: merge
+findings:
+  - id: u1
+    severity: MAJOR
+    claim: banner has no dismiss affordance
+    evidence: banner.tsx:1
+    problem: &lt;div class=&quot;banner&quot;&gt;{text}&lt;/div&gt; renders edge to edge at 320px with no
+      control, and the &lt;/details&gt; the docs example pastes below it is caller text
+    fix: give the banner a dismiss control, so that
+```
+&lt;div class=&quot;banner&quot;&gt;&lt;span&gt;{text}&lt;/span&gt;&lt;button aria-label=&quot;Dismiss&quot;&gt;x&lt;/button&gt;&lt;/div&gt;
+```
+      is what ships
+blind_spots: none seen
+</code></pre>
+</details>
+
+</div></div>
+</div></body></html>

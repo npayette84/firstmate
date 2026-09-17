@@ -1,0 +1,106 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Inlined lens report: posted markdown vs rendered PR comment</title><style>
+body{font:13px/1.5 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif;background:#f6f8fa;color:#1f2328;margin:0;padding:24px}
+h1{font-size:17px;max-width:1420px;margin:0 auto 4px}
+p.lede{color:#59636e;font-size:12px;max-width:1420px;margin:0 auto 16px}
+.row{display:flex;gap:18px;align-items:flex-start;max-width:1420px;margin:0 auto}
+.col{flex:1;min-width:0}
+.tag{font-weight:600;font-size:12px;padding:5px 10px;border-radius:6px 6px 0 0;display:inline-block}
+.ok{background:#dafbe1;color:#1a7f37;border:1px solid #1a7f3766}
+.bad{background:#ffebe9;color:#cf222e;border:1px solid #ff818266}
+.card{background:#fff;border:1px solid #d1d9e0;border-radius:0 8px 8px 8px;padding:10px 14px}
+pre{margin:0;font-size:11px;line-height:1.45;white-space:pre-wrap;word-break:break-word}
+details{border:1px solid #d1d9e0;border-radius:6px;padding:7px 10px;margin:6px 0;background:#f6f8fa}
+summary{font-weight:600;font-size:12px}
+code{background:#eff1f3;padding:1px 4px;border-radius:4px;font-size:11px;word-break:break-all}
+.content h2{font-size:15px;margin:2px 0 8px;color:#cf222e}
+mark{background:#ffd8d3}
+</style></head><body>
+<h1>The inlined lens report as posted, and as a PR reader sees it</h1>
+<p class="lede">A UI lens quoting markup in its finding. Left: the comment body <code>bin/fm-adversarial-review.sh</code> handed <code>gh-axi</code>, verbatim. Right: the same body rendered the way GitHub renders a PR comment. The report is inlined as markdown prose, so the quoted <code>&lt;div class="banner"&gt;</code> and <code>&lt;/details&gt;</code> are eaten as HTML and the per-field line structure collapses into one paragraph.</p>
+<div class="row">
+<div class="col"><div class="tag ok">POSTED MARKDOWN - the finding is complete</div><div class="card"><pre>## Adversarial review: round 1 RED (tier T2)
+
+Reviewed head `a2a9976beb0d5d01afd15bd769691a0fa225687d`; PR head `a2a9976beb0d5d01afd15bd769691a0fa225687d`.
+
+- frontier: RED (REQUIRED, seat fable-5.1)
+- deep: GREEN (REQUIRED, seat opus-5)
+- advisory:design-ux: MISSING (advisory, seat unassigned)
+
+- [frontier:h1] MAJOR: unresolved
+
+Blocking reasons:
+[frontier:h1] MAJOR is unresolved
+lens advisory:design-ux has no assigned seat
+missing advisory lens advisory:design-ux on a UI-impacting round
+
+
+### Lens reports
+
+&lt;details&gt;&lt;summary&gt;lens frontier report - RED (REQUIRED, seat fable-5.1)&lt;/summary&gt;
+
+verdict: RED
+boundary_class: merge
+findings:
+  - id: h1
+    severity: MAJOR
+    claim: banner markup is not escaped
+    evidence: banner.html:1
+    problem: the template emits &lt;div class="banner"&gt; with raw text, and &lt;/details&gt; in caller text ends the block
+    fix: escape it
+blind_spots: none seen
+
+&lt;/details&gt;
+
+&lt;details&gt;&lt;summary&gt;lens deep report - GREEN (REQUIRED, seat opus-5)&lt;/summary&gt;
+
+verdict: GREEN
+boundary_class: merge
+findings:
+blind_spots: none seen
+
+&lt;/details&gt;
+
+</pre></div></div>
+<div class="col"><div class="tag bad">RENDERED PR COMMENT - the quoted markup is gone</div><div class="card content"><h2>Adversarial review: round 1 RED (tier T2)</h2>
+<p>Reviewed head <code>a2a9976beb0d5d01afd15bd769691a0fa225687d</code>; PR head <code>a2a9976beb0d5d01afd15bd769691a0fa225687d</code>.</p>
+<ul>
+<li><p>frontier: RED (REQUIRED, seat fable-5.1)</p>
+</li>
+<li><p>deep: GREEN (REQUIRED, seat opus-5)</p>
+</li>
+<li><p>advisory:design-ux: MISSING (advisory, seat unassigned)</p>
+</li>
+<li><p>[frontier:h1] MAJOR: unresolved</p>
+</li>
+</ul>
+<p>Blocking reasons:
+[frontier:h1] MAJOR is unresolved
+lens advisory:design-ux has no assigned seat
+missing advisory lens advisory:design-ux on a UI-impacting round</p>
+<h3>Lens reports</h3>
+<details><summary>lens frontier report - RED (REQUIRED, seat fable-5.1)</summary>
+
+<p>verdict: RED
+boundary_class: merge
+findings:</p>
+<ul>
+<li>id: h1
+severity: MAJOR
+claim: banner markup is not escaped
+evidence: banner.html:1
+problem: the template emits <div class="banner"> with raw text, and </details> in caller text ends the block
+fix: escape it
+blind_spots: none seen</li>
+</ul>
+</details>
+
+<details><summary>lens deep report - GREEN (REQUIRED, seat opus-5)</summary>
+
+<p>verdict: GREEN
+boundary_class: merge
+findings:
+blind_spots: none seen</p>
+</details>
+
+</div></div>
+</div></body></html>

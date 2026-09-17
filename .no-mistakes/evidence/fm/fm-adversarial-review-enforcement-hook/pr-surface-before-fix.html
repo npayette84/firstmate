@@ -1,0 +1,112 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Adversarial-review evidence in PR #9</title>
+<style>
+ body { font: 14px/1.55 -apple-system,"Segoe UI",Helvetica,Arial,sans-serif; background:#f6f8fa; color:#1f2328; margin:0; padding:28px; }
+ .wrap { max-width: 940px; margin: 0 auto; }
+ h1 { font-size: 21px; margin: 4px 0 14px; }
+ .num { color:#59636e; font-weight:400; }
+ .lede { color:#59636e; font-size:13px; margin-bottom:10px; }
+ .card { background:#fff; border:1px solid #d1d9e0; border-radius:8px; margin-bottom:14px; overflow:hidden; }
+ .hdr { background:#f6f8fa; border-bottom:1px solid #d1d9e0; padding:7px 14px; font-size:12px; color:#59636e; }
+ .who { font-weight:600; color:#1f2328; }
+ .src { color:#8c959f; }
+ .content { padding: 11px 16px; }
+ .content h2 { font-size:16px; margin:2px 0 10px; padding:0; border:0; }
+ .content h3 { font-size:14px; margin:16px 0 8px; }
+ .green { border-left:4px solid #1a7f37; } .green .content h2 { color:#1a7f37; }
+ .red { border-left:4px solid #cf222e; } .red .content h2 { color:#cf222e; }
+ .body { border-left:4px solid #0969da; }
+ code { background:#eff1f3; border-radius:4px; padding:1px 5px; font-size:12px; word-break:break-all; }
+ ul { margin:6px 0 10px; padding-left:20px; } p { margin:6px 0; }
+ details { border:1px solid #d1d9e0; border-radius:6px; padding:8px 12px; margin:8px 0; background:#f6f8fa; }
+ summary { cursor:pointer; font-weight:600; font-size:13px; }
+ pre { background:#1f2328; color:#e6edf3; padding:12px 14px; border-radius:8px; overflow:auto; font-size:12px; }
+</style></head><body><div class="wrap">
+<div class="lede">The exact markdown <code>bin/fm-adversarial-review.sh</code> posted through <code>gh-axi</code> during the end-to-end run, rendered as GitHub renders a PR comment. Simulated forge, real script output, no hand editing.</div>
+<h1>Add the launch banner <span class="num">#9</span></h1>
+<div class="card body"><div class="hdr"><span class="who">firstmate</span> pull request description</div><div class="content"><p>Adds a dismissible launch banner to the marketing shell.</p>
+<!-- fm-adversarial-review:start -->
+<p>Adversarial review (tier T2): round 2 GREEN at <code>51489e1f5033c1419a50d304f4bcf82d25eb6340</code>.</p>
+<!-- fm-adversarial-review:end -->
+</div></div>
+<div class="card neutral"><div class="hdr"><span class="who">firstmate</span> commented &middot; comment 1 <span class="src">(01.md)</span></div><div class="content"><h2>Adversarial review: round 1 dispatched (tier T2, merge boundary)</h2>
+<p>PR head <code>cb6d5271fd4814f5fc13ff4a74e6cd356e66727f</code> over base <code>e13835cff6f8d90e83e08a7a571d7835a4cad051</code>.</p>
+<p>Required lens slots: frontier deep (round cap 3).</p>
+<ul>
+<li>frontier (class frontier, seat unassigned)</li>
+<li>deep (class deep, seat unassigned)</li>
+<li>advisory:design-ux (class advisory, seat unassigned, advisory: does not count toward the tier)</li>
+</ul>
+<p>UI-impacting: the advisory Design/UX lens is required this round.</p>
+<p>Tier floor derived from the reviewed change: T1 (base forge).</p>
+<p>Evidence staged before dispatch: diff <code>/private/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-1/diff.patch</code>, prose <code>/private/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-1/prose.md</code>, file list <code>/private/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-1/files.txt</code>, tree <code>/tmp/adv-before-out.DsbvCd/run/wt</code>.</p>
+<p>Diff scope: 1 files, 2 additions, 0 deletions.</p>
+<p>Reviewers are read-only; reconciliation by firstmate lands in the next round comment.</p>
+</div></div>
+<div class="card red"><div class="hdr"><span class="who">firstmate</span> commented &middot; comment 2 <span class="src">(02.md)</span></div><div class="content"><h2>Adversarial review: round 1 RED (tier T2)</h2>
+<p>Reviewed head <code>cb6d5271fd4814f5fc13ff4a74e6cd356e66727f</code>; PR head <code>cb6d5271fd4814f5fc13ff4a74e6cd356e66727f</code>.</p>
+<ul>
+<li><p>frontier: GREEN (REQUIRED, seat fable-5.1)</p>
+</li>
+<li><p>deep: RED (REQUIRED, seat opus-5-high)</p>
+</li>
+<li><p>advisory:design-ux: RED (advisory, seat astra-high)</p>
+</li>
+<li><p>[frontier:f1] MINOR: noted</p>
+</li>
+<li><p>[deep:d1] BLOCKER: unresolved</p>
+</li>
+<li><p>[advisory:design-ux:u1] MAJOR: unresolved</p>
+</li>
+</ul>
+<p>Blocking reasons:
+[deep:d1] BLOCKER is unresolved
+[advisory:design-ux:u1] MAJOR is unresolved</p>
+</div></div>
+<div class="card neutral"><div class="hdr"><span class="who">firstmate</span> commented &middot; comment 3 <span class="src">(03.md)</span></div><div class="content"><h2>Adversarial review: round 2 dispatched (tier T2, merge boundary)</h2>
+<p>PR head <code>51489e1f5033c1419a50d304f4bcf82d25eb6340</code> over base <code>e13835cff6f8d90e83e08a7a571d7835a4cad051</code>.</p>
+<p>Required lens slots: frontier deep (round cap 3).</p>
+<ul>
+<li>frontier (class frontier, seat fable-5.1)</li>
+<li>deep (class deep, seat opus-5-high)</li>
+<li>advisory:design-ux (class advisory, seat astra-high, advisory: does not count toward the tier)</li>
+</ul>
+<p>UI-impacting: the advisory Design/UX lens is required this round.</p>
+<p>Tier floor derived from the reviewed change: T1 (base forge).</p>
+<p>Evidence staged before dispatch: diff <code>/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-2/diff.patch</code>, prose <code>/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-2/prose.md</code>, file list <code>/tmp/adv-before-out.DsbvCd/run/home/state/task-ui1.adversarial-review/round-2/files.txt</code>, tree <code>/tmp/adv-before-out.DsbvCd/run/wt</code>.</p>
+<p>Diff scope: 1 files, 2 additions, 0 deletions.</p>
+<p>Reviewers are read-only; reconciliation by firstmate lands in the next round comment.</p>
+</div></div>
+<div class="card red"><div class="hdr"><span class="who">firstmate</span> commented &middot; comment 4 <span class="src">(04.md)</span></div><div class="content"><h2>Adversarial review: round 2 RED (tier T2)</h2>
+<p>Reviewed head <code>51489e1f5033c1419a50d304f4bcf82d25eb6340</code>; PR head <code>51489e1f5033c1419a50d304f4bcf82d25eb6340</code>.</p>
+<ul>
+<li><p>frontier: GREEN (REQUIRED, seat fable-5.1)</p>
+</li>
+<li><p>deep: GREEN (REQUIRED, seat opus-5-high)</p>
+</li>
+<li><p>advisory:design-ux: GREEN (advisory, seat astra-high)</p>
+</li>
+<li><p>[round 1][deep:d1] BLOCKER: unresolved (carried)</p>
+</li>
+<li><p>[round 1][advisory:design-ux:u1] MAJOR: unresolved (carried)</p>
+</li>
+</ul>
+<p>Blocking reasons:
+[round 1][deep:d1] BLOCKER carried forward is unresolved
+[round 1][advisory:design-ux:u1] MAJOR carried forward is unresolved</p>
+</div></div>
+<div class="card green"><div class="hdr"><span class="who">firstmate</span> commented &middot; comment 5 <span class="src">(05.md)</span></div><div class="content"><h2>Adversarial review: round 2 GREEN (tier T2)</h2>
+<p>Reviewed head <code>51489e1f5033c1419a50d304f4bcf82d25eb6340</code>; PR head <code>51489e1f5033c1419a50d304f4bcf82d25eb6340</code>.</p>
+<ul>
+<li><p>frontier: GREEN (REQUIRED, seat fable-5.1)</p>
+</li>
+<li><p>deep: GREEN (REQUIRED, seat opus-5-high)</p>
+</li>
+<li><p>advisory:design-ux: GREEN (advisory, seat astra-high)</p>
+</li>
+<li><p>[round 1][deep:d1] BLOCKER: fixed_verified (carried)</p>
+</li>
+<li><p>[round 1][advisory:design-ux:u1] MAJOR: fixed_verified (carried)</p>
+</li>
+</ul>
+</div></div>
+</div></body></html>

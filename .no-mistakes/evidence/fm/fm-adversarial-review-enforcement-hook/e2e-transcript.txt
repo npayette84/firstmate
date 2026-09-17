@@ -1,0 +1,218 @@
+
+=== STEP 1  the lane opens its PR: a PR-open status line appears
+$ adv condition
+-> condition TRUE: this PR still owes an adversarial-review loop
+
+=== STEP 2  the PR-open watch bin/fm-bootstrap.sh and bin/fm-pr-check.sh arm
+$ adv ensure-watch --interval 0.1 --stable 1
+armed: when-adversarial-review-pr
+starts on the watcher's next cycle; or run: bin/fm-procevent.sh reconcile
+reminder: deterministic, safe, reversible actions only; judgment and destructive actions stay on the wake-and-decide path
+-> watch registered: yes
+--- watch outcome ---
+when: when-adversarial-review-pr
+status: fired
+detail: the condition held and the action exited 0
+condition_polls: 1
+action_exit: 0
+output:
+dispatched: task-ui1 https://github.com/example/repo/pull/9 round-1 tier=T2 head=60e4400a3fcb3f95dabb62b5281f935a2394e2ab
+dispatched 1 pending adversarial-review loop(s)
+
+=== STEP 2b  the watch fires once, so ensure-watch re-arms it for the NEXT PR
+-> registration after the fire: dropped by the runner
+$ adv ensure-watch --interval 0.1 --stable 1
+adversarial-review: watch when-adversarial-review-pr outcome 1 was fired; acknowledging it to re-arm
+armed: when-adversarial-review-pr
+starts on the watcher's next cycle; or run: bin/fm-procevent.sh reconcile
+reminder: deterministic, safe, reversible actions only; judgment and destructive actions stay on the wake-and-decide path
+-> registration after ensure-watch: present
+--- watch outcome ---
+when: when-adversarial-review-pr
+status: fired
+detail: the condition held and the action exited 0
+condition_polls: 1
+action_exit: 0
+output:
+dispatched: task-fix2 https://github.com/example/repo/pull/10 round-1 tier=T2 head=60e4400a3fcb3f95dabb62b5281f935a2394e2ab
+dispatched 1 pending adversarial-review loop(s)
+-> second PR staged its own round 1: yes
+
+=== STEP 3  what the automatic dispatch staged for the reviewers
+comment.md
+diff.patch
+files.txt
+meta
+prompt-advisory:design-ux.md
+prompt-deep.md
+prompt-frontier.md
+prose.md
+--- round-1/meta (tier derived from the change, not chosen by the caller) ---
+url=https://github.com/example/repo/pull/9
+tier=T2
+required_tier=T1
+boundary=merge
+base=5a3e1100c5a4f3405cdabf31609dcbaf87265ce8
+base_source=forge
+head=60e4400a3fcb3f95dabb62b5281f935a2394e2ab
+wt=/tmp/advrun/run/wt
+tree=/tmp/advrun/run/wt
+tree_head=60e4400a3fcb3f95dabb62b5281f935a2394e2ab
+round=1
+cap=3
+ui_impacting=1
+prose_source=gh
+slots=frontier deep
+advisory_slots=advisory:design-ux
+lane_model=
+seats=
+status=dispatched
+--- staged diff excludes generated files (package-lock.json) ---
+diff --git a/banner.tsx b/banner.tsx
++++ b/banner.tsx
+
+=== STEP 4  merge is attempted with no loop-green evidence
+exit=1
+error: adversarial-review loop-green evidence is missing for https://github.com/example/repo/pull/9
+run bin/fm-adversarial-review.sh dispatch task-ui1 https://github.com/example/repo/pull/9, drive the loop to GREEN, then retry
+-> merge poll armed? no - refused before arming
+-> gh pr merge invoked? 0
+
+=== STEP 5  round 1 lens reports come back; one deep BLOCKER, one UI MAJOR
+$ adv record-lens task-ui1 --round 1 --lens frontier --report /tmp/advrun/run/frontier-1.md --seat fable-5.1
+recorded: task-ui1 round-1 lens frontier seat fable-5.1
+$ adv record-lens task-ui1 --round 1 --lens deep --report /tmp/advrun/run/deep-1.md --seat opus-5-high
+recorded: task-ui1 round-1 lens deep seat opus-5-high
+$ adv record-lens task-ui1 --round 1 --lens advisory:design-ux --report /tmp/advrun/run/design-1.md --seat astra-high
+recorded: task-ui1 round-1 lens advisory:design-ux seat astra-high
+
+=== STEP 6  reconcile round 1
+reconciled: task-ui1 round-1 RED
+exit=0
+-> loop-green marker written? no
+
+=== STEP 7  merge is attempted again while the loop is RED
+exit=1
+error: adversarial-review loop-green evidence is missing for https://github.com/example/repo/pull/9
+run bin/fm-adversarial-review.sh dispatch task-ui1 https://github.com/example/repo/pull/9, drive the loop to GREEN, then retry
+
+=== STEP 8  the lane fixes both findings and pushes; a new head, so a new round
+$ adv dispatch task-ui1 https://github.com/example/repo/pull/9 --wt /tmp/advrun/run/wt --head 22a28c0a4df800f40cfcbf16092963b392703517 --round 2 --ui-impacting --seat frontier=fable-5.1 --seat deep=opus-5-high --seat advisory:design-ux=astra-high
+dispatched: task-ui1 https://github.com/example/repo/pull/9 round-2 tier=T2 head=22a28c0a4df800f40cfcbf16092963b392703517
+
+=== STEP 9  round 2 lenses come back clean, and the round-1 findings are disposed of
+$ adv record-lens task-ui1 --round 2 --lens frontier --report /tmp/advrun/run/clean.md
+recorded: task-ui1 round-2 lens frontier seat unassigned
+$ adv record-lens task-ui1 --round 2 --lens deep --report /tmp/advrun/run/clean.md
+recorded: task-ui1 round-2 lens deep seat unassigned
+$ adv record-lens task-ui1 --round 2 --lens advisory:design-ux --report /tmp/advrun/run/clean.md
+recorded: task-ui1 round-2 lens advisory:design-ux seat unassigned
+--- a clean round 2 does NOT close round 1's findings on its own ---
+reconciled: task-ui1 round-2 RED
+exit=0
+-> loop-green marker written? no
+$ adv resolve task-ui1 --round 2 --finding deep:d1 --disposition fixed_verified --note text is escaped at the boundary now
+resolved: task-ui1 round-2 deep:d1 fixed_verified
+$ adv resolve task-ui1 --round 2 --finding advisory:design-ux:u1 --disposition fixed_verified --note dismiss control added
+resolved: task-ui1 round-2 advisory:design-ux:u1 fixed_verified
+$ adv resolve task-ui1 --round 2 --finding frontier:f1 --disposition rejected_with_counterevidence --note MINOR; no reconciliation owed
+resolved: task-ui1 round-2 frontier:f1 rejected_with_counterevidence
+
+=== STEP 10  reconcile round 2 -> GREEN
+reconciled: task-ui1 round-2 GREEN
+--- the loop-green marker ---
+pr=https://github.com/example/repo/pull/9
+head=22a28c0a4df800f40cfcbf16092963b392703517
+tier=T2
+required=T1
+
+=== STEP 11  the merge path now accepts the evidence
+exit=0
+adversarial-review: green at 22a28c0a4df800f40cfcbf16092963b392703517 (tier T2, required T1)
+armed: state/task-ui1.check.sh
+adversarial-review: green at 22a28c0a4df800f40cfcbf16092963b392703517 (tier T2, required T1)
+verified: https://github.com/example/repo/pull/9 is merged (state=MERGED, merged=true, isInMergeQueue=false)
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+●  WATCHER DOWN - SUPERVISION IS OFF
+●  2 task(s) in flight, but no watcher has a fresh beacon (last beat: never, grace 300s).
+●  Trust the emitted supervision protocol for this harness; do not use shell & for watcher repair.
+●  This is a supervision warning only; the guarded operation WILL still run.
+●  After draining queued wakes, watcher supervision needs Stop-owned automatic recovery; inspect the hook registration and startup status before ending the turn.
+●━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+WARNING: queued wakes pending - drain them with bin/fm-wake-drain.sh before anything else.
+verified: https://github.com/example/repo/pull/9 is open and mergeable, with every required check green at head 22a28c0a4df800f40cfcbf16092963b392703517
+--- gh merge calls, pinned to the reviewed head ---
+pr merge 9 --repo example/repo --match-head-commit 22a28c0a4df800f40cfcbf16092963b392703517 --squash
+
+=== STEP 11b  a push after the GREEN round does not ride on the old evidence
+error: adversarial-review loop is GREEN at 22a28c0a4df800f40cfcbf16092963b392703517 but the PR is at 4c0ffee000000000000000000000000000000abc
+re-run the loop at the current head, then retry
+exit=1
+
+=== STEP 12  a T0 waiver still needs the captain's own word
+error: T0 refused: captain call task-waiver records no captain decision naming "adversarial-review waiver" and https://github.com/example/repo/pull/9
+exit=1
+-> waiver marker written? no
+
+=== STEP 13  what the pull requests themselves now show
+comments posted into PR 9:
+01.md
+02.md
+03.md
+04.md
+05.md
+PR 9 body section synced: yes
+comments posted into PR 10 (the second lane, from the re-armed watch):
+01.md
+PR 10 body section synced: yes
+
+=== STEP 14  everything posted into the PR is readable from the PR alone
+-> host state dir referenced in PR-facing content: 0 occurrence(s)
+-> lane worktree path referenced in PR-facing content: 0 occurrence(s)
+-> any absolute /var or /tmp path referenced: 0 occurrence(s)
+--- what the round comment points the reviewer at instead ---
+15:Evidence under review is this PR itself: its own diff of `60e4400a3fcb3f95dabb62b5281f935a2394e2ab` against `5a3e1100c5a4f3405cdabf31609dcbaf87265ce8` (the Files tab of https://github.com/example/repo/pull/9), its title and body, and every commit message on that head. Generated files are excluded from the reviewed diff.
+--- the lens reports the PR carries inline ---
+/tmp/advrun/run/forge/comments/9/02.md:20:<details><summary>lens frontier report - GREEN (REQUIRED, seat fable-5.1)</summary>
+/tmp/advrun/run/forge/comments/9/02.md:37:<details><summary>lens deep report - RED (REQUIRED, seat opus-5-high)</summary>
+/tmp/advrun/run/forge/comments/9/02.md:54:<details><summary>lens advisory:design-ux report - RED (advisory, seat astra-high)</summary>
+/tmp/advrun/run/forge/comments/9/04.md:19:<details><summary>lens frontier report - GREEN (REQUIRED, seat fable-5.1)</summary>
+/tmp/advrun/run/forge/comments/9/04.md:30:<details><summary>lens deep report - GREEN (REQUIRED, seat opus-5-high)</summary>
+/tmp/advrun/run/forge/comments/9/04.md:41:<details><summary>lens advisory:design-ux report - GREEN (advisory, seat astra-high)</summary>
+/tmp/advrun/run/forge/comments/9/05.md:15:<details><summary>lens frontier report - GREEN (REQUIRED, seat fable-5.1)</summary>
+/tmp/advrun/run/forge/comments/9/05.md:26:<details><summary>lens deep report - GREEN (REQUIRED, seat opus-5-high)</summary>
+/tmp/advrun/run/forge/comments/9/05.md:37:<details><summary>lens advisory:design-ux report - GREEN (advisory, seat astra-high)</summary>
+--- one inlined report, verbatim as the PR shows it ---
+<details><summary>lens deep report - RED (REQUIRED, seat opus-5-high)</summary>
+
+```` text
+verdict: RED
+boundary_class: merge
+findings:
+  - id: d1
+    severity: BLOCKER
+    claim: banner text is interpolated unescaped
+    evidence: banner.tsx:1
+    problem: caller-supplied text reaches the DOM unescaped
+    fix: escape or bind text as a child node
+blind_spots: none seen
+````
+
+</details>
+
+=== STEP 15  a reviewer that cites its own staged files still posts a portable PR comment
+$ adv record-lens task-fix2 --round 1 --lens frontier --report /tmp/advrun/run/frontier-2.md --seat fable-5.1
+recorded: task-fix2 round-1 lens frontier seat fable-5.1
+$ adv record-lens task-fix2 --round 1 --lens deep --report /tmp/advrun/run/deep-2.md --seat opus-5-high
+recorded: task-fix2 round-1 lens deep seat opus-5-high
+$ adv record-lens task-fix2 --round 1 --lens advisory:design-ux --report /tmp/advrun/run/deep-2.md --seat astra-high
+recorded: task-fix2 round-1 lens advisory:design-ux seat astra-high
+$ adv reconcile task-fix2 --round 1
+reconciled: task-fix2 round-1 RED
+--- what the reviewer wrote, on disk (host paths and all) ---
+    evidence: /tmp/advrun/run/wt/banner.tsx:1
+    problem: bare .banner collides, see /tmp/advrun/run/home/state/task-fix2.adversarial-review/round-1/diff.patch
+--- what PR 10 actually carries ---
+/tmp/advrun/run/forge/comments/10/02.md:    evidence: banner.tsx:1
+/tmp/advrun/run/forge/comments/10/02.md:    problem: bare .banner collides, see staged-evidence/task-fix2.adversarial-review/round-1/diff.patch
+-> host paths in PR 10 content: /tmp/advrun/run/forge/comments/10/01.md:0,/tmp/advrun/run/forge/comments/10/02.md:0
