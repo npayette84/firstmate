@@ -1,0 +1,20 @@
+ok - claude harvest: per-request dedupe, cache folding, encoding, window, idempotency
+ok - claude harvest: window survives a host without usable birth time
+ok - codex harvest: cwd/window matching, delta sums, model capture
+ok - cursor harvest: unavailable source renders null token fields
+ok - remote secondmate harvest: local logs are never misattributed
+ok - usage harvest: concurrent harvests append exactly one row
+ok - usage harvest: a held ledger lock bounds the acquire, no hang or dup
+ok - usage report: per-model totals, per-task rows, missing-ledger tolerance
+ok - teardown integration: harvest failure is non-fatal
+ok - claude recovered: malformed lines and missing models
+ok - claude unavailable: malformed lines and missing models
+ok - claude retirement: event window, rewritten metadata, stamped and legacy turns
+ok - codex recovered: malformed lines and missing models
+ok - codex unavailable: malformed lines and missing models
+ok - codex retirement: event window, rewritten metadata, stamped and legacy turns
+ok - Claude alternate profile resolves usage logs
+ok - Claude override profile resolves usage logs
+ok - claude launch epoch includes initial work and excludes pre-launch usage
+ok - codex launch epoch includes initial work and excludes pre-launch usage
+ok - spawn publishes launch epoch in task metadata
