@@ -1,0 +1,14 @@
+{
+  "scenario": "Rejected confirmation and dead successor",
+  "prompts": [
+    "⁣FIRSTMATE_OP: v1 watcher: WATCHER FIRED - drain queued wakes with bin/fm-wake-drain.sh and handle the reported wake. Watcher continuity is plugin-owned.\n\nsignal: rejected-original\n\nwatcher: FAILED - handling delivery confirmation was rejected (status=1 generation=gen-50794 watcherPid=50807)\n\nwatcher: FAILED - handling delivery confirmation was rejected (status=1 generation=gen-50938 watcherPid=50953)\nwatcher: FAILED - OpenCode exhausted the successor retry after delivery confirmation failure"
+  ],
+  "armRows": [
+    "arm=50672",
+    "arm=50794",
+    "arm=50938"
+  ],
+  "rowsAtPrompt": 3,
+  "liveAtPrompt": 0,
+  "liveSuccessorPids": []
+}

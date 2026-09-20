@@ -1,0 +1,9 @@
+file:///Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M2Z0D5YVWDX5GW44YCAB65DJ/[eval1]:46
+if (rowsAtPrompt !== 3) throw new Error(`delivery settled before successor retry: ${rowsAtPrompt} arms`);
+                              ^
+
+Error: delivery settled before successor retry: 2 arms
+    at file:///Users/npayette/.no-mistakes/worktrees/337060f4dfd2/01M2Z0D5YVWDX5GW44YCAB65DJ/[eval1]:46:31
+
+Node.js v22.23.1
+not ok - pi must settle a dead successor through bounded recovery without another actionable wake: expected exit 0, got 1

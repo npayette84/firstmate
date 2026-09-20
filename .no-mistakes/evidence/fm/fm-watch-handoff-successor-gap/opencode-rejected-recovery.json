@@ -1,0 +1,16 @@
+{
+  "scenario": "Rejected confirmation and dead successor",
+  "prompts": [
+    "⁣FIRSTMATE_OP: v1 watcher: WATCHER FIRED - drain queued wakes with bin/fm-wake-drain.sh and handle the reported wake. Watcher continuity is plugin-owned.\n\nsignal: rejected-original\n\nwatcher: FAILED - handling delivery confirmation was rejected (status=1 generation=gen-49862 watcherPid=49876)\n\nwatcher: FAILED - handling delivery confirmation was rejected (status=1 generation=gen-50122 watcherPid=50122)"
+  ],
+  "armRows": [
+    "arm=49739",
+    "arm=49862",
+    "arm=50122"
+  ],
+  "rowsAtPrompt": 3,
+  "liveAtPrompt": 1,
+  "liveSuccessorPids": [
+    "50122"
+  ]
+}
