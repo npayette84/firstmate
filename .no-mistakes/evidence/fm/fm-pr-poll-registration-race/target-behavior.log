@@ -1,0 +1,75 @@
+
+--- publication-first-arm-probe/probe.log ---
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+
+--- publication-public-url-rearm-probe/gh.log ---
+pr view https://github.com/o/r/pull/6 --json headRefOid -q .headRefOid
+pr view https://github.com/o/r/pull/7 --json headRefOid -q .headRefOid
+
+--- publication-public-url-rearm-probe/probe.log ---
+rm task-a.check.sh: absent
+mv task-a.meta: absent
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+mv contributions.check.sh: authenticated
+
+--- publication-rearm-head-probe/gh.log ---
+pr view https://github.com/o/r/pull/5 --json headRefOid -q .headRefOid
+pr view https://github.com/o/r/pull/5 --json headRefOid -q .headRefOid
+
+--- publication-rearm-head-probe/probe.log ---
+rm task-a.check.sh: absent
+mv task-a.meta: absent
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+mv contributions.check.sh: authenticated
+
+--- publication-replacement-probe/probe.log ---
+rm task-a.check.sh: absent
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+
+--- publication-rollback-probe/probe.log ---
+rm task-a.check.sh: absent
+mv task-a.pr-poll: absent
+
+--- reader-overlap-metadata/write.out ---
+armed: state/task-a.check.sh
+
+--- reader-overlap-metadata/watch.out ---
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.irbisH/reader-overlap-metadata/home/state/task-a.check.sh: merged
+
+--- reader-overlap-metadata/gh.log ---
+pr view https://github.com/o/r/pull/2 --json state -q .state
+
+--- reader-overlap-registration/write.out ---
+armed: state/task-a.check.sh
+
+--- reader-overlap-registration/watch.out ---
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.irbisH/reader-overlap-registration/home/state/task-a.check.sh: merged
+
+--- reader-overlap-registration/gh.log ---
+pr view https://github.com/o/r/pull/2 --json state -q .state
+
+--- reader-overlap-runnable/write.out ---
+armed: state/task-a.check.sh
+
+--- reader-overlap-runnable/watch.out ---
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.irbisH/reader-overlap-runnable/home/state/task-a.check.sh: merged
+
+--- reader-overlap-runnable/gh.log ---
+pr view https://github.com/o/r/pull/2 --json state -q .state
+
+--- reader-overlap-unlink/write.out ---
+armed: state/task-a.check.sh
+
+--- reader-overlap-unlink/watch.out ---
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.irbisH/reader-overlap-unlink/home/state/task-a.check.sh: merged
+
+--- reader-overlap-unlink/gh.log ---
+pr view https://github.com/o/r/pull/2 --json state -q .state

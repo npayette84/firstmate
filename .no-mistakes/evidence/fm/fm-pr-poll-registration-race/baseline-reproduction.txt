@@ -1,0 +1,7 @@
+Counterfactual: target test_publication_states_are_invisible_until_bound executed against an isolated copy of bin/ with fm-pr-lib.sh, fm-pr-check.sh, and fm-watch.sh restored from base a09090d13ef24ce3cf71d171ade119896d6db301. No live services used.
+Command: bash tests/.phase-baseline.sh
+Exit: 1 (expected regression reproduction)
+Observed output:
+not ok - scan rejected a partially published poll: mv task-a.pr-poll: unauthenticated
+mv task-a.pr-poll-registration: unauthenticated
+mv task-a.check.sh: authenticated

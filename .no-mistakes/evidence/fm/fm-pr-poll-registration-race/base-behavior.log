@@ -1,0 +1,10 @@
+
+--- publication-first-arm-probe/probe.log ---
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+
+--- publication-replacement-probe/probe.log ---
+mv task-a.pr-poll: unauthenticated
+mv task-a.pr-poll-registration: unauthenticated
+mv task-a.check.sh: authenticated

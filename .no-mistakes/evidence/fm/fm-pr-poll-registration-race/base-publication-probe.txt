@@ -1,0 +1,13 @@
+not ok - scan rejected a partially published poll: mv task-a.pr-poll: unauthenticated
+mv task-a.pr-poll-registration: unauthenticated
+mv task-a.check.sh: authenticated
+
+=== /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.RWKPth/publication-first-arm-probe/probe.log ===
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+
+=== /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.RWKPth/publication-replacement-probe/probe.log ===
+mv task-a.pr-poll: unauthenticated
+mv task-a.pr-poll-registration: unauthenticated
+mv task-a.check.sh: authenticated

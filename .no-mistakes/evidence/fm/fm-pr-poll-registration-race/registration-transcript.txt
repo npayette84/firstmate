@@ -1,0 +1,55 @@
+Target: 31663cdf4d9e1b8e1962a7c37fa5384ba617fefd
+Executed real fm-pr-check.sh and fm-watch.sh against isolated fixture homes; forge responses were stubbed.
+Assertions verified no watcher output or forge request while publication was paused, then the replacement PR merge notification after release.
+
+ok - concurrent reader waits across unlink, metadata, registration, and runnable publication
+ok - scans cannot execute or reject a partially published poll, including rollback and current-head re-arm
+
+=== Concurrent registration paused at unlink ===
+Registration CLI output:
+armed: state/task-a.check.sh
+Watcher output after registration completes:
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.0P77b4/reader-overlap-unlink/home/state/task-a.check.sh: merged
+Forge requests (fixture responses):
+pr view https://github.com/o/r/pull/2 --json state -q .state
+
+=== Concurrent registration paused at metadata ===
+Registration CLI output:
+armed: state/task-a.check.sh
+Watcher output after registration completes:
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.0P77b4/reader-overlap-metadata/home/state/task-a.check.sh: merged
+Forge requests (fixture responses):
+pr view https://github.com/o/r/pull/2 --json state -q .state
+
+=== Concurrent registration paused at registration ===
+Registration CLI output:
+armed: state/task-a.check.sh
+Watcher output after registration completes:
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.0P77b4/reader-overlap-registration/home/state/task-a.check.sh: merged
+Forge requests (fixture responses):
+pr view https://github.com/o/r/pull/2 --json state -q .state
+
+=== Concurrent registration paused at runnable ===
+Registration CLI output:
+armed: state/task-a.check.sh
+Watcher output after registration completes:
+check: /private/var/folders/70/p814fs691f103nxddhx58mhh0000gn/T/fm-pr-check-security.0P77b4/reader-overlap-runnable/home/state/task-a.check.sh: merged
+Forge requests (fixture responses):
+pr view https://github.com/o/r/pull/2 --json state -q .state
+
+=== publication-first-arm-probe: observed authentication at each filesystem operation ===
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+
+=== publication-public-url-rearm-probe: observed authentication at each filesystem operation ===
+rm task-a.check.sh: absent
+mv task-a.meta: absent
+mv task-a.pr-poll: absent
+mv task-a.pr-poll-registration: absent
+mv task-a.check.sh: authenticated
+mv contributions.check.sh: authenticated
+
+=== publication-rollback-probe: observed authentication at each filesystem operation ===
+rm task-a.check.sh: absent
+mv task-a.pr-poll: absent
